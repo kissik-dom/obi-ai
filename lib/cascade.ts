@@ -50,6 +50,15 @@ function keys(name: string): string[] {
 
 function plan(): Attempt[] {
   const a: Attempt[] = [];
+  // Primary hosted Obliteratus gateway, when a valid deployment URL and server-side key are configured.
+  if (E.OBLITERATUS_GATEWAY_URL && E.OBLITERATUS_API_KEY) {
+    const gatewayBase = E.OBLITERATUS_GATEWAY_URL.replace(/\/$/, "");
+    a.push({
+      provider: "obliteratus",
+      model: E.OBLITERATUS_MODEL || "obliteratus-hermes-3-70b",
+      call: (m, t) => oai(`${gatewayBase}${gatewayBase.endsWith("/v1") ? "" : "/v1"}`, E.OBLITERATUS_API_KEY!, E.OBLITERATUS_MODEL || "obliteratus-hermes-3-70b", m, t),
+    });
+  }
   // Self-hosted Hermes (their GPU/vLLM) first if configured and not pointing back at us.
   if (E.HERMES_GPU_URL) a.push({ provider: "hermes-gpu", model: E.HERMES_GPU_MODEL || "hermes-3-70b", call: (m, t) => oai(E.HERMES_GPU_URL!.replace(/\/$/, "") + "/v1", E.HERMES_GPU_KEY || "x", E.HERMES_GPU_MODEL || "hermes-3-70b", m, t) });
   for (const k of keys("SAMBANOVA_API_KEY")) a.push({ provider: "sambanova", model: E.SAMBANOVA_MODEL || "Meta-Llama-3.3-70B-Instruct", call: (m, t) => oai("https://api.sambanova.ai/v1", k, E.SAMBANOVA_MODEL || "Meta-Llama-3.3-70B-Instruct", m, t) });
@@ -78,12 +87,9 @@ export async function cascadeChat(messages: ChatMessage[], temperature = 0.7): P
       errors.push(`${at.provider}: ${e?.message || e}`);
     }
   }
-  const last = messages.filter((m) => m.role === "user").slice(-1)[0]?.content || "";
-  return {
-    text: attempts.length
-      ? `[Obi AI] Every provider in the cascade failed.\n${errors.join("\n")}`
-      : `Obi AI demo mode — no inference keys configured.\n\nYou said: "${last}"\n\nAdd a working key (SAMBANOVA_API_KEY / OPENROUTER_API_KEY / GEMINI_API_KEY) on Vercel.`,
-    provider: attempts.length ? "cascade:error" : "mock",
-    model: "n/a",
-  };
+  const summary = attempts.length
+    ? "All configured AI providers are currently unavailable."
+    : "No AI provider is configured for this deployment.";
+  console.error("Obi AI cascade unavailable", { attemptedProviders: attempts.map((attempt) => attempt.provider), errors });
+  throw new Error(summary);
 }
