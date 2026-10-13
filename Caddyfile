@@ -1,0 +1,4 @@
+# Replace with your domain once DNS is set; serves TLS automatically.
+:80 {
+	reverse_proxy api:8000
+}
