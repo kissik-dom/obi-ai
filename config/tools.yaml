@@ -1,0 +1,125 @@
+# Kingdom AI OS - Tool Registry
+# Drawn from the Master Architecture Bible and arsenal docs.
+# status: verified | restricted | unverified
+# Only 'verified' is eligible for staging. 'restricted' needs a license/safety/rights
+# review before activation. 'unverified' has no confirmed repo/license and is disabled.
+# A fourth class, excluded_by_policy, is listed at the bottom and is NOT built here.
+
+inference_engines:
+  - {id: ollama, license: mit, offline: true, status: verified}
+  - {id: llama.cpp, license: mit, offline: true, status: verified}
+  - {id: vllm, license: apache-2.0, offline: false, status: verified}
+  - {id: sglang, license: apache-2.0, status: verified}
+  - {id: localai, license: mit, offline: true, status: verified}
+  - {id: litellm, role: gateway, license: mit, status: verified}
+  - {id: colibri, note: NVMe expert streaming for huge MoEs, status: unverified}
+
+chat_reasoning:
+  - {id: qwen2.5, sizes: [7b,14b,32b,72b], license: apache-2.0, status: verified}
+  - {id: llama3.3:70b, license: llama-community, status: verified}
+  - {id: deepseek-r1, sizes: [1.5b,7b,8b,14b,32b,70b], license: mit, status: verified}
+  - {id: mistral-nemo:12b, license: apache-2.0, status: verified}
+  - {id: gemma2, sizes: [9b,27b], license: gemma, status: verified}
+  - {id: phi-4:14b, license: mit, status: verified}
+
+low_refusal:
+  - {id: dolphin3, note: license reviewed per checkpoint, status: restricted}
+  - {id: dolphin-mistral:7b, status: restricted}
+  - {id: mannix/dolphin-2.9-llama3-8b, status: restricted}
+  - {id: hermes3, license: llama-community, status: verified}
+
+vision:
+  - {id: qwen2.5-vl, license: apache-2.0, status: verified}
+  - {id: llama3.2-vision, license: llama-community, status: verified}
+  - {id: minicpm-v-2.6, status: verified}
+  - {id: internvl2, status: verified}
+
+coding:
+  - {id: qwen2.5-coder:32b, license: apache-2.0, status: verified}
+  - {id: deepseek-coder-v2, status: verified}
+  - {id: codestral:22b, license: non-commercial, status: restricted}
+
+coding_agents:
+  - {id: openhands, license: mit, status: verified}
+  - {id: aider, license: apache-2.0, status: verified}
+  - {id: cline, status: verified}
+
+embeddings_rag:
+  - {id: bge-m3, license: mit, status: verified}
+  - {id: bge-reranker, status: verified}
+  - {id: nomic-embed-text, status: verified}
+  - {id: qdrant, role: vector-db, status: verified}
+
+document_research:
+  - {id: mineru, note: multi-format OCR + citations, status: verified}
+  - {id: paddleocr, status: verified}
+  - {id: searxng, role: metasearch, status: verified}
+  - {id: crawl4ai, status: verified}
+  - {id: firecrawl, status: verified}
+
+browser_automation:
+  - {id: browser-use, license: mit, note: credential-brokered, approval-gated, status: verified}
+  - {id: playwright, license: apache-2.0, status: verified}
+
+image:
+  - {id: comfyui, role: pipeline, status: verified}
+  - {id: flux.1-schnell, license: apache-2.0, status: verified}
+  - {id: flux.1-dev, license: non-commercial, status: restricted}
+  - {id: sdxl, license: openrail++, status: verified}
+  - {id: sd3.5, status: verified}
+  - {id: ip-adapter, note: character consistency, status: verified}
+  - {id: instantid, note: consent-gated character library, status: restricted}
+
+video:
+  - {id: wan2.1-vace, license: apache-2.0, status: verified}
+  - {id: ltx-video, status: verified}
+  - {id: hunyuanvideo, status: verified}
+  - {id: cogvideox, status: verified}
+  - {id: open-sora, status: verified}
+  - {id: ffmpeg, role: assembly, status: verified}
+  - {id: liveportrait, note: consent-gated likeness only, status: restricted}
+  - {id: facefusion, note: consent-gated likeness only, status: restricted}
+
+music_audio:
+  - {id: ace-step, status: verified}
+  - {id: yue, note: needs 16GB+ VRAM, status: verified}
+  - {id: musicgen, license: cc-by-nc, status: restricted}
+  - {id: stable-audio-open, status: verified}
+  - {id: diffrhythm2, status: verified}
+  - {id: demucs, role: stem-separation, status: verified}
+  - {id: whisper, role: stt, license: mit, status: verified}
+  - {id: f5-tts, status: verified}
+  - {id: piper, role: tts, status: verified}
+
+three_d:
+  - {id: gaussian-splatting, note: reconstruct from own/licensed photos, status: verified}
+  - {id: opendronemap, status: verified}
+
+security:
+  - {id: keycloak, role: iam, license: apache-2.0, status: verified}
+  - {id: openbao, role: secrets, status: verified}
+  - {id: wazuh, role: siem, status: verified}
+  - {id: crowdsec, role: ids, status: verified}
+  - {id: suricata, role: network-ids, status: verified}
+
+eval_observability:
+  - {id: deepeval, license: apache-2.0, status: verified}
+  - {id: langfuse, status: verified}
+  - {id: promptfoo, license: mit, status: verified}
+
+automation:
+  - {id: n8n, status: verified}
+  - {id: flowise, status: verified}
+  - {id: dify, role: app-factory, status: verified}
+
+# NOT built in this repo. Each crosses a consent, anti-abuse, or safety line that the
+# Master Architecture Bible itself draws (lawful OSINT, consent-aware likeness,
+# quarantined offensive models). Listed so the exclusion is explicit, not silent.
+excluded_by_policy:
+  - {id: netryx, reason: geolocating/identifying private people from photos}
+  - {id: house-address-from-photo, reason: locating private individuals without consent}
+  - {id: silent-speech-inference, reason: inferring words a person did not say aloud}
+  - {id: obliteratus, reason: stripping safety guardrails as a default}
+  - {id: block-evading-scrapers, reason: built to defeat sites' access controls}
+  - {id: ai-detector-evasion, reason: tooling to beat AI-detection (untell/humanizer)}
+  - {id: non-consensual-face-body-swap, reason: likeness of real people without consent}
