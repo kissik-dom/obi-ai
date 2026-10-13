@@ -1,0 +1,29 @@
+# Kingdom AI OS — model registry (verified-open only; router reads this)
+# status: verified | unverified | membership_required | restricted
+defaults:
+  chat: qwen2.5:14b
+  code: qwen2.5-coder:32b
+  embed: bge-m3
+chat:
+  - {id: qwen2.5:14b, engine: ollama, license: apache-2.0, status: verified}
+  - {id: llama3.3:70b, engine: ollama, license: llama-community, status: verified}
+  - {id: deepseek-r1:14b, engine: ollama, license: mit, status: verified}
+  - {id: mistral-nemo:12b, engine: ollama, license: apache-2.0, status: verified}
+low_refusal:
+  - {id: dolphin3, engine: ollama, license: review-per-checkpoint, status: restricted}
+  - {id: hermes3:8b, engine: ollama, license: llama-community, status: verified}
+code:
+  - {id: qwen2.5-coder:32b, engine: ollama, license: apache-2.0, status: verified}
+embed:
+  - {id: bge-m3, engine: ollama, license: mit, status: verified}
+image:
+  - {id: flux.1-schnell, engine: comfyui, license: apache-2.0, status: verified}
+  - {id: flux.1-dev, engine: comfyui, license: non-commercial, status: restricted}
+  - {id: sdxl, engine: comfyui, license: openrail++, status: verified}
+# quarantined: no confirmed repo/revision/license — do not activate
+unverified:
+  - {id: glm-5.3-flash, status: unverified}
+  - {id: kimi-k3, status: unverified}
+  - {id: deepseek-v4-flash, status: unverified}
+  - {id: qwen3.8-max, status: unverified}
+  - {id: nemotron-550b, status: unverified}
