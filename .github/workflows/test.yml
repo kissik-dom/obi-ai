@@ -1,6 +1,7 @@
 name: Kingdom AI OS API Test Gate
 
 on:
+  workflow_call:
   push:
     branches: ["main", "dev", "arena/**"]
   pull_request:
