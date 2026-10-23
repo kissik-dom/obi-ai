@@ -63,12 +63,10 @@ if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; 
     echo "[Kingdom AI OS] CPU/Standard host detected (no GPU required) -> launching Base Sovereign Stack..."
     docker compose -f docker-compose.yml up -d --build --remove-orphans
   fi
-  echo "[Kingdom AI OS] Live at http://localhost:5173 (UI) and http://localhost:8000/docs (API)"
+  echo "[Kingdom AI OS] API Live at http://localhost:8000 and Swagger Docs at http://localhost:8000/docs"
 else
-  echo "[Kingdom AI OS] Docker not detected -> launching Local Python + Vite Mode..."
+  echo "[Kingdom AI OS] Docker not detected -> launching Local Python API-Only Mode..."
   python3 -m venv backend/.venv
   backend/.venv/bin/pip install -r backend/requirements.txt
-  (cd frontend && npm install)
-  backend/.venv/bin/uvicorn backend.main:app --host 0.0.0.0 --port 8000 &
-  (cd frontend && npm run dev -- --host 0.0.0.0 --port 5173)
+  backend/.venv/bin/uvicorn backend.main:app --host 0.0.0.0 --port 8000
 fi

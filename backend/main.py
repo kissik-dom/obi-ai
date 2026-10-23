@@ -6,11 +6,10 @@ import asyncio
 from contextlib import asynccontextmanager
 from typing import Dict, List, Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, PlainTextResponse
-from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, ConfigDict
+from fastapi.responses import PlainTextResponse
+from pydantic import BaseModel, ConfigDict, Field
 
 from backend import finished as finished_service
 from backend import requests as requests_service
@@ -54,7 +53,7 @@ from backend.api.routers import (
 )
 from backend.api.routers._tab_factory import build_tab_router
 from backend.core import config
-from backend.core.llm_registry import MODEL_REGISTRY, list_models, route_model
+from backend.core.llm_registry import MODEL_REGISTRY, complete_with_failover, list_models, route_model
 from backend.core.schemas import (
     AgentRecord,
     AgentRunRequest,
@@ -413,13 +412,159 @@ async def api_get_finished(sandbox_id: str) -> SandboxBundleDetail:
     return bundle
 
 
-# Unified single-container browser deployment support (Render / Railway / Koyeb / HF Spaces - Zero SSH)
-_FRONTEND_DIST = config.REPO_ROOT / "frontend" / "dist"
-if (_FRONTEND_DIST / "index.html").exists():
-    if (_FRONTEND_DIST / "assets").exists():
-        app.mount("/assets", StaticFiles(directory=str(_FRONTEND_DIST / "assets")), name="frontend-assets")
+class OpenAiMessageItem(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    role: str
+    content: str
 
-    @app.get("/", include_in_schema=False)
-    async def serve_spa_index() -> FileResponse:
-        return FileResponse(str(_FRONTEND_DIST / "index.html"))
+
+class OpenAiChatRequest(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    model: str = "auto"
+    messages: List[OpenAiMessageItem] = Field(min_length=1)
+    tab: str = "home"
+    temperature: float = 0.2
+
+
+class OpenAiChoiceMessage(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    role: str = "assistant"
+    content: str
+
+
+class OpenAiChoiceItem(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    index: int = 0
+    message: OpenAiChoiceMessage
+    finish_reason: str = "stop"
+
+
+class OpenAiUsage(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    prompt_tokens: int
+    completion_tokens: int
+    total_tokens: int
+
+
+class OpenAiChatResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    id: str
+    object: str = "chat.completion"
+    created: int
+    model: str
+    choices: List[OpenAiChoiceItem]
+    usage: OpenAiUsage
+
+
+class OpenAiModelCard(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    id: str
+    object: str = "model"
+    owned_by: str
+    tier: str
+    guardrail: str
+    context_tokens: int
+
+
+class OpenAiModelListResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    object: str = "list"
+    data: List[OpenAiModelCard]
+
+
+class ApiRootResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    service: str = "Kingdom AI OS (API-Only Mode)"
+    version: str
+    mode: str = "headless_api_only"
+    tabs_registered: int
+    models_registered: int
+    tools_registered: int
+    agents_registered: int
+    endpoints: Dict[str, str]
+
+
+@app.get("/", response_model=ApiRootResponse, tags=["system"])
+async def api_root_manifest() -> ApiRootResponse:
+    return ApiRootResponse(
+        version=config.SETTINGS.version,
+        tabs_registered=len(TAB_REGISTRY),
+        models_registered=len(MODEL_REGISTRY),
+        tools_registered=len(TOOL_REGISTRY),
+        agents_registered=len(list_sovereign_12()),
+        endpoints={
+            "swagger_docs": "/docs",
+            "redoc": "/redoc",
+            "openapi_spec": "/openapi.json",
+            "healthcheck": "/healthz",
+            "prometheus_metrics": "/metrics",
+            "openai_models": "/v1/models",
+            "openai_chat_completions": "/v1/chat/completions",
+            "gateway_alias": "/api/gateway/chat/completions",
+            "tabs_28_grammar": "/api/tabs",
+            "quick_requests_s3": "/api/requests",
+            "finished_folder_s3": "/api/finished",
+            "seal_provider_keys_vault": "/api/vault/llm-keys",
+        },
+    )
+
+
+@app.get("/v1/models", response_model=OpenAiModelListResponse, tags=["openai-gateway"])
+async def openai_list_models() -> OpenAiModelListResponse:
+    cards = [
+        OpenAiModelCard(
+            id=m.id,
+            owned_by=m.provider,
+            tier=m.tierCode,
+            guardrail=m.guardrail,
+            context_tokens=m.contextTokens,
+        )
+        for m in list_models()
+    ]
+    return OpenAiModelListResponse(data=cards)
+
+
+@app.post("/v1/chat/completions", response_model=OpenAiChatResponse, tags=["openai-gateway"])
+@app.post("/api/gateway/chat/completions", response_model=OpenAiChatResponse, tags=["openai-gateway"])
+async def openai_chat_completions(
+    payload: OpenAiChatRequest,
+    authorization: Optional[str] = Header(default=None),
+) -> OpenAiChatResponse:
+    import os
+    import time
+    import uuid
+    from backend.agents.skills.hermes.hermes_agent import select_hermes_specialist
+
+    expected_api_key = os.getenv("KINGDOM_API_KEY", "").strip()
+    if expected_api_key:
+        bearer = (authorization or "").replace("Bearer ", "").strip()
+        if bearer != expected_api_key:
+            raise HTTPException(status_code=401, detail="Invalid or missing Authorization Bearer KINGDOM_API_KEY")
+
+    prompt = "\n".join(f"{m.role}: {m.content}" for m in payload.messages if m.content.strip())
+    pref_model = None if payload.model in {"auto", "kingdom-auto", ""} else payload.model
+    decision = route_model(
+        RouterDecisionRequest(
+            tab=payload.tab,
+            prompt=prompt,
+            preferred_model_id=pref_model,
+        )
+    )
+    specialist = select_hermes_specialist(prompt)
+    reply = await complete_with_failover(
+        tab=payload.tab,
+        prompt=prompt,
+        decision=decision,
+        agent_id="openai_gateway",
+        hermes_specialist=specialist,
+    )
+    p_tok = max(1, len(prompt) // 4)
+    c_tok = max(1, len(reply) // 4)
+    return OpenAiChatResponse(
+        id=f"chatcmpl-{uuid.uuid4().hex[:16]}",
+        created=int(time.time()),
+        model=decision.selected_model.id,
+        choices=[OpenAiChoiceItem(message=OpenAiChoiceMessage(content=reply))],
+        usage=OpenAiUsage(prompt_tokens=p_tok, completion_tokens=c_tok, total_tokens=p_tok + c_tok),
+    )
 

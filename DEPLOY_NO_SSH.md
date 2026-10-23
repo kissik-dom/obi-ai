@@ -1,49 +1,52 @@
-# Deploy & Add Secrets With ZERO SSH (100% From Phone / Browser)
+# Kingdom AI OS — Pure API-Only Deployment & Secrets Guide (Zero SSH / Zero Vultr Key)
 
-You do **not** need SSH, a terminal, or a Vultr API key. Everything works 100% from a web browser (including Safari on iPhone/iPad).
-
----
-
-## 1. Where You Insert Secrets Now (Right Inside the App's Web UI!)
-
-Whether you are using the **live Arena Preview right now** or after clicking deploy on Render / Railway / Vultr:
-
-1. Open the Kingdom AI OS web app.
-2. Click **`10. Settings`** on any tab.
-3. At the top, in **"Browser Secret Vault (Zero SSH / Zero Terminal Needed)"**, paste:
-   - `OPENROUTER_API_KEY_1` (`sk-or-v1-...` from [openrouter.ai/keys](https://openrouter.ai/keys))
-   - *(Optional)* `OPENROUTER_API_KEY_2`, `OBLITERATUS_API_KEY`, or `COMPOSIO_API_KEY`
-4. Click **`SEAL KEYS IN VAULT HSM`**.
-   - Your key is immediately encrypted inside the server's **Vault HSM** seal and never displayed in plaintext again!
-
-*(Do not paste API keys into Arena chat; paste them directly into that `10. Settings` Vault box or your hosting dashboard's Environment Variables screen.)*
+This repository is now **100% Pure Headless API-Only** (no React/Node frontend build, zero SSH, zero Vultr GPU required).
 
 ---
 
-## 2. Three 1-Click Browser Deploy Options (Zero SSH, Zero Terminal)
+## 1. Key API Endpoints Once Deployed
 
-### Option 1: Railway.app (Fastest 2-Minute Phone/Browser Deploy from GitHub)
-This repository now has a unified root `Dockerfile` and `railway.json` that deploys **both the White-Theme UI and FastAPI Backend together on one `https://...up.railway.app` URL**:
-1. Open **[railway.app](https://railway.app)** in your browser and tap **Login with GitHub**.
-2. Tap **New Project -> Deploy from GitHub repo** and pick **`kissik-dom/obi-ai`** (select branch `arena/41e9ebf0-obi-ai`, or merge the PR into `main` on GitHub first).
-3. Tap the deployed service -> **Settings -> Networking -> Generate Domain**.
-4. Tap **Variables** (or use `10. Settings` inside the app) to paste `OPENROUTER_API_KEY_1`. Done!
-
----
-
-### Option 2: Render.com Blueprint (Auto-Generates Internal Secrets in Browser)
-This repository includes `render.yaml`:
-1. Open **[dashboard.render.com](https://dashboard.render.com)** in your browser and sign in with GitHub.
-2. Tap **New + -> Blueprint** (or **Web Service**) and select **`kissik-dom/obi-ai`** (branch `arena/41e9ebf0-obi-ai` or `main`).
-3. Render automatically generates `KINGDOM_INTERNAL_SECRET`, `LITELLM_MASTER_KEY`, and `VAULT_TOKEN` for you, and shows a web text box where you paste `OPENROUTER_API_KEY_1`.
-4. Tap **Apply / Deploy** -> Render gives you a live `https://kingdom-ai-os.onrender.com` URL!
+| Endpoint | Purpose |
+| :--- | :--- |
+| `GET /` | JSON API Root Manifest & live registry counts |
+| `GET /docs` | Interactive OpenAPI / Swagger UI (test any endpoint or seal keys right in browser) |
+| `GET /healthz` | Healthcheck (`healthy` \| `degraded` \| `offline`) |
+| `GET /v1/models` | **OpenAI-compatible** list of all 205 Sovereign LLMs |
+| `POST /v1/chat/completions` | **OpenAI-compatible** Chat Completions gateway (also aliased at `/api/gateway/chat/completions`) |
+| `POST /api/vault/llm-keys` | Seal OpenRouter / Obliteratus / Composio keys into Vault HSM via HTTP API or `/docs` |
+| `GET/POST /api/tabs/{tab}/*` | Full 10-endpoint Sovereign Grammar across all 24 -> 28+ tabs |
+| `POST /api/requests` | Quick Request sandbox (`s3://kingdom-requests/{sandbox_id}/`) |
+| `GET /api/finished` | Finished Folder archive (`s3://kingdom-finished/{sandbox_id}/`) |
 
 ---
 
-### Option 3: Vultr Web Dashboard Using Cloud-Init (Zero SSH!)
-Even on **Vultr** (`my.vultr.com`), you never have to touch SSH:
-1. Open **[my.vultr.com](https://my.vultr.com)** -> **Deploy + -> Deploy New Server** -> **Ubuntu 24.04 x64** (Cloud GPU or Cloud Compute).
-2. Scroll down to **Additional Features -> Enable Cloud-Init User-Data** in the web page.
-3. Copy and paste the contents of `vultr_cloud_init.yaml` into that browser box and tap **Deploy Now**.
-4. Wait ~3-4 minutes while Vultr automatically installs Docker, clones `kissik-dom/obi-ai`, generates all internal passwords, and starts Kingdom AI OS.
-5. Open `http://YOUR_VULTR_SERVER_IP:5173` in your browser -> tap **`10. Settings`** -> paste `OPENROUTER_API_KEY_1` into the **Browser Secret Vault** -> tap **`SEAL KEYS IN VAULT HSM`**. Zero SSH ever!
+## 2. Which Secrets to Insert (Only 1 Required, 2 Optional)
+
+In your API host's **Environment Variables** web screen (Vercel / Railway / Render) — **never in chat**:
+
+| Variable Name | Required? | Purpose |
+| :--- | :--- | :--- |
+| `OPENROUTER_API_KEY_1` | **Required for live cloud LLMs** | Your OpenRouter API key (`sk-or-v1-...` from [openrouter.ai/keys](https://openrouter.ai/keys)). Add `_2`..`_10` only if you want multi-key rotation. |
+| `KINGDOM_API_KEY` | Optional | If set (e.g. `sk-my-secret-api-key`), `/v1/chat/completions` requires `Authorization: Bearer <KINGDOM_API_KEY>` so nobody else can use your API. |
+| `OBLITERATUS_API_KEY` | Optional | Only if routing through your own Obliteratus Hermes gateway (`OBLITERATUS_GATEWAY_URL`). |
+
+*(You can also seal `OPENROUTER_API_KEY_1` live via `POST /api/vault/llm-keys` right inside Swagger `/docs` -> **`POST /api/vault/llm-keys` -> Try it out -> Execute**!)*
+
+---
+
+## 3. Deploy API-Only in 60 Seconds From Browser (No SSH, No Vultr)
+
+Pick **any** of these 3 browser platforms connected to GitHub repo **`kissik-dom/obi-ai`** (branch `arena/41e9ebf0-obi-ai`, or merge the PR into `main` on GitHub):
+
+1. **Vercel (Zero-Config Python Serverless API — `vercel.json` + `api/index.py` included)**:
+   - Open **[vercel.com/new](https://vercel.com/new)** -> Import **`kissik-dom/obi-ai`**.
+   - Expand **Environment Variables** -> add `OPENROUTER_API_KEY_1` (and optional `KINGDOM_API_KEY`).
+   - Tap **Deploy** -> Instant `https://your-project.vercel.app/v1/chat/completions` & `/docs`!
+
+2. **Railway.app (Persistent Container API — `Dockerfile` + `railway.json` included)**:
+   - Open **[railway.app](https://railway.app)** -> **New Project -> Deploy from GitHub repo** -> **`kissik-dom/obi-ai`**.
+   - Add `OPENROUTER_API_KEY_1` under **Variables** and tap **Settings -> Networking -> Generate Domain**.
+
+3. **Render.com (1-Click API Blueprint — `render.yaml` included)**:
+   - Open **[dashboard.render.com](https://dashboard.render.com)** -> **New + -> Blueprint** -> **`kissik-dom/obi-ai`**.
+   - Paste `OPENROUTER_API_KEY_1` when prompted (`KINGDOM_API_KEY`, `KINGDOM_INTERNAL_SECRET`, `LITELLM_MASTER_KEY`, and `VAULT_TOKEN` auto-generate automatically).

@@ -179,23 +179,6 @@ services:
       timeout: 5s
       retries: 3
 
-  frontend:
-    build:
-      context: ./frontend
-    ports:
-      - "5173:5173"
-    environment:
-      VITE_BACKEND_ORIGIN: http://backend:8000
-    depends_on:
-      backend:
-        condition: service_healthy
-    restart: always
-    healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:5173"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
   prometheus:
     image: prom/prometheus:v2.51.0
     ports:

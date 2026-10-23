@@ -20,6 +20,21 @@ GRAMMAR_PATHS = [
 
 def test_healthz_and_metrics() -> None:
     with TestClient(app) as client:
+        root_res = client.get("/")
+        assert root_res.status_code == 200
+        assert root_res.json()["mode"] == "headless_api_only"
+
+        v1_models = client.get("/v1/models")
+        assert v1_models.status_code == 200
+        assert len(v1_models.json()["data"]) >= 205
+
+        v1_chat = client.post(
+            "/v1/chat/completions",
+            json={"model": "auto", "messages": [{"role": "user", "content": "Ping API-only gateway"}]},
+        )
+        assert v1_chat.status_code == 200
+        assert v1_chat.json()["object"] == "chat.completion"
+
         hz = client.get("/healthz")
         assert hz.status_code == 200
         body = hz.json()

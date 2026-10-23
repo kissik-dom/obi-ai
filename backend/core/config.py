@@ -10,8 +10,23 @@ from pydantic import BaseModel, ConfigDict, Field
 
 BACKEND_ROOT = Path(__file__).resolve().parent.parent
 REPO_ROOT = BACKEND_ROOT.parent
-RUNTIME_DIR = BACKEND_ROOT / ".runtime"
-RUNTIME_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _resolve_runtime_dir() -> Path:
+    candidate = BACKEND_ROOT / ".runtime"
+    try:
+        candidate.mkdir(parents=True, exist_ok=True)
+        probe = candidate / ".write_probe"
+        probe.write_text("ok", encoding="utf-8")
+        probe.unlink(missing_ok=True)
+        return candidate
+    except OSError:
+        fallback = Path("/tmp/kingdom_runtime")
+        fallback.mkdir(parents=True, exist_ok=True)
+        return fallback
+
+
+RUNTIME_DIR = _resolve_runtime_dir()
 
 
 def _env_bool(name: str, default: bool = True) -> bool:
