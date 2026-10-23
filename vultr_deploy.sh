@@ -6,13 +6,17 @@ VULTR_REGION="${VULTR_REGION:-ewr}"
 VULTR_PLAN="${VULTR_PLAN:-vcg-a100-1c-8g-40vram}"
 VULTR_OS_ID="${VULTR_OS_ID:-1743}"
 GITHUB_REPO="${GITHUB_REPO:-YOURNAME/kingdom-ai-os}"
+GITHUB_BRANCH="${GITHUB_BRANCH:-main}"
 
 if [[ "${1:-}" == "--provision" ]]; then
   if [[ -z "${VULTR_API_KEY:-}" ]]; then
     echo "ERROR: VULTR_API_KEY is required for --provision" >&2
     exit 1
   fi
-  USER_DATA_B64="$(base64 -w0 vultr_cloud_init.yaml)"
+  USER_DATA_FILE="$(mktemp)"
+  trap 'rm -f "$USER_DATA_FILE"' EXIT
+  sed "s|__GITHUB_BRANCH__|${GITHUB_BRANCH}|g" vultr_cloud_init.yaml > "$USER_DATA_FILE"
+  USER_DATA_B64="$(base64 -w0 "$USER_DATA_FILE")"
   echo "[Vultr] Provisioning ${VULTR_PLAN} in region ${VULTR_REGION} (Ubuntu 24.04 OS ${VULTR_OS_ID})..."
   curl -fsSL -X POST "https://api.vultr.com/v2/instances" \
     -H "Authorization: Bearer ${VULTR_API_KEY}" \

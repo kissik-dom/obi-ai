@@ -31,5 +31,5 @@ runcmd:
   - ufw allow 8000/tcp
   - ufw allow 51820/udp
   - ufw --force enable
-  - git clone -b arena/41e9ebf0-obi-ai https://github.com/kissik-dom/obi-ai.git /opt/kingdom-ai-os || git clone https://github.com/kissik-dom/obi-ai.git /opt/kingdom-ai-os
+  - git clone -b __GITHUB_BRANCH__ https://github.com/kissik-dom/obi-ai.git /opt/kingdom-ai-os || git clone https://github.com/kissik-dom/obi-ai.git /opt/kingdom-ai-os
   - cd /opt/kingdom-ai-os && chmod +x quickstart_setup.sh && ./quickstart_setup.sh

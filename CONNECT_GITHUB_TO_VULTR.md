@@ -46,11 +46,23 @@ chmod +x quickstart_setup.sh
 
 ---
 
-## Option C: Connect GitHub Auto-Deploy Later (Still No `VULTR_API_KEY` Needed!)
-`.github/workflows/deploy.yml` deploys over **SSH**, so it **never needs `VULTR_API_KEY`** — it only uses 3 GitHub Actions secrets (`Settings -> Secrets and variables -> Actions`) pointing to **any** Linux server IP (Vultr or otherwise):
+## Option C: Provision on Vultr through the Vultr API (No SSH)
+`.github/workflows/deploy.yml` provisions a new Vultr instance through the **Vultr v2 API** and passes the application bootstrap as cloud-init user-data. It does not use SSH and does not require `VULTR_HOST`, `VULTR_USER`, or `VULTR_SSH_KEY`.
+
+Run it from GitHub Actions with **Run workflow**, choose the branch to deploy, and provide this one GitHub Actions secret:
 
 | GitHub Secret | Purpose |
 | :--- | :--- |
-| `VULTR_HOST` | IP address of your server (Vultr, RunPod, Hetzner, DigitalOcean, etc.) |
-| `VULTR_USER` | SSH username (e.g. `root` or `ubuntu`) |
-| `VULTR_SSH_KEY` | Private SSH key matching `~/.ssh/authorized_keys` on that server |
+| `VULTR_API_KEY` | Vultr v2 API key allowed to create instances |
+
+Optional GitHub repository variables are supported for `VULTR_REGION`, `VULTR_PLAN`, and `VULTR_OS_ID`. The workflow is manual by design so every run is an explicit new-instance provisioning action and cannot accidentally create a billed GPU server on every commit.
+
+The Vultr API provisions the server and cloud-init clones the selected Git branch. This replaces the previous SSH-based redeployment workflow. Updating an already-running server still requires a separate image, replacement-instance, or in-server pull strategy; this workflow does not claim to update an existing instance through an API endpoint that Vultr does not provide.
+
+For reference, the previous SSH-only secret set is no longer used:
+
+| GitHub Secret | Purpose |
+| :--- | :--- |
+| `VULTR_HOST` | No longer used by the API-only workflow |
+| `VULTR_USER` | No longer used by the API-only workflow |
+| `VULTR_SSH_KEY` | No longer used by the API-only workflow |

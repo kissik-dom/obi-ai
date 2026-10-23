@@ -1,38 +1,41 @@
-name: Deploy to Vultr GPU Cloud
+name: Provision on Vultr GPU Cloud (API only)
 
 on:
-  push:
-    branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      git_branch:
+        description: Git branch to clone during Vultr cloud-init
+        required: true
+        default: arena/41e9ebf0-obi-ai
+        type: string
 
 jobs:
-  test-before-deploy:
+  test-before-provision:
     uses: ./.github/workflows/test.yml
 
-  deploy-vultr:
-    needs: test-before-deploy
+  provision-vultr:
+    needs: test-before-provision
     runs-on: ubuntu-latest
-    if: ${{ secrets.VULTR_HOST != '' && secrets.VULTR_SSH_KEY != '' }}
+    permissions:
+      contents: read
     steps:
-      - name: Deploy verified main commit to Vultr
+      - name: Check out the requested branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_branch }}
+
+      - name: Provision Vultr instance through the Vultr API
         env:
-          VULTR_HOST: ${{ secrets.VULTR_HOST }}
-          VULTR_USER: ${{ secrets.VULTR_USER }}
-          VULTR_SSH_KEY: ${{ secrets.VULTR_SSH_KEY }}
+          VULTR_API_KEY: ${{ secrets.VULTR_API_KEY }}
+          VULTR_REGION: ${{ vars.VULTR_REGION || 'ewr' }}
+          VULTR_PLAN: ${{ vars.VULTR_PLAN || 'vcg-a100-1c-8g-40vram' }}
+          VULTR_OS_ID: ${{ vars.VULTR_OS_ID || '1743' }}
+          GITHUB_BRANCH: ${{ inputs.git_branch }}
         run: |
-          install -m 600 /dev/null /tmp/vultr_id_ed25519
-          printf "%s\n" "${VULTR_SSH_KEY}" > /tmp/vultr_id_ed25519
-          ssh -i /tmp/vultr_id_ed25519 -o StrictHostKeyChecking=accept-new "${VULTR_USER:-root}@${VULTR_HOST}" '
-            set -euo pipefail
-            cd /opt/kingdom-ai-os
-            PREV_SHA="$(git rev-parse HEAD)"
-            git fetch origin main
-            git checkout main
-            git reset --hard origin/main
-            if ! ./vultr_deploy.sh; then
-              echo "Healthcheck failed; rolling back to ${PREV_SHA}"
-              git reset --hard "${PREV_SHA}"
-              ./vultr_deploy.sh
-              exit 1
-            fi
-          '
-          rm -f /tmp/vultr_id_ed25519
+          set -euo pipefail
+          test -n "${VULTR_API_KEY}" || {
+            echo "VULTR_API_KEY is required in GitHub Actions secrets." >&2
+            exit 1
+          }
+          chmod +x ./vultr_deploy.sh
+          ./vultr_deploy.sh --provision
