@@ -14,22 +14,27 @@ if [[ "${1:-}" == "--provision" ]]; then
     exit 1
   fi
   USER_DATA_FILE="$(mktemp)"
-  trap 'rm -f "$USER_DATA_FILE"' EXIT
+  PAYLOAD_FILE="$(mktemp)"
+  trap 'rm -f "$USER_DATA_FILE" "$PAYLOAD_FILE"' EXIT
   sed "s|__GITHUB_BRANCH__|${GITHUB_BRANCH}|g" vultr_cloud_init.yaml > "$USER_DATA_FILE"
   USER_DATA_B64="$(base64 -w0 "$USER_DATA_FILE")"
+  cat > "$PAYLOAD_FILE" <<EOF
+{
+  "region": "${VULTR_REGION}",
+  "plan": "${VULTR_PLAN}",
+  "os_id": ${VULTR_OS_ID},
+  "label": "kingdom-ai-os-sovereign",
+  "hostname": "kingdom-ai-os",
+  "backups": "enabled",
+  "user_data": "${USER_DATA_B64}"
+}
+EOF
   echo "[Vultr] Provisioning ${VULTR_PLAN} in region ${VULTR_REGION} (Ubuntu 24.04 OS ${VULTR_OS_ID})..."
-  curl -fsSL -X POST "https://api.vultr.com/v2/instances" \
+  curl --fail-with-body --silent --show-error --retry 3 --retry-all-errors \
+    --connect-timeout 20 --max-time 180 -X POST "https://api.vultr.com/v2/instances" \
     -H "Authorization: Bearer ${VULTR_API_KEY}" \
     -H "Content-Type: application/json" \
-    -d "{
-      \"region\": \"${VULTR_REGION}\",
-      \"plan\": \"${VULTR_PLAN}\",
-      \"os_id\": ${VULTR_OS_ID},
-      \"label\": \"kingdom-ai-os-sovereign\",
-      \"hostname\": \"kingdom-ai-os\",
-      \"backups\": \"enabled\",
-      \"user_data\": \"${USER_DATA_B64}\"
-    }"
+    --data-binary "@${PAYLOAD_FILE}"
   echo ""
   exit 0
 fi
