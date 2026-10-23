@@ -443,3 +443,11 @@ export interface NewTabSkillResponse {
   total_tabs_active: number;
   status: string;
 }
+
+export interface VaultKeyStatusResponse {
+  vault_seal_ref: string;
+  configured_openrouter_keys: number;
+  masked_slots: string[];
+  obliteratus_configured: boolean;
+  composio_configured: boolean;
+}

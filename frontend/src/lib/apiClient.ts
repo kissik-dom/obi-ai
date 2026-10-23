@@ -26,6 +26,7 @@ import type {
   ToolExecuteResponse,
   ToolRecord,
   TrainingDocumentRecord,
+  VaultKeyStatusResponse,
   VideoPipelineResponse,
   VocalTuningResponse,
 } from "../types/api";
@@ -229,5 +230,16 @@ export const apiClient = {
     requestJson<PassportIssueResponse>("/api/passport/issue", {
       method: "POST",
       body: JSON.stringify({ holder, scope }),
+    }),
+  getVaultKeyStatus: () => requestJson<VaultKeyStatusResponse>("/api/vault/llm-keys"),
+  sealVaultKeys: (payload: {
+    openrouter_key_1: string;
+    openrouter_key_2: string;
+    obliteratus_api_key: string;
+    composio_api_key: string;
+  }) =>
+    requestJson<VaultKeyStatusResponse>("/api/vault/llm-keys", {
+      method: "POST",
+      body: JSON.stringify(payload),
     }),
 };

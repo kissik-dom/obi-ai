@@ -67,6 +67,10 @@ export function TabWorkspace({ tabSpec, models }: TabWorkspaceProps) {
   const [fileName, setFileName] = useState("deliverable_notes.md");
   const [fileContent, setFileContent] = useState("# Sovereign Note\nVerified inside atomic MinIO bucket.");
   const [toolFilter, setToolFilter] = useState("");
+  const [orKey1, setOrKey1] = useState("");
+  const [orKey2, setOrKey2] = useState("");
+  const [oblitKey, setOblitKey] = useState("");
+  const [compKey, setCompKey] = useState("");
 
   const slug = tabSpec.slug;
 
@@ -117,6 +121,28 @@ export function TabWorkspace({ tabSpec, models }: TabWorkspaceProps) {
   const settingsQuery = useQuery({
     queryKey: ["tab-settings", slug],
     queryFn: () => apiClient.getTabSettings(slug),
+  });
+
+  const vaultKeysQuery = useQuery({
+    queryKey: ["vault-llm-keys"],
+    queryFn: apiClient.getVaultKeyStatus,
+  });
+
+  const sealVaultKeysMut = useMutation({
+    mutationFn: () =>
+      apiClient.sealVaultKeys({
+        openrouter_key_1: orKey1,
+        openrouter_key_2: orKey2,
+        obliteratus_api_key: oblitKey,
+        composio_api_key: compKey,
+      }),
+    onSuccess: () => {
+      setOrKey1("");
+      setOrKey2("");
+      setOblitKey("");
+      setCompKey("");
+      void queryClient.invalidateQueries({ queryKey: ["vault-llm-keys"] });
+    },
   });
 
   const sendChatMut = useMutation({
@@ -719,6 +745,65 @@ export function TabWorkspace({ tabSpec, models }: TabWorkspaceProps) {
       {/* SECTION 10: SETTINGS & GRANULAR TURN-OFF FLAGS */}
       {activeSection === "settings" && settingsQuery.data && (
         <div className="space-y-4">
+          <div className="rounded border-2 border-orange-600 bg-white p-4">
+            <h4 className="mb-1 font-mono text-xs font-bold uppercase text-orange-600">
+              Browser Secret Vault (Zero SSH / Zero Terminal Needed)
+            </h4>
+            <p className="mb-3 text-xs text-neutral-700">
+              Paste your OpenRouter key(s) right here in your browser. Keys are encrypted immediately inside HashiCorp
+              Vault HSM transit seal and never shown again in plaintext. Active OpenRouter keys:{" "}
+              <strong>{vaultKeysQuery.data?.configured_openrouter_keys ?? 0}</strong>
+              {vaultKeysQuery.data && vaultKeysQuery.data.masked_slots.length > 0
+                ? ` (${vaultKeysQuery.data.masked_slots.join(", ")})`
+                : ""}
+            </p>
+            <form
+              className="grid gap-2 md:grid-cols-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                sealVaultKeysMut.mutate();
+              }}
+            >
+              <input
+                type="password"
+                value={orKey1}
+                onChange={(e) => setOrKey1(e.target.value)}
+                placeholder="OPENROUTER_API_KEY_1 (sk-or-v1-...)"
+                className="rounded border border-neutral-300 px-3 py-1.5 font-mono text-xs"
+              />
+              <input
+                type="password"
+                value={orKey2}
+                onChange={(e) => setOrKey2(e.target.value)}
+                placeholder="OPENROUTER_API_KEY_2 (optional failover slot)"
+                className="rounded border border-neutral-300 px-3 py-1.5 font-mono text-xs"
+              />
+              <input
+                type="password"
+                value={oblitKey}
+                onChange={(e) => setOblitKey(e.target.value)}
+                placeholder="OBLITERATUS_API_KEY (optional)"
+                className="rounded border border-neutral-300 px-3 py-1.5 font-mono text-xs"
+              />
+              <input
+                type="password"
+                value={compKey}
+                onChange={(e) => setCompKey(e.target.value)}
+                placeholder="COMPOSIO_API_KEY (optional SaaS connectors)"
+                className="rounded border border-neutral-300 px-3 py-1.5 font-mono text-xs"
+              />
+              <div className="md:col-span-2">
+                <button
+                  type="submit"
+                  disabled={sealVaultKeysMut.isPending}
+                  className="rounded border border-amber-600 bg-amber-400 px-4 py-1.5 font-mono text-[11px] font-bold text-black hover:bg-amber-500"
+                >
+                  {sealVaultKeysMut.isPending ? "Sealing in Vault HSM..." : "SEAL KEYS IN VAULT HSM"}
+                </button>
+              </div>
+            </form>
+          </div>
+
           <div className="rounded border border-neutral-300 p-4">
             <h4 className="mb-3 font-mono text-xs font-bold uppercase text-fuchsia-600">
               Per-Tab Sandbox & Hermes Configuration ({slug})

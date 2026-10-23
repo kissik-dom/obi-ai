@@ -318,9 +318,16 @@ async def complete_with_failover(
     hermes_specialist: Optional[str] = None,
 ) -> str:
     """Execute async LLM completion via OpenRouter 10-key failover or Obliteratus cascade, with Sovereign Local Engine fallback."""
-    keys = config.get_openrouter_keys()
-    obliteratus_url = os.getenv("OBLITERATUS_GATEWAY_URL", "").strip()
-    obliteratus_key = os.getenv("OBLITERATUS_API_KEY", "").strip()
+    from .stores import VAULT_STORE
+
+    keys = list(config.get_openrouter_keys())
+    vault_keys = VAULT_STORE.get_secret("llm/provider_keys") or {}
+    for k_idx in range(1, 11):
+        vk = vault_keys.get(f"OPENROUTER_API_KEY_{k_idx}", "").strip()
+        if vk and vk not in keys:
+            keys.append(vk)
+    obliteratus_url = (vault_keys.get("OBLITERATUS_GATEWAY_URL") or os.getenv("OBLITERATUS_GATEWAY_URL", "")).strip()
+    obliteratus_key = (vault_keys.get("OBLITERATUS_API_KEY") or os.getenv("OBLITERATUS_API_KEY", "")).strip()
 
     sys_prompt = (
         f"You are Kingdom AI OS operating in tab '{tab}' with model {decision.selected_model.canonicalName} "

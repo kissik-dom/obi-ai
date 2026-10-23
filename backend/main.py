@@ -8,7 +8,8 @@ from typing import Dict, List, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict
 
 from backend import finished as finished_service
@@ -177,6 +178,23 @@ class FlagsStateResponse(BaseModel):
     flags: Dict[str, bool]
 
 
+class VaultKeySealRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    openrouter_key_1: str = ""
+    openrouter_key_2: str = ""
+    obliteratus_api_key: str = ""
+    composio_api_key: str = ""
+
+
+class VaultKeyStatusResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    vault_seal_ref: str
+    configured_openrouter_keys: int
+    masked_slots: List[str]
+    obliteratus_configured: bool
+    composio_configured: bool
+
+
 class GpuBatchRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     total_images: int = 1000
@@ -260,6 +278,47 @@ async def api_get_flags() -> FlagsStateResponse:
 async def api_put_flags(payload: FlagsUpdatePayload) -> FlagsStateResponse:
     config.update_flags(payload.flags)
     return FlagsStateResponse(flags=config.get_flags_dict())
+
+
+def _mask_key(raw: str) -> str:
+    s = raw.strip()
+    if len(s) <= 8:
+        return "****"
+    return f"{s[:6]}...{s[-4:]}"
+
+
+@app.get("/api/vault/llm-keys", response_model=VaultKeyStatusResponse, tags=["system"])
+async def api_get_vault_llm_keys() -> VaultKeyStatusResponse:
+    stored = VAULT_STORE.get_secret("llm/provider_keys") or {}
+    env_keys = config.get_openrouter_keys()
+    masked: List[str] = [_mask_key(k) for k in env_keys]
+    for idx in range(1, 11):
+        vk = stored.get(f"OPENROUTER_API_KEY_{idx}", "").strip()
+        if vk:
+            masked.append(f"slot_{idx}:{_mask_key(vk)}")
+    return VaultKeyStatusResponse(
+        vault_seal_ref="vault:v1:hsm-transit-active",
+        configured_openrouter_keys=len(masked),
+        masked_slots=masked,
+        obliteratus_configured=bool(stored.get("OBLITERATUS_API_KEY", "").strip()),
+        composio_configured=bool(stored.get("COMPOSIO_API_KEY", "").strip()),
+    )
+
+
+@app.post("/api/vault/llm-keys", response_model=VaultKeyStatusResponse, tags=["system"])
+async def api_seal_vault_llm_keys(payload: VaultKeySealRequest) -> VaultKeyStatusResponse:
+    existing = VAULT_STORE.get_secret("llm/provider_keys") or {}
+    if payload.openrouter_key_1.strip():
+        existing["OPENROUTER_API_KEY_1"] = payload.openrouter_key_1.strip()
+    if payload.openrouter_key_2.strip():
+        existing["OPENROUTER_API_KEY_2"] = payload.openrouter_key_2.strip()
+    if payload.obliteratus_api_key.strip():
+        existing["OBLITERATUS_API_KEY"] = payload.obliteratus_api_key.strip()
+    if payload.composio_api_key.strip():
+        existing["COMPOSIO_API_KEY"] = payload.composio_api_key.strip()
+    seal_ref = VAULT_STORE.put_secret("llm/provider_keys", existing)
+    status = await api_get_vault_llm_keys()
+    return status.model_copy(update={"vault_seal_ref": seal_ref})
 
 
 @app.get("/api/llm/models", response_model=List[ModelRecord], tags=["llm"])
@@ -352,3 +411,15 @@ async def api_get_finished(sandbox_id: str) -> SandboxBundleDetail:
     if bundle is None:
         raise HTTPException(status_code=404, detail=f"Finished sandbox '{sandbox_id}' not found")
     return bundle
+
+
+# Unified single-container browser deployment support (Render / Railway / Koyeb / HF Spaces - Zero SSH)
+_FRONTEND_DIST = config.REPO_ROOT / "frontend" / "dist"
+if (_FRONTEND_DIST / "index.html").exists():
+    if (_FRONTEND_DIST / "assets").exists():
+        app.mount("/assets", StaticFiles(directory=str(_FRONTEND_DIST / "assets")), name="frontend-assets")
+
+    @app.get("/", include_in_schema=False)
+    async def serve_spa_index() -> FileResponse:
+        return FileResponse(str(_FRONTEND_DIST / "index.html"))
+
