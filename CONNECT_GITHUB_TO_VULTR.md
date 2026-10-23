@@ -1,39 +1,56 @@
-# Connect GitHub (`YOURNAME/kingdom-ai-os`) to Vultr GPU Server
+# Deploy Kingdom AI OS (With or Without a Vultr API Key)
 
-## 1. Repository & Branch Topology
-- **Canonical GitHub Repository**: `https://github.com/YOURNAME/kingdom-ai-os`
-- **Protected Production Branch**: `main` (auto-deploys to Vultr ONLY after `test.yml` passes 100%)
-- **Active Development Branch**: `dev` (all feature PRs and autonomous agent patches target `dev` first)
+You **do NOT need `VULTR_API_KEY`** to run or deploy Kingdom AI OS. Choose whichever option fits what you have right now:
 
-## 2. Configure GitHub Actions Secrets
-In your GitHub repository, navigate to **Settings -> Secrets and variables -> Actions** and add:
+---
 
-| Secret Name | Purpose |
+## Option A: Deploy on Vultr WITHOUT `VULTR_API_KEY` (Dashboard Click-Through)
+`VULTR_API_KEY` was only for optional command-line server creation (`--provision`). You can skip it completely:
+
+1. Log in to **https://my.vultr.com/** and click **Deploy + -> Deploy New Server**.
+2. Choose **Cloud GPU** (NVIDIA A100) *or* **Cloud Compute / Optimized Cloud** (CPU works too via OpenRouter).
+3. Select **Ubuntu 24.04 x64**, select your SSH key, and click **Deploy Now**.
+4. Once it boots, SSH into the server IP and run:
+   ```bash
+   git clone https://github.com/kissik-dom/obi-ai.git /opt/kingdom-ai-os
+   cd /opt/kingdom-ai-os
+   chmod +x quickstart_setup.sh
+   ./quickstart_setup.sh --env-only
+   nano .env          # Only paste OPENROUTER_API_KEY_1 (and OPENROUTER_API_KEY); all internal passwords are already auto-generated!
+   ./quickstart_setup.sh
+   ```
+   `quickstart_setup.sh` automatically detects whether an NVIDIA GPU is attached and starts the matching Docker stack.
+
+*(Tip: If you ever want a `VULTR_API_KEY` later, it lives in `my.vultr.com` -> left sidebar **Account** -> **API** tab -> **Enable API** -> **Allow All IPv4**.)*
+
+---
+
+## Option B: No Vultr Account Needed — Run Locally or on Any VPS (Mac / Windows WSL2 / Linux / RunPod / Hetzner / DigitalOcean)
+You can run the entire 28-tab OS right now on your own computer or any other host with **zero cloud keys** (or just 1 `OPENROUTER_API_KEY`):
+
+```bash
+git clone https://github.com/kissik-dom/obi-ai.git
+cd obi-ai
+chmod +x quickstart_setup.sh
+./quickstart_setup.sh
+```
+- **What `quickstart_setup.sh` auto-generates for you** (so you don't have to invent them):
+  - `KINGDOM_INTERNAL_SECRET`
+  - `LITELLM_MASTER_KEY`
+  - `POSTGRES_PASSWORD` & `DATABASE_URL`
+  - `MINIO_ROOT_PASSWORD`
+  - `VAULT_TOKEN`
+  - `LISTMONK_ADMIN_PASS`
+- **The ONLY key you optionally add in `.env`**:
+  - `OPENROUTER_API_KEY_1=sk-or-v1-...` (and `OPENROUTER_API_KEY=sk-or-v1-...`) from [openrouter.ai/keys](https://openrouter.ai/keys) to unlock live cloud LLM completions across all 205 models (and up to `_2`..`_10` if you want 10-key rotation). Even without OpenRouter keys, the UI (`:5173`), Swagger API (`:8000/docs`), Qdrant 768d, MinIO buckets, Vault HSM, and Sovereign Local Engine run out-of-the-box.
+
+---
+
+## Option C: Connect GitHub Auto-Deploy Later (Still No `VULTR_API_KEY` Needed!)
+`.github/workflows/deploy.yml` deploys over **SSH**, so it **never needs `VULTR_API_KEY`** — it only uses 3 GitHub Actions secrets (`Settings -> Secrets and variables -> Actions`) pointing to **any** Linux server IP (Vultr or otherwise):
+
+| GitHub Secret | Purpose |
 | :--- | :--- |
-| `VULTR_HOST` | Public IPv4 or WireGuard management IP of your Vultr GPU instance |
-| `VULTR_USER` | SSH user (`root` or `kingdom`) |
-| `VULTR_SSH_KEY` | Ed25519 private key (`ssh-keygen -t ed25519 -C "github-actions-vultr"`) |
-| `VULTR_API_KEY` | Optional Vultr v2 API key for `vultr_deploy.sh --provision` |
-
-## 3. Provision Your Vultr GPU Node (`ewr` / `vcg-a100-1c-8g-40vram`)
-```bash
-export VULTR_API_KEY="your-vultr-v2-api-key"
-chmod +x vultr_deploy.sh
-./vultr_deploy.sh --provision
-```
-`vultr_cloud_init.yaml` automatically installs Docker Engine, NVIDIA Container Toolkit, WireGuard (`51820/udp`), UFW rules, clones the repository into `/opt/kingdom-ai-os`, and launches the full Compose stack.
-
-## 4. Populate `.env` & Vault HSM Secrets on Vultr
-SSH into the Vultr server:
-```bash
-ssh root@YOUR_VULTR_IP
-cd /opt/kingdom-ai-os
-cp -n .env.example .env
-nano .env   # Add OPENROUTER_API_KEY_1..10 and rotate KINGDOM_INTERNAL_SECRET
-./vultr_deploy.sh
-```
-Never store financial private keys in `.env`; enroll them directly into HashiCorp Vault HSM (`http://127.0.0.1:8200`).
-
-## 5. Continuous Verification & Zero-Downtime Rollout
-1. Open a Pull Request into `dev` -> `.github/workflows/test.yml` runs `pytest tests/` + `npm run build`.
-2. Merge `dev` into `main` -> `.github/workflows/deploy.yml` re-runs verification and SSH-deploys `/opt/kingdom-ai-os` on Vultr, rolling back automatically if `/healthz` fails.
+| `VULTR_HOST` | IP address of your server (Vultr, RunPod, Hetzner, DigitalOcean, etc.) |
+| `VULTR_USER` | SSH username (e.g. `root` or `ubuntu`) |
+| `VULTR_SSH_KEY` | Private SSH key matching `~/.ssh/authorized_keys` on that server |
