@@ -1,0 +1,3 @@
+# Stage: engineering (lazy-imported inside engineering/city worker functions)
+# Heavy native packages (cadquery, ghidra-bridge, angr, trimesh, osmnx, geopandas) loaded lazily
+numpy==1.26.4

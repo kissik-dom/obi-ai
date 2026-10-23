@@ -1,0 +1,2 @@
+# Stage: images (lazy-imported inside image_consistency/gpu_worker functions)
+Pillow==10.2.0

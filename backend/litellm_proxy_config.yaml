@@ -1,0 +1,1447 @@
+# Kingdom AI OS - LiteLLM Router Proxy Config (205 Models | 10 OpenRouter Keys | Auto-Failover)
+model_list:
+  - model_name: huihui-qwen3.6-35b-a3b
+    litellm_params:
+      model: openrouter/huihui-ai/huihui-qwen3.6-35b-a3b
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen3.8-27b-2.19m
+    litellm_params:
+      model: openrouter/huihui-ai/qwen3.8-27b-2.19m
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen3.8-vision-28b
+    litellm_params:
+      model: openrouter/huihui-ai/qwen3.8-vision-28b
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen3-coder-next-80b
+    litellm_params:
+      model: openrouter/huihui-ai/qwen3-coder-next-80b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: deepseek-v4-flash
+    litellm_params:
+      model: openrouter/huihui-ai/deepseek-v4-flash
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: mimo-310b
+    litellm_params:
+      model: openrouter/huihui-ai/mimo-310b
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: nex-n2-mini-35b
+    litellm_params:
+      model: openrouter/huihui-ai/nex-n2-mini-35b
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: gemma-4-it-qat-12b
+    litellm_params:
+      model: openrouter/google/gemma-4-it-qat-12b
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: gemma-4-e2b-5b
+    litellm_params:
+      model: openrouter/google/gemma-4-e2b-5b
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: huihui4-moe-a4b-9b
+    litellm_params:
+      model: openrouter/huihui-ai/huihui4-moe-a4b-9b
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: qwythos-9b-classic
+    litellm_params:
+      model: openrouter/huihui-ai/qwythos-9b-classic
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: cyberstrike-offsec-35b
+    litellm_params:
+      model: openrouter/cyberstrike/cyberstrike-offsec-35b
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: ling-3.1-flash-1m
+    litellm_params:
+      model: openrouter/nousresearch/ling-3.1-flash-1m
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: gemini-4-plus-400b
+    litellm_params:
+      model: openrouter/google-wrapper/gemini-4-plus-400b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: gemini-4-argon-400b
+    litellm_params:
+      model: openrouter/google-wrapper/gemini-4-argon-400b
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: glm-5.3-flash-fp8
+    litellm_params:
+      model: openrouter/huihui-ai/glm-5.3-flash-fp8
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: agents-a1-35b
+    litellm_params:
+      model: openrouter/huihui-ai/agents-a1-35b
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen3-coder-30b
+    litellm_params:
+      model: openrouter/huihui-ai/qwen3-coder-30b
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen3.6-27b
+    litellm_params:
+      model: openrouter/huihui-ai/qwen3.6-27b
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: gemma-4-31b
+    litellm_params:
+      model: openrouter/huihui-ai/gemma-4-31b
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: llama-4-scout-10m
+    litellm_params:
+      model: openrouter/meta-llama/llama-4-scout-10m
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: llama-4-maverick-400b
+    litellm_params:
+      model: openrouter/meta-llama/llama-4-maverick-400b
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: obliteratus-hermes-3-70b
+    litellm_params:
+      model: openrouter/nousresearch/obliteratus-hermes-3-70b
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: nous-hermes-3-405b
+    litellm_params:
+      model: openrouter/nousresearch/nous-hermes-3-405b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: deepseek-r1-abliterated-671b
+    litellm_params:
+      model: openrouter/huihui-ai/deepseek-r1-abliterated-671b
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: deepseek-v3-abliterated-671b
+    litellm_params:
+      model: openrouter/huihui-ai/deepseek-v3-abliterated-671b
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-72b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-72b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-coder-32b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-coder-32b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: codestral-2501-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/codestral-2501-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: mistral-large-2411-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/mistral-large-2411-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: command-r-plus-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/command-r-plus-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: granite-4.1-29b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/granite-4.1-29b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: cyberstrike-offsec-v2-14b
+    litellm_params:
+      model: openrouter/cyberstrike/cyberstrike-offsec-v2-14b
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: moe-a4b-48b-scraper
+    litellm_params:
+      model: openrouter/huihui-ai/moe-a4b-48b-scraper
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: muse-glimmer-30b
+    litellm_params:
+      model: openrouter/huihui-ai/muse-glimmer-30b
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: nemotron-70b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/nemotron-70b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: qwq-32b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwq-32b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: moe-0.8b-2e
+    litellm_params:
+      model: openrouter/huihui-ai/moe-0.8b-2e
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: ornith-1.0-2b
+    litellm_params:
+      model: openrouter/huihui-ai/ornith-1.0-2b
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: granite-4.1-3b
+    litellm_params:
+      model: openrouter/huihui-ai/granite-4.1-3b
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: minicpm-v-4.6-1b
+    litellm_params:
+      model: openrouter/huihui-ai/minicpm-v-4.6-1b
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: ornith-1.5-9b
+    litellm_params:
+      model: openrouter/huihui-ai/ornith-1.5-9b
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-0.5b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-0.5b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-1.5b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-1.5b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-3b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-3b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: llama-3.2-1b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/llama-3.2-1b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: llama-3.2-3b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/llama-3.2-3b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: smollm2-1.7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/smollm2-1.7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: phi-3.5-mini-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/phi-3.5-mini-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: gemma-2-2b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/gemma-2-2b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: ministral-3b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/ministral-3b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: ministral-8b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/ministral-8b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: flash-nano-1.2b
+    litellm_params:
+      model: openrouter/huihui-ai/flash-nano-1.2b
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: openmausbot-v2-4b
+    litellm_params:
+      model: openrouter/huihui-ai/openmausbot-v2-4b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: dolphin-2.9.4-llama3.2-3b
+    litellm_params:
+      model: openrouter/huihui-ai/dolphin-2.9.4-llama3.2-3b
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: hermes-3-llama-3.2-3b
+    litellm_params:
+      model: openrouter/huihui-ai/hermes-3-llama-3.2-3b
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: tinyllama-1.1b-heretic
+    litellm_params:
+      model: openrouter/huihui-ai/tinyllama-1.1b-heretic
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: flux-1-dev-12b
+    litellm_params:
+      model: openrouter/black-forest-labs/flux-1-dev-12b
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: juggernaut-xl-v9
+    litellm_params:
+      model: openrouter/huihui-ai/juggernaut-xl-v9
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: realvisxl-v5
+    litellm_params:
+      model: openrouter/huihui-ai/realvisxl-v5
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: sam2-dinov2-isolation
+    litellm_params:
+      model: openrouter/huihui-ai/sam2-dinov2-isolation
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: birefnet-hr-matting
+    litellm_params:
+      model: openrouter/huihui-ai/birefnet-hr-matting
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: groundingdino-1.5
+    litellm_params:
+      model: openrouter/huihui-ai/groundingdino-1.5
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: instantid-photomaker
+    litellm_params:
+      model: openrouter/huihui-ai/instantid-photomaker
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: compreface-arcface
+    litellm_params:
+      model: openrouter/huihui-ai/compreface-arcface
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-vl-72b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-vl-72b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-vl-7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-vl-7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: llama-3.2-90b-vision-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/llama-3.2-90b-vision-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: llama-3.2-11b-vision-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/llama-3.2-11b-vision-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: pixtral-large-124b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/pixtral-large-124b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: pixtral-12b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/pixtral-12b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: internvl2.5-78b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/internvl2.5-78b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: molmo-72b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/molmo-72b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: florence-2-large
+    litellm_params:
+      model: openrouter/huihui-ai/florence-2-large
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: gemma-3n-8b-vision
+    litellm_params:
+      model: openrouter/huihui-ai/gemma-3n-8b-vision
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: bge-m3-768d-embed
+    litellm_params:
+      model: openrouter/huihui-ai/bge-m3-768d-embed
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: bge-reranker-v2-m3
+    litellm_params:
+      model: openrouter/huihui-ai/bge-reranker-v2-m3
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: minimax-hailuo-02
+    litellm_params:
+      model: openrouter/minimax-wrapper/minimax-hailuo-02
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: wan-2.1-14b
+    litellm_params:
+      model: openrouter/huihui-ai/wan-2.1-14b
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: ltx-video-13b
+    litellm_params:
+      model: openrouter/huihui-ai/ltx-video-13b
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: kling-2.0-director
+    litellm_params:
+      model: openrouter/kling-wrapper/kling-2.0-director
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: cogvideox-5b
+    litellm_params:
+      model: openrouter/huihui-ai/cogvideox-5b
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: hunyuan-video-13b
+    litellm_params:
+      model: openrouter/huihui-ai/hunyuan-video-13b
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: mochi-1-10b
+    litellm_params:
+      model: openrouter/huihui-ai/mochi-1-10b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: opensora-1.2
+    litellm_params:
+      model: openrouter/huihui-ai/opensora-1.2
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: svd-xt-1.1
+    litellm_params:
+      model: openrouter/huihui-ai/svd-xt-1.1
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: animatediff-v3
+    litellm_params:
+      model: openrouter/huihui-ai/animatediff-v3
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: liveportrait-v1
+    litellm_params:
+      model: openrouter/huihui-ai/liveportrait-v1
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: wav2lip-latentsync
+    litellm_params:
+      model: openrouter/huihui-ai/wav2lip-latentsync
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: hallo2-portrait
+    litellm_params:
+      model: openrouter/huihui-ai/hallo2-portrait
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: movie-gen-30b-meta
+    litellm_params:
+      model: openrouter/meta-wrapper/movie-gen-30b-meta
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: emu-video-meta
+    litellm_params:
+      model: openrouter/meta-wrapper/emu-video-meta
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: whisperx-large-v3
+    litellm_params:
+      model: openrouter/huihui-ai/whisperx-large-v3
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: seamlessm4t-v2-large
+    litellm_params:
+      model: openrouter/huihui-ai/seamlessm4t-v2-large
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: f5-tts-v1
+    litellm_params:
+      model: openrouter/huihui-ai/f5-tts-v1
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: cosyvoice-2
+    litellm_params:
+      model: openrouter/huihui-ai/cosyvoice-2
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: rvc-v2-sovits
+    litellm_params:
+      model: openrouter/huihui-ai/rvc-v2-sovits
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: dolphin-cl4r1t4s-405b
+    litellm_params:
+      model: openrouter/huihui-ai/dolphin-cl4r1t4s-405b
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: llama-3.1-405b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/llama-3.1-405b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: llama-3.3-70b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/llama-3.3-70b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: llama-3.1-70b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/llama-3.1-70b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: llama-3.1-8b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/llama-3.1-8b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: mistral-nemo-12b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/mistral-nemo-12b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: dolphin-mistral-nemo-12b
+    litellm_params:
+      model: openrouter/huihui-ai/dolphin-mistral-nemo-12b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: codestral-22b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/codestral-22b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: phi-4-14b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/phi-4-14b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: yi-1.5-34b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/yi-1.5-34b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: yi-34b-200k-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/yi-34b-200k-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: falcon-180b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/falcon-180b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: falcon-3-10b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/falcon-3-10b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: mythomax-l2-13b
+    litellm_params:
+      model: openrouter/huihui-ai/mythomax-l2-13b
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: wizardlm-2-8x22b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/wizardlm-2-8x22b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: wizardlm-13b-v1.2
+    litellm_params:
+      model: openrouter/huihui-ai/wizardlm-13b-v1.2
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: wizardcoder-33b-v1.1
+    litellm_params:
+      model: openrouter/huihui-ai/wizardcoder-33b-v1.1
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: wizardcoder-15b-v1.0
+    litellm_params:
+      model: openrouter/huihui-ai/wizardcoder-15b-v1.0
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: codellama-70b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/codellama-70b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: codellama-34b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/codellama-34b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: starling-lm-7b-beta
+    litellm_params:
+      model: openrouter/huihui-ai/starling-lm-7b-beta
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: zephyr-7b-beta-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/zephyr-7b-beta-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: zephyr-orpo-141b-a35b
+    litellm_params:
+      model: openrouter/huihui-ai/zephyr-orpo-141b-a35b
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: nous-capybara-34b
+    litellm_params:
+      model: openrouter/huihui-ai/nous-capybara-34b
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: nous-capybara-7b
+    litellm_params:
+      model: openrouter/huihui-ai/nous-capybara-7b
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: dolphin-2.9-llama3-70b
+    litellm_params:
+      model: openrouter/huihui-ai/dolphin-2.9-llama3-70b
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: dolphin-2.9-llama3-8b
+    litellm_params:
+      model: openrouter/huihui-ai/dolphin-2.9-llama3-8b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: dolphin-2.8-mistral-7b-v02
+    litellm_params:
+      model: openrouter/huihui-ai/dolphin-2.8-mistral-7b-v02
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: dolphin-2.7-mixtral-8x7b
+    litellm_params:
+      model: openrouter/huihui-ai/dolphin-2.7-mixtral-8x7b
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: dolphin-2.6-mixtral-8x22b
+    litellm_params:
+      model: openrouter/huihui-ai/dolphin-2.6-mixtral-8x22b
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: openhermes-2.5-mistral-7b
+    litellm_params:
+      model: openrouter/huihui-ai/openhermes-2.5-mistral-7b
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: toppy-m-7b-uncensored
+    litellm_params:
+      model: openrouter/huihui-ai/toppy-m-7b-uncensored
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: synthia-70b-v1.5
+    litellm_params:
+      model: openrouter/huihui-ai/synthia-70b-v1.5
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: synthia-7b-v3.0
+    litellm_params:
+      model: openrouter/huihui-ai/synthia-7b-v3.0
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: nous-hermes-2-yi-34b
+    litellm_params:
+      model: openrouter/huihui-ai/nous-hermes-2-yi-34b
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: nous-hermes-2-mixtral-8x7b
+    litellm_params:
+      model: openrouter/huihui-ai/nous-hermes-2-mixtral-8x7b
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: nous-hermes-2-solar-10.7b
+    litellm_params:
+      model: openrouter/huihui-ai/nous-hermes-2-solar-10.7b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: openchat-3.6-8b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/openchat-3.6-8b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: openchat-3.5-0106
+    litellm_params:
+      model: openrouter/huihui-ai/openchat-3.5-0106
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: neural-chat-7b-v3.3
+    litellm_params:
+      model: openrouter/huihui-ai/neural-chat-7b-v3.3
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: samantha-1.2-mistral-7b
+    litellm_params:
+      model: openrouter/huihui-ai/samantha-1.2-mistral-7b
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: noromaid-20b-v0.1.1
+    litellm_params:
+      model: openrouter/huihui-ai/noromaid-20b-v0.1.1
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: chronos-hermes-13b-v2
+    litellm_params:
+      model: openrouter/huihui-ai/chronos-hermes-13b-v2
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: pygmalion-2-13b
+    litellm_params:
+      model: openrouter/huihui-ai/pygmalion-2-13b
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: luna-ai-llama2-7b
+    litellm_params:
+      model: openrouter/huihui-ai/luna-ai-llama2-7b
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: gemma-2-27b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/gemma-2-27b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: gemma-2-9b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/gemma-2-9b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-32b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-32b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-14b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-14b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-coder-14b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-coder-14b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-coder-7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-coder-7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-math-72b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-math-72b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: qwen2.5-math-7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/qwen2.5-math-7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: deepseek-coder-v2-236b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/deepseek-coder-v2-236b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: deepseek-coder-v2-lite-16b
+    litellm_params:
+      model: openrouter/huihui-ai/deepseek-coder-v2-lite-16b
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: deepseek-r1-distill-qwen-32b
+    litellm_params:
+      model: openrouter/huihui-ai/deepseek-r1-distill-qwen-32b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: deepseek-r1-distill-qwen-14b
+    litellm_params:
+      model: openrouter/huihui-ai/deepseek-r1-distill-qwen-14b
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: deepseek-r1-distill-qwen-7b
+    litellm_params:
+      model: openrouter/huihui-ai/deepseek-r1-distill-qwen-7b
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: deepseek-r1-distill-llama-70b
+    litellm_params:
+      model: openrouter/huihui-ai/deepseek-r1-distill-llama-70b
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: deepseek-r1-distill-llama-8b
+    litellm_params:
+      model: openrouter/huihui-ai/deepseek-r1-distill-llama-8b
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: mistral-small-24b-2501-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/mistral-small-24b-2501-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: mixtral-8x7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/mixtral-8x7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: mixtral-8x22b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/mixtral-8x22b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: mistral-7b-v0.3-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/mistral-7b-v0.3-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: mamba-codestral-7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/mamba-codestral-7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: jamba-1.5-large-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/jamba-1.5-large-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: jamba-1.5-mini-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/jamba-1.5-mini-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: solar-pro-22b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/solar-pro-22b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: internlm2.5-20b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/internlm2.5-20b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: internlm2.5-7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/internlm2.5-7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: glm-4-9b-1m-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/glm-4-9b-1m-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: glm-4-32b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/glm-4-32b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: command-r-35b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/command-r-35b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: aya-expanse-32b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/aya-expanse-32b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: aya-expanse-8b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/aya-expanse-8b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: starcoder2-15b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/starcoder2-15b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: deephermes-3-llama-3-8b
+    litellm_params:
+      model: openrouter/huihui-ai/deephermes-3-llama-3-8b
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: deephermes-3-mistral-24b
+    litellm_params:
+      model: openrouter/huihui-ai/deephermes-3-mistral-24b
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: hermes-3-llama-3.1-70b
+    litellm_params:
+      model: openrouter/huihui-ai/hermes-3-llama-3.1-70b
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: hermes-3-llama-3.1-8b
+    litellm_params:
+      model: openrouter/huihui-ai/hermes-3-llama-3.1-8b
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: tulu-3-70b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/tulu-3-70b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: tulu-3-8b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/tulu-3-8b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: olmo-2-32b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/olmo-2-32b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: olmo-2-13b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/olmo-2-13b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: granite-3.1-8b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/granite-3.1-8b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: granite-code-34b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/granite-code-34b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: arctic-480b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/arctic-480b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: dbrx-132b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/dbrx-132b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: grok-1-314b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/grok-1-314b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: skywork-o1-32b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/skywork-o1-32b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: marco-o1-7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/marco-o1-7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: exaone-3.5-32b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/exaone-3.5-32b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: telechat2-35b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/telechat2-35b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: baichuan2-13b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/baichuan2-13b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: aquila2-34b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/aquila2-34b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: orion-14b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/orion-14b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: xverse-65b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/xverse-65b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+  - model_name: blue-lm-7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/blue-lm-7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      num_retries: 3
+      timeout: 60
+  - model_name: map-neo-7b-abliterated
+    litellm_params:
+      model: openrouter/huihui-ai/map-neo-7b-abliterated
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      num_retries: 3
+      timeout: 60
+  - model_name: smaug-72b-v0.1
+    litellm_params:
+      model: openrouter/huihui-ai/smaug-72b-v0.1
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      num_retries: 3
+      timeout: 60
+  - model_name: bagel-34b-v0.2
+    litellm_params:
+      model: openrouter/huihui-ai/bagel-34b-v0.2
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      num_retries: 3
+      timeout: 60
+  - model_name: goliath-120b-uncensored
+    litellm_params:
+      model: openrouter/huihui-ai/goliath-120b-uncensored
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      num_retries: 3
+      timeout: 60
+  - model_name: midnight-miqu-70b-v1.5
+    litellm_params:
+      model: openrouter/huihui-ai/midnight-miqu-70b-v1.5
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      num_retries: 3
+      timeout: 60
+  - model_name: euryale-70b-v2.2
+    litellm_params:
+      model: openrouter/huihui-ai/euryale-70b-v2.2
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      num_retries: 3
+      timeout: 60
+  - model_name: magnum-v4-72b
+    litellm_params:
+      model: openrouter/huihui-ai/magnum-v4-72b
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      num_retries: 3
+      timeout: 60
+  - model_name: rocinante-12b-v1.1
+    litellm_params:
+      model: openrouter/huihui-ai/rocinante-12b-v1.1
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      num_retries: 3
+      timeout: 60
+  - model_name: legal-bert-sovereign
+    litellm_params:
+      model: openrouter/huihui-ai/legal-bert-sovereign
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      num_retries: 3
+      timeout: 60
+router_settings:
+  routing_strategy: usage-based-routing-v2
+  num_retries: 3
+  timeout: 60
+  allowed_fails: 2
+  cooldown_time: 15
+  fallbacks:
+    - huihui-qwen3.6-35b-a3b: [deepseek-v4-flash, mimo-310b]
+    - qwen3.8-27b-2.19m: [deepseek-v4-flash, mimo-310b, qwen3-coder-next-80b]
+    - qwen3.8-vision-28b: [qwythos-9b-classic, ornith-1.5-9b]
+    - qwen3-coder-next-80b: [qwen3-coder-30b, deepseek-v4-flash]
+    - deepseek-v4-flash: [mimo-310b, qwen3.8-27b-2.19m]
+    - mimo-310b: [deepseek-v4-flash, qwen3.8-27b-2.19m]
+    - nex-n2-mini-35b: [qwen3.8-vision-28b, huihui-qwen3.6-35b-a3b]
+    - gemma-4-it-qat-12b: [gemma-4-e2b-5b, qwythos-9b-classic]
+    - gemma-4-e2b-5b: [gemma-4-it-qat-12b, qwythos-9b-classic]
+    - huihui4-moe-a4b-9b: [minicpm-v-4.6-1b, ornith-1.0-2b]
+    - qwythos-9b-classic: [nex-n2-mini-35b, gemma-4-e2b-5b]
+    - cyberstrike-offsec-35b: [ling-3.1-flash-1m, agents-a1-35b]
+    - ling-3.1-flash-1m: [huihui-qwen3.6-35b-a3b, deepseek-v4-flash, mimo-310b]
+    - gemini-4-plus-400b: [gemma-4-it-qat-12b, minimax-hailuo-02]
+    - gemini-4-argon-400b: [qwen3-coder-next-80b, deepseek-v4-flash]
+    - glm-5.3-flash-fp8: [cyberstrike-offsec-35b, agents-a1-35b]
+    - agents-a1-35b: [qwen3-coder-30b, granite-4.1-3b]
+    - qwen3-coder-30b: [qwen3-coder-next-80b, deepseek-v4-flash]
+    - qwen3.6-27b: [qwen3.8-27b-2.19m, ling-3.1-flash-1m]
+    - gemma-4-31b: [gemma-4-it-qat-12b, ornith-1.5-9b]
+    - llama-4-scout-10m: [ling-3.1-flash-1m, mimo-310b]
+    - llama-4-maverick-400b: [deepseek-v4-flash, qwen3.8-27b-2.19m]
+    - obliteratus-hermes-3-70b: [nous-hermes-3-405b, qwen3.8-27b-2.19m]
+    - nous-hermes-3-405b: [obliteratus-hermes-3-70b, deepseek-v4-flash]
+    - deepseek-r1-abliterated-671b: [deepseek-v4-flash, qwen3.8-27b-2.19m]
+    - deepseek-v3-abliterated-671b: [deepseek-v4-flash, mimo-310b]
+    - qwen2.5-72b-abliterated: [qwen3.8-27b-2.19m, qwen3-coder-next-80b]
+    - qwen2.5-coder-32b-abliterated: [qwen3-coder-30b, qwen3-coder-next-80b]
+    - codestral-2501-abliterated: [qwen3-coder-30b, qwen2.5-coder-32b-abliterated]
+    - mistral-large-2411-abliterated: [deepseek-v4-flash, qwen3.8-27b-2.19m]
+    - command-r-plus-abliterated: [ling-3.1-flash-1m, qwen3.8-27b-2.19m]
+    - granite-4.1-29b-abliterated: [granite-4.1-3b, agents-a1-35b]
+    - cyberstrike-offsec-v2-14b: [cyberstrike-offsec-35b, glm-5.3-flash-fp8]
+    - moe-a4b-48b-scraper: [huihui4-moe-a4b-9b, ling-3.1-flash-1m]
+    - muse-glimmer-30b: [qwen3-coder-30b, agents-a1-35b]
+    - nemotron-70b-abliterated: [obliteratus-hermes-3-70b, qwen2.5-72b-abliterated]
+    - qwq-32b-abliterated: [qwen3.8-27b-2.19m, deepseek-r1-abliterated-671b]
+    - moe-0.8b-2e: [ornith-1.0-2b, granite-4.1-3b]
+    - ornith-1.0-2b: [moe-0.8b-2e, granite-4.1-3b]
+    - granite-4.1-3b: [ornith-1.0-2b, moe-0.8b-2e]
+    - minicpm-v-4.6-1b: [huihui4-moe-a4b-9b, ornith-1.0-2b]
+    - ornith-1.5-9b: [qwythos-9b-classic, gemma-4-e2b-5b]
+    - qwen2.5-0.5b-abliterated: [ornith-1.0-2b, granite-4.1-3b]
+    - qwen2.5-1.5b-abliterated: [ornith-1.0-2b, granite-4.1-3b]
+    - qwen2.5-3b-abliterated: [ornith-1.0-2b, granite-4.1-3b]
+    - llama-3.2-1b-abliterated: [ornith-1.0-2b, granite-4.1-3b]
+    - llama-3.2-3b-abliterated: [ornith-1.0-2b, granite-4.1-3b]
+    - smollm2-1.7b-abliterated: [ornith-1.0-2b, granite-4.1-3b]
+    - phi-3.5-mini-abliterated: [ornith-1.0-2b, granite-4.1-3b]
+    - gemma-2-2b-abliterated: [ornith-1.0-2b, granite-4.1-3b]
+    - ministral-3b-abliterated: [ornith-1.0-2b, granite-4.1-3b]
+    - ministral-8b-abliterated: [ornith-1.0-2b, granite-4.1-3b]
+    - flash-nano-1.2b: [ornith-1.0-2b, granite-4.1-3b]
+    - openmausbot-v2-4b: [ornith-1.0-2b, granite-4.1-3b]
+    - dolphin-2.9.4-llama3.2-3b: [ornith-1.0-2b, granite-4.1-3b]
+    - hermes-3-llama-3.2-3b: [ornith-1.0-2b, granite-4.1-3b]
+    - tinyllama-1.1b-heretic: [ornith-1.0-2b, granite-4.1-3b]
+    - flux-1-dev-12b: [juggernaut-xl-v9, realvisxl-v5]
+    - juggernaut-xl-v9: [flux-1-dev-12b, realvisxl-v5]
+    - realvisxl-v5: [gemma-4-it-qat-12b, flux-1-dev-12b]
+    - sam2-dinov2-isolation: [birefnet-hr-matting, groundingdino-1.5]
+    - birefnet-hr-matting: [sam2-dinov2-isolation, groundingdino-1.5]
+    - groundingdino-1.5: [sam2-dinov2-isolation, florence-2-large]
+    - instantid-photomaker: [gemma-4-it-qat-12b, compreface-arcface]
+    - compreface-arcface: [instantid-photomaker, qwen3.8-vision-28b]
+    - qwen2.5-vl-72b-abliterated: [qwen3.8-vision-28b, huihui-qwen3.6-35b-a3b]
+    - qwen2.5-vl-7b-abliterated: [huihui4-moe-a4b-9b, minicpm-v-4.6-1b]
+    - llama-3.2-90b-vision-abliterated: [qwen2.5-vl-72b-abliterated, qwen3.8-vision-28b]
+    - llama-3.2-11b-vision-abliterated: [qwen2.5-vl-7b-abliterated, gemma-4-it-qat-12b]
+    - pixtral-large-124b-abliterated: [qwen2.5-vl-72b-abliterated, gemini-4-plus-400b]
+    - pixtral-12b-abliterated: [gemma-4-it-qat-12b, qwen2.5-vl-7b-abliterated]
+    - internvl2.5-78b-abliterated: [qwen2.5-vl-72b-abliterated, qwen3.8-vision-28b]
+    - molmo-72b-abliterated: [qwen2.5-vl-72b-abliterated, huihui4-moe-a4b-9b]
+    - florence-2-large: [groundingdino-1.5, minicpm-v-4.6-1b]
+    - gemma-3n-8b-vision: [gemma-4-it-qat-12b, gemma-4-e2b-5b]
+    - bge-m3-768d-embed: [bge-reranker-v2-m3, ling-3.1-flash-1m]
+    - bge-reranker-v2-m3: [bge-m3-768d-embed, ling-3.1-flash-1m]
+    - minimax-hailuo-02: [wan-2.1-14b, ltx-video-13b]
+    - wan-2.1-14b: [ltx-video-13b, minimax-hailuo-02]
+    - ltx-video-13b: [wan-2.1-14b, cogvideox-5b]
+    - kling-2.0-director: [minimax-hailuo-02, wan-2.1-14b]
+    - cogvideox-5b: [ltx-video-13b, wan-2.1-14b]
+    - hunyuan-video-13b: [wan-2.1-14b, ltx-video-13b]
+    - mochi-1-10b: [ltx-video-13b, wan-2.1-14b]
+    - opensora-1.2: [ltx-video-13b, cogvideox-5b]
+    - svd-xt-1.1: [animatediff-v3, wan-2.1-14b]
+    - animatediff-v3: [svd-xt-1.1, liveportrait-v1]
+    - liveportrait-v1: [wav2lip-latentsync, hallo2-portrait]
+    - wav2lip-latentsync: [liveportrait-v1, whisperx-large-v3]
+    - hallo2-portrait: [liveportrait-v1, wav2lip-latentsync]
+    - movie-gen-30b-meta: [minimax-hailuo-02, wan-2.1-14b]
+    - emu-video-meta: [wan-2.1-14b, ltx-video-13b]
+    - whisperx-large-v3: [seamlessm4t-v2-large, f5-tts-v1]
+    - seamlessm4t-v2-large: [whisperx-large-v3, f5-tts-v1]
+    - f5-tts-v1: [cosyvoice-2, rvc-v2-sovits]
+    - cosyvoice-2: [f5-tts-v1, rvc-v2-sovits]
+    - rvc-v2-sovits: [f5-tts-v1, cosyvoice-2]
+    - dolphin-cl4r1t4s-405b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - llama-3.1-405b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - llama-3.3-70b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - llama-3.1-70b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - llama-3.1-8b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - mistral-nemo-12b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - dolphin-mistral-nemo-12b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - codestral-22b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - phi-4-14b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - yi-1.5-34b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - yi-34b-200k-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - falcon-180b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - falcon-3-10b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - mythomax-l2-13b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - wizardlm-2-8x22b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - wizardlm-13b-v1.2: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - wizardcoder-33b-v1.1: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - wizardcoder-15b-v1.0: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - codellama-70b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - codellama-34b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - starling-lm-7b-beta: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - zephyr-7b-beta-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - zephyr-orpo-141b-a35b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - nous-capybara-34b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - nous-capybara-7b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - dolphin-2.9-llama3-70b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - dolphin-2.9-llama3-8b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - dolphin-2.8-mistral-7b-v02: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - dolphin-2.7-mixtral-8x7b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - dolphin-2.6-mixtral-8x22b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - openhermes-2.5-mistral-7b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - toppy-m-7b-uncensored: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - synthia-70b-v1.5: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - synthia-7b-v3.0: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - nous-hermes-2-yi-34b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - nous-hermes-2-mixtral-8x7b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - nous-hermes-2-solar-10.7b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - openchat-3.6-8b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - openchat-3.5-0106: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - neural-chat-7b-v3.3: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - samantha-1.2-mistral-7b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - noromaid-20b-v0.1.1: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - chronos-hermes-13b-v2: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - pygmalion-2-13b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - luna-ai-llama2-7b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - gemma-2-27b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - gemma-2-9b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - qwen2.5-32b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - qwen2.5-14b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - qwen2.5-7b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - qwen2.5-coder-14b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - qwen2.5-coder-7b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - qwen2.5-math-72b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - qwen2.5-math-7b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - deepseek-coder-v2-236b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - deepseek-coder-v2-lite-16b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - deepseek-r1-distill-qwen-32b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - deepseek-r1-distill-qwen-14b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - deepseek-r1-distill-qwen-7b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - deepseek-r1-distill-llama-70b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - deepseek-r1-distill-llama-8b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - mistral-small-24b-2501-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - mixtral-8x7b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - mixtral-8x22b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - mistral-7b-v0.3-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - mamba-codestral-7b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - jamba-1.5-large-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - jamba-1.5-mini-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - solar-pro-22b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - internlm2.5-20b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - internlm2.5-7b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - glm-4-9b-1m-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - glm-4-32b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - command-r-35b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - aya-expanse-32b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - aya-expanse-8b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - starcoder2-15b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - deephermes-3-llama-3-8b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - deephermes-3-mistral-24b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - hermes-3-llama-3.1-70b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - hermes-3-llama-3.1-8b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - tulu-3-70b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - tulu-3-8b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - olmo-2-32b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - olmo-2-13b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - granite-3.1-8b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - granite-code-34b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - arctic-480b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - dbrx-132b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - grok-1-314b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - skywork-o1-32b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - marco-o1-7b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - exaone-3.5-32b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - telechat2-35b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - baichuan2-13b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - aquila2-34b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - orion-14b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - xverse-65b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - blue-lm-7b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - map-neo-7b-abliterated: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - smaug-72b-v0.1: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - bagel-34b-v0.2: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - goliath-120b-uncensored: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - midnight-miqu-70b-v1.5: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - euryale-70b-v2.2: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - magnum-v4-72b: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - rocinante-12b-v1.1: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+    - legal-bert-sovereign: [qwen3.8-27b-2.19m, deepseek-v4-flash]
+litellm_settings:
+  drop_params: true
+  set_verbose: false

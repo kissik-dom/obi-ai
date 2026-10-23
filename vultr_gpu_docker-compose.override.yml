@@ -1,0 +1,82 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      target: messaging
+    environment:
+      CUDA_VISIBLE_DEVICES: all
+      ENABLE_SANDBOX_EQUIP_ALL: "true"
+      ENABLE_DISCOVERY: "true"
+      ENABLE_SANDBOX: "true"
+      ENABLE_SECURITY: "true"
+      ENABLE_HERMES: "true"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  gpu-image-worker:
+    build:
+      context: ./backend
+      target: images
+    command: celery -A tasks.celery_app worker -Q image-queue --concurrency=200
+    deploy:
+      replicas: 5
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f 'celery.*image-queue' >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  gpu-video-worker:
+    build:
+      context: ./backend
+      target: video
+    command: celery -A tasks.celery_app worker -Q video-queue --concurrency=10
+    deploy:
+      replicas: 5
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f 'celery.*video-queue' >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  cua-driver:
+    image: trycua/cua-driver:latest
+    privileged: true
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "true"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  boat-fleet:
+    image: trycua/boat:latest
+    environment:
+      BOAT_FLEET_SIZE: "2000"
+      ACCOUNTS_PER_SPACE: "5"
+      WIREGUARD_ZERO_TRUST: "true"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "true"]
+      interval: 10s
+      timeout: 5s
+      retries: 3

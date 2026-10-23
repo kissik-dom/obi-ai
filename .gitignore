@@ -1,4 +1,36 @@
-node_modules
-.next
-.env*.local
-.vercel
+# Environment secrets (never commit .env)
+.env
+.env.*
+!.env.example
+
+# Python bytecode & virtualenvs
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+backend/.venv/
+backend/.runtime/
+
+# Node & Frontend build outputs
+node_modules/
+frontend/node_modules/
+frontend/dist/
+.pnpm-store/
+
+# Infrastructure local data volumes
+.qdrant/
+.minio/
+.vault/
+.postgres/
+.redis/
+
+# Generated batch media & sandbox buckets
+*.mp4
+*.zip
+finished/*
+requests/*
+!finished/.gitkeep
+!requests/.gitkeep

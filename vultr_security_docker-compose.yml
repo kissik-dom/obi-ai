@@ -1,0 +1,113 @@
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:v1.6.0
+    ports:
+      - "8080:8080"
+    restart: always
+    healthcheck:
+      test: ["CMD", "cscli", "lapi", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  wazuh:
+    image: wazuh/wazuh-manager:4.8.0
+    ports:
+      - "55000:55000"
+      - "1514:1514"
+      - "1515:1515"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "/var/ossec/bin/wazuh-control status >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  suricata:
+    image: jasonish/suricata:7.0.4
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - SYS_NICE
+    restart: always
+    healthcheck:
+      test: ["CMD", "suricatasc", "-c", "uptime"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  falco:
+    image: falcosecurity/falco:0.37.1
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+    restart: always
+    healthcheck:
+      test: ["CMD", "pgrep", "-x", "falco"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  tetragon:
+    image: quay.io/cilium/tetragon:v1.1.0
+    privileged: true
+    restart: always
+    healthcheck:
+      test: ["CMD", "tetra", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  kubearmor:
+    image: kubearmor/kubearmor:v1.3.2
+    privileged: true
+    restart: always
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "kubearmor"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      net.ipv4.conf.all.src_valid_mark: 1
+    environment:
+      PUID: 1000
+      PGID: 1000
+      PEERS: 2000
+    ports:
+      - "51820:51820/udp"
+    restart: always
+    healthcheck:
+      test: ["CMD", "wg", "show"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  cowrie:
+    image: cowrie/cowrie:latest
+    ports:
+      - "2222:2222"
+      - "2223:2223"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 2222"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  compreface:
+    image: exadel/compreface-fe:1.2.0
+    ports:
+      - "8001:80"
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80"]
+      interval: 10s
+      timeout: 5s
+      retries: 3

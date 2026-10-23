@@ -1,0 +1,3 @@
+# Stage: video & audio (lazy-imported inside video_stitching/vocal_tuning functions)
+soundfile==0.12.1
+pydub==0.25.1

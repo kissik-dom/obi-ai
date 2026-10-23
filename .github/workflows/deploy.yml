@@ -1,0 +1,38 @@
+name: Deploy to Vultr GPU Cloud
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  test-before-deploy:
+    uses: ./.github/workflows/test.yml
+
+  deploy-vultr:
+    needs: test-before-deploy
+    runs-on: ubuntu-latest
+    if: ${{ secrets.VULTR_HOST != '' && secrets.VULTR_SSH_KEY != '' }}
+    steps:
+      - name: Deploy verified main commit to Vultr
+        env:
+          VULTR_HOST: ${{ secrets.VULTR_HOST }}
+          VULTR_USER: ${{ secrets.VULTR_USER }}
+          VULTR_SSH_KEY: ${{ secrets.VULTR_SSH_KEY }}
+        run: |
+          install -m 600 /dev/null /tmp/vultr_id_ed25519
+          printf "%s\n" "${VULTR_SSH_KEY}" > /tmp/vultr_id_ed25519
+          ssh -i /tmp/vultr_id_ed25519 -o StrictHostKeyChecking=accept-new "${VULTR_USER:-root}@${VULTR_HOST}" '
+            set -euo pipefail
+            cd /opt/kingdom-ai-os
+            PREV_SHA="$(git rev-parse HEAD)"
+            git fetch origin main
+            git checkout main
+            git reset --hard origin/main
+            if ! ./vultr_deploy.sh; then
+              echo "Healthcheck failed; rolling back to ${PREV_SHA}"
+              git reset --hard "${PREV_SHA}"
+              ./vultr_deploy.sh
+              exit 1
+            fi
+          '
+          rm -f /tmp/vultr_id_ed25519
