@@ -13,6 +13,11 @@ if [[ "${1:-}" == "--provision" ]]; then
     echo "ERROR: VULTR_API_KEY is required for --provision" >&2
     exit 1
   fi
+  VULTR_API_KEY="$(printf '%s' "$VULTR_API_KEY" | tr -d '\r\n')"
+  if [[ -z "$VULTR_API_KEY" ]]; then
+    echo "ERROR: VULTR_API_KEY is empty after normalization" >&2
+    exit 1
+  fi
   USER_DATA_FILE="$(mktemp)"
   PAYLOAD_FILE="$(mktemp)"
   trap 'rm -f "$USER_DATA_FILE" "$PAYLOAD_FILE"' EXIT
