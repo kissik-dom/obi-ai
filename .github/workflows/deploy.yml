@@ -48,7 +48,9 @@ jobs:
           cd "$HOME/kingdom-ai-os"
           echo '--- Compose service status ---'
           docker-compose -p kingdom-ai-os ps || true
-          CID="$(docker-compose -p kingdom-ai-os ps -q backend 2>/dev/null | head -n 1 || true)"
+          echo '--- All project container states, including stopped ---'
+          docker ps -a --filter 'name=kingdom-ai-os_' --format '{{.Names}} {{.Status}}' | sort || true
+          CID="$(docker ps -aq --filter 'name=kingdom-ai-os_backend_1' | head -n 1 || true)"
           if [ -n "$CID" ]; then
             echo '--- Backend container and health status ---'
             docker inspect --format 'status={{.State.Status}} exit={{.State.ExitCode}} oom={{.State.OOMKilled}} health={{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' "$CID"
