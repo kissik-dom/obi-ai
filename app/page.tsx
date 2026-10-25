@@ -63,13 +63,14 @@ export default function Home() {
     if ((!content && atts.length === 0) || busy) return;
     if (recording) { recRef.current?.stop(); setRecording(false); }
     const myAtts = atts;
+    setBusy(true);
+    await uploadAtts(myAtts);
     let payload = content;
     const fileText = myAtts.filter((a) => a.text).map((a) => `FILE: ${a.name}\n${a.text}`).join("\n\n");
     const fileList = myAtts.map((a) => `${a.name} (${a.type}, ${(a.size / 1024).toFixed(0)} KB${a.url ? ", url: " + a.url : ""})`).join(", ");
     if (myAtts.length) payload += `\n\n[Attached ${myAtts.length} file(s): ${fileList}]` + (fileText ? `\n\n${fileText}` : "");
     const next = [...messages, { role: "user" as const, content: content || "(files attached)", atts: myAtts }];
-    setMessages(next); setInput(""); setAtts([]); setBusy(true);
-    await uploadAtts(myAtts);
+    setMessages(next); setInput(""); setAtts([]);
     try {
       if (deep) {
         const res = await fetch("/api/agent/research", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query: payload }) });
