@@ -35,3 +35,14 @@ docker compose -f docker-compose.vultr.yml up -d --build
 ```
 
 The container has a health check at `/api/health` and restarts automatically after host or process failures.
+
+## Automatic GitHub deployment
+
+The repository includes `.github/workflows/deploy-vultr.yml`. Add these GitHub Actions secrets to the repository:
+
+- `VULTR_HOST` — public IP or DNS name of the VPS
+- `VULTR_USER` — SSH user, typically `root` or a deployment user
+- `VULTR_SSH_KEY` — private SSH key for that user
+- `VULTR_SSH_PORT` — optional SSH port; defaults to `22`
+
+The first manual deployment must create `/opt/obi-ai` and configure the server `.env` file. After that, every push to `main` rebuilds the container and checks `/api/health` over SSH.
