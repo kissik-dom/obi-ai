@@ -50,6 +50,17 @@ jobs:
           docker-compose -p kingdom-ai-os ps || true
           echo '--- All project container states, including stopped ---'
           docker ps -a --filter 'name=kingdom-ai-os_' --format '{{.Names}} {{.Status}}' | sort || true
+          echo '--- Backend dependency states and health probes ---'
+          for service in qdrant minio vault postgres redis; do
+            dep_cid="$(docker ps -aq --filter "name=kingdom-ai-os_${service}_1" | head -n 1 || true)"
+            if [ -n "$dep_cid" ]; then
+              echo "${service}:"
+              docker inspect --format 'status={{.State.Status}} exit={{.State.ExitCode}} oom={{.State.OOMKilled}} health={{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' "$dep_cid"
+              docker inspect --format '{{range .State.Health.Log}}{{printf "%s exit=%d output=%q\n" .Start .ExitCode .Output}}{{end}}' "$dep_cid" | tail -3 || true
+            else
+              echo "${service}: container not found"
+            fi
+          done
           CID="$(docker ps -aq --filter 'name=kingdom-ai-os_backend_1' | head -n 1 || true)"
           if [ -n "$CID" ]; then
             echo '--- Backend container and health status ---'
