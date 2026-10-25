@@ -19,10 +19,20 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Install and validate SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          eval "$(ssh-agent -s)"
+          install -m 700 -d "${HOME}/.ssh"
+          printf '%s\n' "${SSH_PRIVATE_KEY}" | tr -d '\r' > "${HOME}/.ssh/deploy_key"
+          chmod 600 "${HOME}/.ssh/deploy_key"
+          ssh-keygen -y -f "${HOME}/.ssh/deploy_key" >/dev/null || {
+            echo "SSH_PRIVATE_KEY is not a valid OpenSSH private key. Do not use the .pub file or a PuTTY .ppk file." >&2
+            exit 1
+          }
+          ssh-add "${HOME}/.ssh/deploy_key"
 
       - name: Deploy selected branch over SSH
         env:
