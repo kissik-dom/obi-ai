@@ -2,12 +2,6 @@ name: Deploy OBI-AI to existing server (SSH)
 
 on:
   workflow_dispatch:
-    inputs:
-      git_branch:
-        description: Git branch to deploy
-        required: true
-        default: arena/41e9ebf0-obi-ai
-        type: string
 
 jobs:
   test-before-deploy:
@@ -19,46 +13,123 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Check out the selected commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
       - name: Install and validate SSH key
         env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           set -euo pipefail
-          eval "$(ssh-agent -s)"
-          install -m 700 -d "${HOME}/.ssh"
-          printf '%s\n' "${SSH_PRIVATE_KEY}" | tr -d '\r' > "${HOME}/.ssh/deploy_key"
-          chmod 600 "${HOME}/.ssh/deploy_key"
-          ssh-keygen -y -f "${HOME}/.ssh/deploy_key" >/dev/null || {
-            echo "SSH_PRIVATE_KEY is not a valid OpenSSH private key. Do not use the .pub file or a PuTTY .ppk file." >&2
+          test -n "$SERVER_HOST" || { echo "SERVER_HOST secret is required." >&2; exit 1; }
+          test -n "$SSH_USERNAME" || { echo "SSH_USERNAME secret is required." >&2; exit 1; }
+          test -n "$SSH_PRIVATE_KEY" || { echo "SSH_PRIVATE_KEY secret is required." >&2; exit 1; }
+          [[ "$SERVER_HOST" =~ ^[A-Za-z0-9.-]+$ ]] || { echo "SERVER_HOST must be a hostname or IPv4 address." >&2; exit 1; }
+          [[ "$SSH_USERNAME" =~ ^[A-Za-z0-9._-]+$ ]] || { echo "SSH_USERNAME contains unsupported characters." >&2; exit 1; }
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > "$HOME/.ssh/obi_deploy_key"
+          chmod 600 "$HOME/.ssh/obi_deploy_key"
+          ssh-keygen -y -f "$HOME/.ssh/obi_deploy_key" >/dev/null || {
+            echo "SSH_PRIVATE_KEY must be a valid OpenSSH private key, not a .pub or PuTTY .ppk file." >&2
             exit 1
           }
-          ssh-add "${HOME}/.ssh/deploy_key"
+          ssh-keyscan -H "$SERVER_HOST" >> "$HOME/.ssh/known_hosts" 2>/dev/null
+          chmod 600 "$HOME/.ssh/known_hosts"
 
-      - name: Deploy selected branch over SSH
+      - name: Package selected commit without secrets
+        run: git archive --format=tar "$GITHUB_SHA" | gzip -1 > "$RUNNER_TEMP/obi-ai-release.tar.gz"
+
+      - name: Copy release to existing server
         env:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
-          SERVER_USER: ${{ secrets.SSH_USERNAME }}
-          GITHUB_BRANCH: ${{ inputs.git_branch }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         run: |
           set -euo pipefail
-          test -n "${SERVER_HOST}" || { echo "SERVER_HOST is required." >&2; exit 1; }
-          test -n "${SERVER_USER}" || { echo "SERVER_USER is required." >&2; exit 1; }
-          ssh -o StrictHostKeyChecking=accept-new "${SERVER_USER}@${SERVER_HOST}" bash -s -- "${GITHUB_BRANCH}" <<'REMOTE_SCRIPT'
+          scp -i "$HOME/.ssh/obi_deploy_key" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$RUNNER_TEMP/obi-ai-release.tar.gz" \
+            "${SSH_USERNAME}@${SERVER_HOST}:/tmp/obi-ai-${GITHUB_SHA}.tar.gz"
+
+      - name: Deploy and smoke-test existing server
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+        run: |
           set -euo pipefail
-          BRANCH="$1"
-          REPO_URL="https://github.com/kissik-dom/obi-ai.git"
+          ssh -i "$HOME/.ssh/obi_deploy_key" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "${SSH_USERNAME}@${SERVER_HOST}" \
+            "DEPLOY_SHA='${GITHUB_SHA}' bash -s" <<'REMOTE'
+          set -euo pipefail
+          [[ "$DEPLOY_SHA" =~ ^[a-f0-9]{40}$ ]] || { echo "Invalid deployment commit SHA." >&2; exit 1; }
           APP_DIR="${HOME}/kingdom-ai-os"
+          ARCHIVE="/tmp/obi-ai-${DEPLOY_SHA}.tar.gz"
+          STAGE_DIR="${HOME}/kingdom-ai-os.stage-${DEPLOY_SHA}"
+          PREVIOUS_DIR="${HOME}/kingdom-ai-os.previous-${DEPLOY_SHA}"
+          FAILED_DIR="${HOME}/kingdom-ai-os.failed-${DEPLOY_SHA}"
 
-          if [ -d "${APP_DIR}/.git" ]; then
-            cd "${APP_DIR}"
-            git fetch --depth=1 origin "${BRANCH}"
-            git checkout -B "${BRANCH}" FETCH_HEAD
-          else
-            rm -rf "${APP_DIR}"
-            git clone --depth=1 --branch "${BRANCH}" "${REPO_URL}" "${APP_DIR}"
-            cd "${APP_DIR}"
+          test -s "$ARCHIVE" || { echo "Release archive was not received." >&2; exit 1; }
+          command -v docker >/dev/null && docker compose version >/dev/null || {
+            echo "Docker Compose is not available on the existing server." >&2
+            exit 1
+          }
+          if [ -e "$APP_DIR" ]; then
+            test -d "$APP_DIR" && test -f "$APP_DIR/docker-compose.yml" || {
+              echo "Refusing to replace $APP_DIR because it is not an existing OBI-AI Compose deployment." >&2
+              exit 1
+            }
           fi
+          test ! -e "$STAGE_DIR" && test ! -e "$PREVIOUS_DIR" && test ! -e "$FAILED_DIR" || {
+            echo "A deployment path for this commit already exists; refusing to overwrite it." >&2
+            exit 1
+          }
 
-          chmod +x ./vultr_deploy.sh
-          GITHUB_REPO="kissik-dom/obi-ai" GITHUB_BRANCH="${BRANCH}" ./vultr_deploy.sh
-          REMOTE_SCRIPT
+          rollback() {
+            status=$?
+            if [ "$status" -ne 0 ]; then
+              if [ -d "$PREVIOUS_DIR" ]; then
+                echo "Deployment failed; restoring the previous application directory." >&2
+                [ ! -d "$APP_DIR" ] || mv "$APP_DIR" "$FAILED_DIR"
+                mv "$PREVIOUS_DIR" "$APP_DIR"
+                (cd "$APP_DIR" && COMPOSE_PROJECT_NAME=kingdom-ai-os ./quickstart_setup.sh) || true
+              fi
+              [ ! -d "$STAGE_DIR" ] || rm -rf -- "$STAGE_DIR"
+            fi
+            exit "$status"
+          }
+          trap rollback EXIT
+
+          mkdir "$STAGE_DIR"
+          tar -xzf "$ARCHIVE" -C "$STAGE_DIR"
+          chmod +x "$STAGE_DIR/quickstart_setup.sh"
+          if [ -f "$APP_DIR/.env" ]; then
+            cp -p "$APP_DIR/.env" "$STAGE_DIR/.env"
+          else
+            (cd "$STAGE_DIR" && ./quickstart_setup.sh --env-only)
+          fi
+          test -f "$STAGE_DIR/.env" || { echo "Server .env was not initialized." >&2; exit 1; }
+          (cd "$STAGE_DIR" && COMPOSE_PROJECT_NAME=kingdom-ai-os docker compose config --quiet)
+
+          if [ -d "$APP_DIR" ]; then mv "$APP_DIR" "$PREVIOUS_DIR"; fi
+          mv "$STAGE_DIR" "$APP_DIR"
+          cd "$APP_DIR"
+          COMPOSE_PROJECT_NAME=kingdom-ai-os ./quickstart_setup.sh
+          for attempt in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:8000/healthz >/dev/null; then
+              echo "Deployment healthy at commit ${DEPLOY_SHA}. Previous files retained at ${PREVIOUS_DIR}."
+              rm -f "$ARCHIVE"
+              trap - EXIT
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Health check timed out. Recent backend logs:" >&2
+          COMPOSE_PROJECT_NAME=kingdom-ai-os docker compose logs --tail=80 backend >&2 || true
+          exit 1
+          REMOTE

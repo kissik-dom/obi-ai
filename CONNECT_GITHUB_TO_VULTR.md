@@ -59,12 +59,12 @@ Run it from GitHub Actions with **Run workflow**, choose the branch to deploy, a
 
 The SSH password is not needed. The workflow is manual by design so deployment happens only when you explicitly run it.
 
-The workflow pulls the selected branch over HTTPS on the server, runs the existing Docker Compose deployment script, and waits for `/healthz` on port 8000.
+In the Actions **Run workflow** form, use the branch selector to choose the branch you want deployed. The workflow tests that commit, packages its tracked files on GitHub Actions, and transfers the archive over SSH to `${HOME}/kingdom-ai-os` on the existing server; the server does not need GitHub credentials. It preserves the server's `.env` and Docker volumes, runs `quickstart_setup.sh`, and waits for `/healthz` on port 8000. If a deployment fails its health check, the workflow restores the previous app directory. It does not call the Vultr API or create another instance.
 
 For reference, the previous SSH-only secret set is no longer used:
 
 | GitHub Secret | Purpose |
 | :--- | :--- |
-| `VULTR_HOST` | No longer used by the API-only workflow |
-| `VULTR_USER` | No longer used by the API-only workflow |
-| `VULTR_SSH_KEY` | No longer used by the API-only workflow |
+| `VULTR_HOST` | Superseded by `SERVER_HOST` |
+| `VULTR_USER` | Superseded by `SSH_USERNAME` |
+| `VULTR_SSH_KEY` | Superseded by `SSH_PRIVATE_KEY` |
