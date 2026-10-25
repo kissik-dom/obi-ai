@@ -54,8 +54,8 @@ Run it from GitHub Actions with **Run workflow**, choose the branch to deploy, a
 | GitHub Secret | Purpose |
 | :--- | :--- |
 | `SERVER_HOST` | Public IP address or hostname of the existing Ubuntu server |
-| `SERVER_USER` | SSH login user, normally `ubuntu` or `root` |
-| `SERVER_SSH_PRIVATE_KEY` | Private SSH key matching the server user’s `authorized_keys` entry |
+| `SSH_USERNAME` | SSH login user, normally `ubuntu` or `root` |
+| `SSH_PRIVATE_KEY` | Private SSH key matching the server user’s `authorized_keys` entry |
 
 The SSH password is not needed. The workflow is manual by design so deployment happens only when you explicitly run it.
 
