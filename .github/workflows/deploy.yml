@@ -102,7 +102,7 @@ jobs:
                 echo "Deployment failed; restoring the previous application directory." >&2
                 [ ! -d "$APP_DIR" ] || mv "$APP_DIR" "$FAILED_DIR"
                 mv "$PREVIOUS_DIR" "$APP_DIR"
-                (cd "$APP_DIR" && COMPOSE_PROJECT_NAME=kingdom-ai-os ./quickstart_setup.sh) || true
+                (cd "$APP_DIR" && COMPOSE_PROJECT_NAME=kingdom-ai-os "${COMPOSE[@]}" -f docker-compose.yml up -d --build --remove-orphans) || true
               fi
               [ ! -d "$STAGE_DIR" ] || rm -rf -- "$STAGE_DIR"
             fi

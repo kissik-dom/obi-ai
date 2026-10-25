@@ -14,7 +14,11 @@ services:
       retries: 3
 
   minio:
-    image: minio/minio:RELEASE.2024-03-15T01-07-19Z
+    build:
+      context: ./docker/minio
+      args:
+        MINIO_RELEASE: RELEASE.2024-03-15T01-07-19Z
+    image: kingdom-ai/minio:RELEASE.2024-03-15T01-07-19Z
     command: server /data --console-address ":9001"
     ports:
       - "9000:9000"
