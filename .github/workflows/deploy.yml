@@ -61,6 +61,30 @@ jobs:
               echo "${service}: container not found"
             fi
           done
+          echo '--- Redacted Vault startup errors ---'
+          vault_cid="$(docker ps -aq --filter 'name=kingdom-ai-os_vault_1' | head -n 1 || true)"
+          if [ -n "$vault_cid" ]; then
+            docker logs --tail=120 "$vault_cid" 2>&1 | python3 -c '
+          import re, sys
+          lines = list(sys.stdin)
+          keep = re.compile(r"\b(ERROR|CRITICAL|Exception|FATAL|failed|error)\b", re.I)
+          selected = [line for line in lines if keep.search(line)]
+          scrubbers = [
+              (r"(?i)(authorization\s*[:=]\s*bearer\s+)[^\s,;]+", r"\1[REDACTED]"),
+              (r"(?i)(\b(?:password|passwd|token|secret|api[_-]?key)\b\s*[:=]\s*)[^\s,;]+", r"\1[REDACTED]"),
+              (r"sk-[A-Za-z0-9_-]{12,}", "[REDACTED_KEY]"),
+              (r"(://[^:/\s]+:)[^@/\s]+(@)", r"\1[REDACTED]\2"),
+          ]
+          if not selected:
+              print("No matching error lines in the last 120 Vault log lines.")
+          for line in selected[-30:]:
+              for pattern, replacement in scrubbers:
+                  line = re.sub(pattern, replacement, line)
+              print(line[:1200], end="")
+          '
+          else
+            echo 'Vault container not found.'
+          fi
           CID="$(docker ps -aq --filter 'name=kingdom-ai-os_backend_1' | head -n 1 || true)"
           if [ -n "$CID" ]; then
             echo '--- Backend container and health status ---'
