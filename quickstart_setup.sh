@@ -51,17 +51,24 @@ if [[ "${1:-}" == "--env-only" ]]; then
   exit 0
 fi
 
+COMPOSE=()
 if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
+  COMPOSE=(docker compose)
+elif command -v docker-compose >/dev/null 2>&1 && docker-compose version >/dev/null 2>&1; then
+  COMPOSE=(docker-compose)
+fi
+
+if ((${#COMPOSE[@]})); then
   if command -v nvidia-smi >/dev/null 2>&1 && nvidia-smi >/dev/null 2>&1; then
     echo "[Kingdom AI OS] NVIDIA GPU detected -> launching Full Base + Security + GPU Stack..."
-    docker compose \
+    "${COMPOSE[@]}" \
       -f docker-compose.yml \
       -f vultr_security_docker-compose.yml \
       -f vultr_gpu_docker-compose.override.yml \
       up -d --build --remove-orphans
   else
     echo "[Kingdom AI OS] CPU/Standard host detected (no GPU required) -> launching Base Sovereign Stack..."
-    docker compose -f docker-compose.yml up -d --build --remove-orphans
+    "${COMPOSE[@]}" -f docker-compose.yml up -d --build --remove-orphans
   fi
   echo "[Kingdom AI OS] API Live at http://localhost:8000 and Swagger Docs at http://localhost:8000/docs"
 else

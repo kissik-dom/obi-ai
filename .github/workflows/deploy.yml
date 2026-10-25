@@ -75,10 +75,15 @@ jobs:
           FAILED_DIR="${HOME}/kingdom-ai-os.failed-${DEPLOY_SHA}"
 
           test -s "$ARCHIVE" || { echo "Release archive was not received." >&2; exit 1; }
-          command -v docker >/dev/null && docker compose version >/dev/null || {
-            echo "Docker Compose is not available on the existing server." >&2
+          COMPOSE=()
+          if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
+            COMPOSE=(docker compose)
+          elif command -v docker-compose >/dev/null 2>&1 && docker-compose version >/dev/null 2>&1; then
+            COMPOSE=(docker-compose)
+          else
+            echo 'Docker Compose v1 (docker-compose) or v2 (docker compose) is required on the existing server.' >&2
             exit 1
-          }
+          fi
           if [ -e "$APP_DIR" ]; then
             test -d "$APP_DIR" && test -f "$APP_DIR/docker-compose.yml" || {
               echo "Refusing to replace $APP_DIR because it is not an existing OBI-AI Compose deployment." >&2
@@ -114,7 +119,7 @@ jobs:
             (cd "$STAGE_DIR" && ./quickstart_setup.sh --env-only)
           fi
           test -f "$STAGE_DIR/.env" || { echo "Server .env was not initialized." >&2; exit 1; }
-          (cd "$STAGE_DIR" && COMPOSE_PROJECT_NAME=kingdom-ai-os docker compose config --quiet)
+          (cd "$STAGE_DIR" && COMPOSE_PROJECT_NAME=kingdom-ai-os "${COMPOSE[@]}" config --quiet)
 
           if [ -d "$APP_DIR" ]; then mv "$APP_DIR" "$PREVIOUS_DIR"; fi
           mv "$STAGE_DIR" "$APP_DIR"
@@ -130,6 +135,6 @@ jobs:
             sleep 5
           done
           echo "Health check timed out. Recent backend logs:" >&2
-          COMPOSE_PROJECT_NAME=kingdom-ai-os docker compose logs --tail=80 backend >&2 || true
+          COMPOSE_PROJECT_NAME=kingdom-ai-os "${COMPOSE[@]}" logs --tail=80 backend >&2 || true
           exit 1
           REMOTE
