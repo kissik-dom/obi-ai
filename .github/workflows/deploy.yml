@@ -20,12 +20,12 @@ jobs:
 
       - name: Install and validate SSH key
         env:
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_HOST: ${{ vars.SERVER_HOST || secrets.SERVER_HOST }}
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           set -euo pipefail
-          test -n "$SERVER_HOST" || { echo "SERVER_HOST secret is required." >&2; exit 1; }
+          test -n "$SERVER_HOST" || { echo "SERVER_HOST repository variable or secret is required." >&2; exit 1; }
           test -n "$SSH_USERNAME" || { echo "SSH_USERNAME secret is required." >&2; exit 1; }
           test -n "$SSH_PRIVATE_KEY" || { echo "SSH_PRIVATE_KEY secret is required." >&2; exit 1; }
           [[ "$SERVER_HOST" =~ ^[A-Za-z0-9.-]+$ ]] || { echo "SERVER_HOST must be a hostname or IPv4 address." >&2; exit 1; }
@@ -45,7 +45,7 @@ jobs:
 
       - name: Copy release to existing server
         env:
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_HOST: ${{ vars.SERVER_HOST || secrets.SERVER_HOST }}
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         run: |
           set -euo pipefail
@@ -57,7 +57,7 @@ jobs:
 
       - name: Deploy and smoke-test existing server
         env:
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_HOST: ${{ vars.SERVER_HOST || secrets.SERVER_HOST }}
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         run: |
           set -euo pipefail

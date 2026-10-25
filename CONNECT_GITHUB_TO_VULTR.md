@@ -49,11 +49,11 @@ chmod +x quickstart_setup.sh
 ## Option C: Deploy to an existing server through GitHub Actions SSH
 `.github/workflows/deploy.yml` deploys the selected branch to your existing Ubuntu server over SSH. It does not create a new Vultr instance and does not require a self-hosted GitHub runner.
 
-Run it from GitHub Actions with **Run workflow**, choose the branch to deploy, and provide these GitHub Actions repository secrets:
+Run it from GitHub Actions with **Run workflow** and choose the branch to deploy. Configure the public server address as the `SERVER_HOST` repository variable (preferred) or secret fallback, and add these repository secrets:
 
-| GitHub Secret | Purpose |
+| GitHub setting | Purpose |
 | :--- | :--- |
-| `SERVER_HOST` | Public IP address or hostname of the existing Ubuntu server |
+| `SERVER_HOST` variable or secret | Public IP address or hostname of the existing Ubuntu server |
 | `SSH_USERNAME` | SSH login user, normally `ubuntu` or `root` |
 | `SSH_PRIVATE_KEY` | Private SSH key matching the server user’s `authorized_keys` entry |
 
