@@ -46,18 +46,20 @@ chmod +x quickstart_setup.sh
 
 ---
 
-## Option C: Provision on Vultr through the Vultr API (No SSH)
-`.github/workflows/deploy.yml` provisions a new Vultr instance through the **Vultr v2 API** and passes the application bootstrap as cloud-init user-data. It does not use SSH and does not require `VULTR_HOST`, `VULTR_USER`, or `VULTR_SSH_KEY`.
+## Option C: Deploy to an existing server through GitHub Actions SSH
+`.github/workflows/deploy.yml` deploys the selected branch to your existing Ubuntu server over SSH. It does not create a new Vultr instance and does not require a self-hosted GitHub runner.
 
-Run it from GitHub Actions with **Run workflow**, choose the branch to deploy, and provide this one GitHub Actions secret:
+Run it from GitHub Actions with **Run workflow**, choose the branch to deploy, and provide these GitHub Actions repository secrets:
 
 | GitHub Secret | Purpose |
 | :--- | :--- |
-| `VULTR_API_KEY` | Vultr v2 API key allowed to create instances |
+| `SERVER_HOST` | Public IP address or hostname of the existing Ubuntu server |
+| `SERVER_USER` | SSH login user, normally `ubuntu` or `root` |
+| `SERVER_SSH_PRIVATE_KEY` | Private SSH key matching the server user’s `authorized_keys` entry |
 
-Optional GitHub repository variables are supported for `VULTR_REGION`, `VULTR_PLAN`, and `VULTR_OS_ID`. The workflow is manual by design so every run is an explicit new-instance provisioning action and cannot accidentally create a billed GPU server on every commit.
+The SSH password is not needed. The workflow is manual by design so deployment happens only when you explicitly run it.
 
-The Vultr API provisions the server and cloud-init clones the selected Git branch. This replaces the previous SSH-based redeployment workflow. Updating an already-running server still requires a separate image, replacement-instance, or in-server pull strategy; this workflow does not claim to update an existing instance through an API endpoint that Vultr does not provide.
+The workflow pulls the selected branch over HTTPS on the server, runs the existing Docker Compose deployment script, and waits for `/healthz` on port 8000.
 
 For reference, the previous SSH-only secret set is no longer used:
 

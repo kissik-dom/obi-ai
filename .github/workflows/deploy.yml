@@ -1,41 +1,54 @@
-name: Provision on Vultr GPU Cloud (API only)
+name: Deploy OBI-AI to existing server (SSH)
 
 on:
   workflow_dispatch:
     inputs:
       git_branch:
-        description: Git branch to clone during Vultr cloud-init
+        description: Git branch to deploy
         required: true
         default: arena/41e9ebf0-obi-ai
         type: string
 
 jobs:
-  test-before-provision:
+  test-before-deploy:
     uses: ./.github/workflows/test.yml
 
-  provision-vultr:
-    needs: test-before-provision
+  deploy-server:
+    needs: test-before-deploy
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
-      - name: Check out the requested branch
-        uses: actions/checkout@v4
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.9.0
         with:
-          ref: ${{ inputs.git_branch }}
+          ssh-private-key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
 
-      - name: Provision Vultr instance through the Vultr API
+      - name: Deploy selected branch over SSH
         env:
-          VULTR_API_KEY: ${{ secrets.VULTR_API_KEY }}
-          VULTR_REGION: ${{ vars.VULTR_REGION || 'ewr' }}
-          VULTR_PLAN: ${{ vars.VULTR_PLAN || 'vcg-a100-1c-8g-40vram' }}
-          VULTR_OS_ID: ${{ vars.VULTR_OS_ID || '1743' }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
           GITHUB_BRANCH: ${{ inputs.git_branch }}
         run: |
           set -euo pipefail
-          test -n "${VULTR_API_KEY}" || {
-            echo "VULTR_API_KEY is required in GitHub Actions secrets." >&2
-            exit 1
-          }
+          test -n "${SERVER_HOST}" || { echo "SERVER_HOST is required." >&2; exit 1; }
+          test -n "${SERVER_USER}" || { echo "SERVER_USER is required." >&2; exit 1; }
+          ssh -o StrictHostKeyChecking=accept-new "${SERVER_USER}@${SERVER_HOST}" bash -s -- "${GITHUB_BRANCH}" <<'REMOTE_SCRIPT'
+          set -euo pipefail
+          BRANCH="$1"
+          REPO_URL="https://github.com/kissik-dom/obi-ai.git"
+          APP_DIR="${HOME}/kingdom-ai-os"
+
+          if [ -d "${APP_DIR}/.git" ]; then
+            cd "${APP_DIR}"
+            git fetch --depth=1 origin "${BRANCH}"
+            git checkout -B "${BRANCH}" FETCH_HEAD
+          else
+            rm -rf "${APP_DIR}"
+            git clone --depth=1 --branch "${BRANCH}" "${REPO_URL}" "${APP_DIR}"
+            cd "${APP_DIR}"
+          fi
+
           chmod +x ./vultr_deploy.sh
-          ./vultr_deploy.sh --provision
+          GITHUB_REPO="kissik-dom/obi-ai" GITHUB_BRANCH="${BRANCH}" ./vultr_deploy.sh
+          REMOTE_SCRIPT
