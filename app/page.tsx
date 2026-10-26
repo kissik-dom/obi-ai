@@ -8,6 +8,50 @@ const TEXTy = (t: string, n: string) =>
   /^text\//.test(t) || /(json|csv|xml|yaml|markdown|javascript|typescript|x-python|x-sh)/.test(t) ||
   /\.(txt|md|csv|json|js|ts|tsx|jsx|py|sh|css|html|yml|yaml|sql|java|go|rs|c|cpp|rb|php)$/i.test(n);
 
+const TABS = [
+  { label: "Home", icon: "\u{1F3E0}" },
+  { label: "Models", icon: "\u{1F9E0}" },
+  { label: "Research", icon: "\u{1F52C}", active: true },
+  { label: "Legal", icon: "\u{2696}" },
+  { label: "OSINT", icon: "\u{1F575}" },
+  { label: "Finance", icon: "\u{1F4B9}" },
+  { label: "Investments", icon: "\u{1F4C8}" },
+  { label: "Real Estate", icon: "\u{1F3E2}" },
+  { label: "Business", icon: "\u{1F4BC}" },
+  { label: "Engineering", icon: "\u{2699}" },
+  { label: "Coding", icon: "\u{1F4BB}" },
+  { label: "News", icon: "\u{1F4F0}" },
+  { label: "Social", icon: "\u{1F4AC}" },
+  { label: "Fashion", icon: "\u{1F457}" },
+  { label: "Docterme", icon: "\u{1FA7A}" },
+  { label: "Agents", icon: "\u{1F916}" },
+  { label: "Tasks", icon: "\u{2705}" },
+  { label: "Open Source", icon: "\u{1F4E6}" },
+  { label: "Security", icon: "\u{1F512}" },
+];
+
+const AGENTS = [
+  { name: "Intel Scout", role: "OSINT Collection", color: "#3b82f6", icon: "\u{1F50D}" },
+  { name: "Regina", role: "Legal Analyst", color: "#10b981", icon: "\u{2696}" },
+  { name: "Market Mind", role: "Finance Analyst", color: "#f59e0b", icon: "\u{1F4C8}" },
+  { name: "Infra Planner", role: "City Planning", color: "#a855f7", icon: "\u{1F3D7}" },
+];
+
+const TASKS = [
+  { name: "Deep search: AI hardware accelerators", status: "running" },
+  { name: "Source verification: 12 citations", status: "running" },
+  { name: "Summarize: EU AI Act amendments", status: "queued" },
+  { name: "Monitor: Semiconductor supply chain", status: "queued" },
+];
+
+const PROMPTS = [
+  { text: "Latest breakthroughs in synthetic biology", icon: "\u{2795}" },
+  { text: "Analyze regulatory shifts in AI governance", icon: "\u{1F4CB}" },
+  { text: "Map competitive landscape in quantum computing", icon: "\u{1F30D}" },
+  { text: "Evaluate patent filings in advanced materials", icon: "\u{1F52C}" },
+  { text: "Identify emerging risks in supply chains", icon: "\u{26A0}" },
+];
+
 export default function Home() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -17,6 +61,7 @@ export default function Home() {
   const [deep, setDeep] = useState(false);
   const [atts, setAtts] = useState<Att[]>([]);
   const [drag, setDrag] = useState(false);
+  const [activeTab, setActiveTab] = useState("Research");
   const recRef = useRef<any>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -44,7 +89,7 @@ export default function Home() {
   async function addFiles(list: FileList | File[]) {
     const arr = Array.from(list);
     const read = await Promise.all(arr.map(readFile));
-    setAtts((p) => [...p, ...read]); // no limit on count
+    setAtts((p) => [...p, ...read]);
   }
   function removeAtt(i: number) { setAtts((p) => p.filter((_, idx) => idx !== i)); }
 
@@ -76,7 +121,7 @@ export default function Home() {
         const res = await fetch("/api/agent/research", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query: payload }) });
         const data = await res.json();
         const who = (data.contributors || []).filter((c: any) => c.ok).map((c: any) => c.label).join(", ");
-        const head = data.stacked ? `Stacked ${data.stacked} model(s)${who ? " — " + who : ""}${data.academicSources ? ` + ${data.academicSources} source(s)` : ""}.\n\n` : "";
+        const head = data.stacked ? `Stacked ${data.stacked} model(s)${who ? " \u2014 " + who : ""}${data.academicSources ? ` + ${data.academicSources} source(s)` : ""}.\n\n` : "";
         setMessages((m) => [...m, { role: "assistant", content: head + (data.report || data.error || "(no report)"), label: "Deep Research" }]);
       } else {
         const hist = next.map((m, i) => ({ role: m.role, content: i === next.length - 1 ? payload : m.content }));
@@ -87,65 +132,170 @@ export default function Home() {
     } catch (e: any) { setMessages((m) => [...m, { role: "assistant", content: "Network error: " + e.message }]); }
     finally { setBusy(false); }
   }
-  const prompts = ["Draft a consulting proposal", "Research the EV battery market", "Forecast next quarter sales", "Write a Python web scraper"];
 
   return (
-    <div className="wrap"
-      onDragOver={(e) => { e.preventDefault(); setDrag(true); }}
-      onDragLeave={() => setDrag(false)}
-      onDrop={(e) => { e.preventDefault(); setDrag(false); if (e.dataTransfer.files?.length) addFiles(e.dataTransfer.files); }}>
-      <div className="header">
-        <div className="logo">Oi</div>
-        <div><div className="title">Obi AI</div><div className="sub">Hermes swarm · deep research · voice · files</div></div>
-        <div className="badge">Powered by Obliteratus</div>
+    <>
+      <div className="topbar">
+        <div className="topbar-logo">
+          <span className="crown">\u{1F451}</span>
+          <span>Kingdom AI OS</span>
+          <span className="dropdown">\u{25BE}</span>
+        </div>
       </div>
-      <div className="chat" ref={chatRef}>
-        {messages.length === 0 && (
-          <div className="empty">Ask anything, attach any files (drag and drop too), or toggle Deep Research.
-            <div className="chips">{prompts.map((p) => (<button key={p} className="chip" onClick={() => send(p)}>{p}</button>))}</div>
+      <div className="tabnav">
+        {TABS.map((t) => (
+          <button key={t.label} className={`tab ${t.label === activeTab ? "active" : ""}`} onClick={() => setActiveTab(t.label)}>
+            <span className="icon">{t.icon}</span>
+            {t.label}
+          </button>
+        ))}
+      </div>
+      <div className="app">
+        <div className="sidebar">
+          <div className="sidebar-model">
+            <div className="sidebar-model-name">Kingdom Core</div>
+            <div className="sidebar-model-info">GLM-5.3-Heretic</div>
+            <div className="sidebar-model-info" style={{ marginTop: 2 }}><span className="dot"></span> Local</div>
           </div>
-        )}
-        {messages.map((m, i) => (
-          <div key={i} className={`msg ${m.role}`}>
-            <div className="av">{m.role === "user" ? "You" : "Oi"}</div>
-            <div className="bubble">
-              {m.role === "assistant" && m.label && <div className="tag">{m.label} agent</div>}
-              {m.content}
-              {m.atts && m.atts.length > 0 && (
-                <div className="atts">{m.atts.map((a, j) => (
-                  <span className="att" key={j}>{a.preview && a.type.startsWith("image/")
-                    ? <img src={a.preview} alt={a.name} />
-                    : a.preview && a.type.startsWith("video/")
-                    ? <video src={a.preview} muted />
-                    : <span className="fileic">FILE</span>}<span className="attn">{a.name}</span></span>))}</div>
-              )}
+          <div className="sidebar-search">
+            <div className="sidebar-search-wrap">
+              <span className="search-icon">\u{1F50D}</span>
+              <input placeholder="Search anything..." />
+              <span className="shortcut">\u2318 K</span>
             </div>
           </div>
-        ))}
-        {busy && (<div className="msg assistant"><div className="av">Oi</div><div className="bubble">{deep ? "Stacking research models…" : "Routing through the swarm…"}</div></div>)}
-      </div>
-      {atts.length > 0 && (
-        <div className="tray">{atts.map((a, i) => (
-          <span className="att" key={i}>
-            {a.preview && a.type.startsWith("image/") ? <img src={a.preview} alt={a.name} />
-              : a.preview && a.type.startsWith("video/") ? <video src={a.preview} muted />
-              : <span className="fileic">FILE</span>}
-            <span className="attn">{a.name}</span>
-            <button className="x" onClick={() => removeAtt(i)}>×</button>
-          </span>))}
-          <span className="trayinfo">{atts.length} file(s) attached</span>
+          <div className="sidebar-nav">
+            <button className="sidebar-nav-item active"><span className="nav-icon">\u{1F3E0}</span> Home</button>
+            <button className="sidebar-nav-item"><span className="nav-icon">\u{1F4AC}</span> Chat</button>
+            <button className="sidebar-nav-item"><span className="nav-icon">\u{1F4D6}</span> Prompt Library</button>
+            <button className="sidebar-nav-item"><span className="nav-icon">\u{1F517}</span> Integrations</button>
+          </div>
+          <div className="sidebar-section-header"><span>Pinned</span><span className="plus">+</span></div>
+          <div className="sidebar-pinned">
+            <span className="pinned-chip"><span className="picon">\u{1F4CA}</span> OSINT Dashboard</span>
+            <span className="pinned-chip"><span className="picon">\u{1F4B0}</span> Alpha Deals</span>
+            <span className="pinned-chip"><span className="picon">\u{1F3D9}</span> City Blueprint</span>
+            <span className="pinned-chip"><span className="picon">\u{1F916}</span> Agent Swarm</span>
+          </div>
+          <div className="sidebar-section-header"><span>Today</span><span className="plus">\u{25B4}</span></div>
+          <div className="sidebar-today">
+            <div className="activity-item"><span>Competitor analysis: Horizon Dev.</span><span className="time">10:42 AM</span></div>
+            <div className="activity-item"><span>Zoning laws in Austin metro</span><span className="time">9:15 AM</span></div>
+            <div className="activity-item"><span>Material cost forecast Q3</span><span className="time">8:03 AM</span></div>
+          </div>
+          <div className="sidebar-section-header"><span>Yesterday</span><span className="plus">\u{25B4}</span></div>
+          <div className="sidebar-yesterday">
+            <div className="activity-item"><span>Biotech funding trends 2024</span><span className="time">Yesterday</span></div>
+            <div className="activity-item"><span>Stealth startup teardown</span><span className="time">Yesterday</span></div>
+          </div>
+          <div className="sidebar-user">
+            <div className="sidebar-user-avatar">S</div>
+            <div className="sidebar-user-info">
+              <div className="sidebar-user-name">Sovereign User</div>
+              <div className="sidebar-user-plan">Pro Plan</div>
+            </div>
+            <span className="sidebar-user-crown">\u{1F451}</span>
+          </div>
         </div>
-      )}
-      <div className="composer">
-        <button className="mic" title="Attach files (unlimited)" onClick={() => fileRef.current?.click()}>＋</button>
-        <input ref={fileRef} type="file" multiple style={{ display: "none" }} onChange={(e) => { if (e.target.files) addFiles(e.target.files); e.currentTarget.value = ""; }} />
-        <button className={`mic ${recording ? "rec" : ""}`} title={voiceOk ? "Voice to text" : "Voice not supported"} onClick={toggleMic} disabled={!voiceOk}>{recording ? "■" : "🎤"}</button>
-        <textarea value={input} placeholder={recording ? "Listening…" : deep ? "Deep research query…" : "Message Obi AI…"} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }} rows={1} />
-        <button className={`deep ${deep ? "on" : ""}`} title="Toggle deep research" onClick={() => setDeep((d) => !d)}>{deep ? "Deep ✓" : "Deep"}</button>
-        <button className="send" onClick={() => send()} disabled={busy}>Send</button>
+        <div className="main">
+          <div className="main-header">
+            <div className="main-title"><span className="sparkle">\u2728</span> {activeTab}</div>
+            <div className="main-subtitle">Deep context. Verified sources. Strategic intelligence.<br />Ask anything in {activeTab}.</div>
+          </div>
+          {messages.length === 0 && (
+            <div className="prompt-suggestions">
+              {PROMPTS.map((p) => (
+                <button key={p.text} className="prompt-chip" onClick={() => send(p.text)}>
+                  <span className="picon">{p.icon}</span> {p.text}
+                </button>
+              ))}
+            </div>
+          )}
+          <div className="chat-area" ref={chatRef}
+            onDragOver={(e) => { e.preventDefault(); setDrag(true); }}
+            onDragLeave={() => setDrag(false)}
+            onDrop={(e) => { e.preventDefault(); setDrag(false); if (e.dataTransfer.files?.length) addFiles(e.dataTransfer.files); }}>
+            {messages.length === 0 && <div className="empty">Ask anything, attach any files (drag and drop too), or toggle Deep Research.</div>}
+            {messages.map((m, i) => (
+              <div key={i} className={`msg ${m.role}`}>
+                <div className="av">{m.role === "user" ? "You" : "\u2728"}</div>
+                <div className="bubble">
+                  {m.role === "assistant" && m.label && <div className="tag">{m.label} agent</div>}
+                  {m.content}
+                  {m.atts && m.atts.length > 0 && (
+                    <div className="atts">{m.atts.map((a, j) => (
+                      <span className="att" key={j}>{a.preview && a.type.startsWith("image/")
+                        ? <img src={a.preview} alt={a.name} />
+                        : a.preview && a.type.startsWith("video/")
+                        ? <video src={a.preview} muted />
+                        : <span className="fileic">FILE</span>}<span className="attn">{a.name}</span></span>))}</div>
+                  )}
+                </div>
+              </div>
+            ))}
+            {busy && (<div className="msg assistant busy-msg"><div className="av">\u2728</div><div className="bubble">{deep ? "Stacking research models\u2026" : "Routing through the swarm\u2026"}</div></div>)}
+          </div>
+          {atts.length > 0 && (
+            <div className="tray">{atts.map((a, i) => (
+              <span className="att" key={i}>
+                {a.preview && a.type.startsWith("image/") ? <img src={a.preview} alt={a.name} />
+                  : a.preview && a.type.startsWith("video/") ? <video src={a.preview} muted />
+                  : <span className="fileic">FILE</span>}
+                <span className="attn">{a.name}</span>
+                <button className="x" onClick={() => removeAtt(i)}>\u00D7</button>
+              </span>))}
+              <span className="trayinfo">{atts.length} file(s) attached</span>
+            </div>
+          )}
+          <div className="composer-wrap">
+            <div className="composer">
+              <button className="composer-btn" title="Attach files" onClick={() => fileRef.current?.click()}>\u{1F4CE}</button>
+              <input ref={fileRef} type="file" multiple style={{ display: "none" }} onChange={(e) => { if (e.target.files) addFiles(e.target.files); e.currentTarget.value = ""; }} />
+              <button className={`composer-btn ${recording ? "rec" : ""}`} title={voiceOk ? "Voice to text" : "Voice not supported"} onClick={toggleMic} disabled={!voiceOk}>{recording ? "\u25A0" : "\u{1F3A4}"}</button>
+              <button className={`deep-toggle ${deep ? "on" : ""}`} title="Toggle deep research" onClick={() => setDeep((d) => !d)}>\u{1F310} Deep Research \u{25BE}</button>
+              <textarea value={input} placeholder={recording ? "Listening\u2026" : deep ? "Deep research query\u2026" : `Ask me anything in ${activeTab}...`} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }} rows={1} />
+              <button className="composer-btn send-btn" onClick={() => send()} disabled={busy}>\u2191</button>
+            </div>
+            <div className="composer-hint">Press Enter to send, Shift+Enter for new line</div>
+          </div>
+          {drag && <div className="dropzone">Drop files to attach</div>}
+        </div>
+        <div className="right-panel">
+          <div className="right-section">
+            <div className="right-section-header">
+              <div className="right-section-title"><span className="ricon">\u{1F465}</span> Active Agents</div>
+              <button className="plus-btn">+</button>
+            </div>
+            {AGENTS.map((a) => (
+              <div className="agent-item" key={a.name}>
+                <div className="agent-avatar" style={{ background: a.color }}>{a.icon}</div>
+                <div className="agent-info">
+                  <div className="agent-name">{a.name}</div>
+                  <div className="agent-role">{a.role}</div>
+                </div>
+                <div className="agent-status"></div>
+              </div>
+            ))}
+            <button className="view-all">View all agents \u2192</button>
+          </div>
+          <div className="right-section">
+            <div className="right-section-header">
+              <div className="right-section-title"><span className="ricon">\u2705</span> Tasks</div>
+              <span style={{ fontSize: 12, color: "var(--muted)", border: "1px solid var(--line)", padding: "2px 8px", borderRadius: 999 }}>4 Active</span>
+            </div>
+            {TASKS.map((t) => (
+              <div className="task-item" key={t.name}>
+                <div className="task-left">
+                  <div className={`task-dot ${t.status}`}></div>
+                  <span>{t.name}</span>
+                </div>
+                <span className={`task-status ${t.status}`}>{t.status === "running" ? "Running" : "Queued"}</span>
+              </div>
+            ))}
+            <button className="view-all">View all tasks \u2192</button>
+          </div>
+        </div>
       </div>
-      <div className="hint">Attach unlimited images, videos, and files (＋ or drag-drop). Text docs are read by the assistant. Enter to send.</div>
-      {drag && <div className="dropzone">Drop files to attach</div>}
-    </div>
+    </>
   );
 }
