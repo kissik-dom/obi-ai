@@ -44,4 +44,4 @@ The repository includes `.github/workflows/deploy-vultr.yml`. The existing deplo
 - `SSH_USERNAME` — SSH user, typically `root` or a deployment user
 - `SSH_PRIVATE_KEY` — private OpenSSH key for that user, not a `.pub` or PuTTY `.ppk` file
 
-The first manual deployment must create the server `.env` file in `/opt/obi-ai` or `$HOME/obi-ai`. After that, every push to `main` packages the commit, uploads it over SSH, rebuilds the container, and checks `/api/health`.
+The first manual deployment must create the server `.env` file in `/opt/obi-ai`, `$HOME/obi-ai`, or the existing `$HOME/kingdom-ai-os` deployment directory. After that, every push to `main` packages the commit, uploads it over SSH, rebuilds the container, and checks `/api/health`.

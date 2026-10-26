@@ -73,6 +73,8 @@ jobs:
           ARCHIVE="/tmp/obi-ai-${DEPLOY_SHA}.tar.gz"
           if [ -d /opt/obi-ai ] && [ -f /opt/obi-ai/.env ]; then
             APP_DIR=/opt/obi-ai
+          elif [ -d "$HOME/kingdom-ai-os" ] && [ -f "$HOME/kingdom-ai-os/.env" ]; then
+            APP_DIR="$HOME/kingdom-ai-os"
           else
             APP_DIR="$HOME/obi-ai"
           fi
