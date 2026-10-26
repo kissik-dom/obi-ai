@@ -12,19 +12,128 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
     steps:
-      - name: Deploy over SSH
-        uses: appleboy/ssh-action@v1.2.2
-        with:
-          host: ${{ secrets.VULTR_HOST }}
-          username: ${{ secrets.VULTR_USER }}
-          key: ${{ secrets.VULTR_SSH_KEY }}
-          port: ${{ secrets.VULTR_SSH_PORT || 22 }}
-          script_stop: true
-          script: |
-            set -euo pipefail
-            cd /opt/obi-ai
-            git fetch origin main
-            git reset --hard origin/main
-            docker compose -f docker-compose.vultr.yml up -d --build --remove-orphans
-            curl --fail --silent --show-error http://127.0.0.1:3000/api/health
+      - name: Check out release
+        uses: actions/checkout@v4
+
+      - name: Install and validate SSH key
+        env:
+          SERVER_HOST: ${{ vars.SERVER_HOST || secrets.SERVER_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$SERVER_HOST" || { echo "SERVER_HOST repository variable or secret is required." >&2; exit 1; }
+          test -n "$SSH_USERNAME" || { echo "SSH_USERNAME secret is required." >&2; exit 1; }
+          test -n "$SSH_PRIVATE_KEY" || { echo "SSH_PRIVATE_KEY secret is required." >&2; exit 1; }
+          [[ "$SERVER_HOST" =~ ^[A-Za-z0-9.-]+$ ]] || { echo "SERVER_HOST must be a hostname or IPv4 address." >&2; exit 1; }
+          [[ "$SSH_USERNAME" =~ ^[A-Za-z0-9._-]+$ ]] || { echo "SSH_USERNAME contains unsupported characters." >&2; exit 1; }
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > "$HOME/.ssh/obi_deploy_key"
+          chmod 600 "$HOME/.ssh/obi_deploy_key"
+          ssh-keygen -y -f "$HOME/.ssh/obi_deploy_key" >/dev/null || {
+            echo "SSH_PRIVATE_KEY must be a valid OpenSSH private key, not a .pub or PuTTY .ppk file." >&2
+            exit 1
+          }
+          ssh-keyscan -H "$SERVER_HOST" >> "$HOME/.ssh/known_hosts" 2>/dev/null
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+      - name: Package release without secrets
+        run: git archive --format=tar "$GITHUB_SHA" | gzip -1 > "$RUNNER_TEMP/obi-ai-release.tar.gz"
+
+      - name: Copy release to Vultr
+        env:
+          SERVER_HOST: ${{ vars.SERVER_HOST || secrets.SERVER_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+        run: |
+          set -euo pipefail
+          scp -i "$HOME/.ssh/obi_deploy_key" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$RUNNER_TEMP/obi-ai-release.tar.gz" \
+            "${SSH_USERNAME}@${SERVER_HOST}:/tmp/obi-ai-${GITHUB_SHA}.tar.gz"
+
+      - name: Deploy and smoke-test Vultr
+        env:
+          SERVER_HOST: ${{ vars.SERVER_HOST || secrets.SERVER_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+        run: |
+          set -euo pipefail
+          ssh -i "$HOME/.ssh/obi_deploy_key" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "${SSH_USERNAME}@${SERVER_HOST}" \
+            "DEPLOY_SHA='${GITHUB_SHA}' bash -s" <<'REMOTE'
+          set -euo pipefail
+          [[ "$DEPLOY_SHA" =~ ^[a-f0-9]{40}$ ]] || { echo "Invalid deployment commit SHA." >&2; exit 1; }
+
+          ARCHIVE="/tmp/obi-ai-${DEPLOY_SHA}.tar.gz"
+          if [ -d /opt/obi-ai ] && [ -f /opt/obi-ai/.env ]; then
+            APP_DIR=/opt/obi-ai
+          else
+            APP_DIR="$HOME/obi-ai"
+          fi
+          STAGE_DIR="${APP_DIR}.stage-${DEPLOY_SHA}"
+          PREVIOUS_DIR="${APP_DIR}.previous-${DEPLOY_SHA}"
+          FAILED_DIR="${APP_DIR}.failed-${DEPLOY_SHA}"
+
+          test -s "$ARCHIVE" || { echo "Release archive was not received." >&2; exit 1; }
+          if docker compose version >/dev/null 2>&1; then
+            COMPOSE=(docker compose)
+          elif command -v docker-compose >/dev/null 2>&1 && docker-compose version >/dev/null 2>&1; then
+            COMPOSE=(docker-compose)
+          else
+            echo "Docker Compose v2 or v1 is required on the Vultr server." >&2
+            exit 1
+          fi
+          test ! -e "$STAGE_DIR" && test ! -e "$PREVIOUS_DIR" && test ! -e "$FAILED_DIR" || {
+            echo "A deployment path for this commit already exists; refusing to overwrite it." >&2
+            exit 1
+          }
+
+          rollback() {
+            status=$?
+            if [ "$status" -ne 0 ]; then
+              if [ -d "$PREVIOUS_DIR" ]; then
+                [ ! -e "$APP_DIR" ] || mv "$APP_DIR" "$FAILED_DIR"
+                mv "$PREVIOUS_DIR" "$APP_DIR"
+                (cd "$APP_DIR" && COMPOSE_PROJECT_NAME=obi-ai "${COMPOSE[@]}" -f docker-compose.vultr.yml up -d --build --remove-orphans) || true
+              fi
+              [ ! -d "$STAGE_DIR" ] || rm -rf -- "$STAGE_DIR"
+            fi
+            exit "$status"
+          }
+          trap rollback EXIT
+
+          mkdir -p "$STAGE_DIR"
+          tar -xzf "$ARCHIVE" -C "$STAGE_DIR"
+          if [ -f "$APP_DIR/.env" ]; then
+            cp -p "$APP_DIR/.env" "$STAGE_DIR/.env"
+          fi
+          test -f "$STAGE_DIR/.env" || {
+            echo "Missing $APP_DIR/.env. Create the production env file on Vultr before deploying." >&2
+            exit 1
+          }
+          (cd "$STAGE_DIR" && COMPOSE_PROJECT_NAME=obi-ai "${COMPOSE[@]}" -f docker-compose.vultr.yml config --quiet)
+
+          if [ -d "$APP_DIR" ]; then mv "$APP_DIR" "$PREVIOUS_DIR"; fi
+          mv "$STAGE_DIR" "$APP_DIR"
+          cd "$APP_DIR"
+          COMPOSE_PROJECT_NAME=obi-ai "${COMPOSE[@]}" -f docker-compose.vultr.yml up -d --build --remove-orphans
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/api/health >/dev/null; then
+              echo "Obi AI deployed successfully at ${DEPLOY_SHA}."
+              rm -f "$ARCHIVE"
+              rm -rf "$PREVIOUS_DIR" "$FAILED_DIR"
+              trap - EXIT
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Health check timed out. Recent container logs:" >&2
+          COMPOSE_PROJECT_NAME=obi-ai "${COMPOSE[@]}" -f docker-compose.vultr.yml logs --tail=100 obi-ai >&2 || true
+          exit 1
+          REMOTE
