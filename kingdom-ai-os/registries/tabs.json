@@ -1,0 +1,198 @@
+[
+  {
+    "id": "home",
+    "name": "Home / Command Center",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "models",
+    "name": "LLM / Models",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "research",
+    "name": "Research",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "legal",
+    "name": "Legal",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "osint",
+    "name": "OSINT",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "finance",
+    "name": "Finance",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "investments",
+    "name": "Investments",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "real-estate",
+    "name": "Real Estate",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "business-crm",
+    "name": "Business / CRM",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "leads",
+    "name": "Leads",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "city-urban-planning",
+    "name": "City / Urban Planning",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "engineering-ghidra",
+    "name": "Engineering / GHIDRA / Anti-Gravity",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "coding-dev",
+    "name": "Coding / Dev",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "web-scraping",
+    "name": "Web / Scraping",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "news-magazines",
+    "name": "News / Magazines",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "social-marketing",
+    "name": "Social / Marketing",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "fashion",
+    "name": "Fashion",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "images-visual-ai",
+    "name": "Images / Visual AI",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "video-ugc",
+    "name": "Video / UGC / TV / Movies",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "music-audio",
+    "name": "Music / Audio / Vocal Tuning",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "agents-communications",
+    "name": "Agents / Communications",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "tasks",
+    "name": "Tasks",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "open-source-apps",
+    "name": "Open Source / Apps",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "security-admin",
+    "name": "Security / Admin",
+    "source_status": "Mapped in Voltaire two-key mapping",
+    "implementation_status": "chat_assistant",
+    "test_status": "not_run"
+  },
+  {
+    "id": "unmapped-25",
+    "name": "UNMAPPED TAB 25",
+    "source_status": "Unresolved: latest source has 24 named tabs; confirm official name and scope before implementation",
+    "implementation_status": "not_implemented",
+    "test_status": "not_run"
+  },
+  {
+    "id": "unmapped-26",
+    "name": "UNMAPPED TAB 26",
+    "source_status": "Unresolved: latest source has 24 named tabs; confirm official name and scope before implementation",
+    "implementation_status": "not_implemented",
+    "test_status": "not_run"
+  },
+  {
+    "id": "unmapped-27",
+    "name": "UNMAPPED TAB 27",
+    "source_status": "Unresolved: latest source has 24 named tabs; confirm official name and scope before implementation",
+    "implementation_status": "not_implemented",
+    "test_status": "not_run"
+  },
+  {
+    "id": "unmapped-28",
+    "name": "UNMAPPED TAB 28",
+    "source_status": "Unresolved: latest source has 24 named tabs; confirm official name and scope before implementation",
+    "implementation_status": "not_implemented",
+    "test_status": "not_run"
+  }
+]

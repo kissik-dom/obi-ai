@@ -1,0 +1,62 @@
+exact_name,family,type,guardrail_class,best_at,parameters,context,deployment,license,verification_note
+dealignai/GLM-5.3-Flash-UNCENSORED-FP8,GLM,LLM,OBLITERATED,Coding/reasoning/agents/vision,320B total / 18B active,1M,Local,MIT,Verified exact HF card; weight-level CRACK/abliteration
+dealignai/GLM-5.3-Flash-ABLITERATED-FP8,GLM,LLM,OBLITERATED,Coding/reasoning/agents/vision,320B / 18B active,1M,Local,MIT,Mirror/abliterated derivative of above
+GLM-5.3-Flash uncensored GGUF/FP8/MLX (OrcaRouter family),GLM,LLM,OBLITERATED,General/coding/reasoning,320B / 18B active,1M,Local/community,Varies,Exact variant must be pinned before deployment
+huihui-ai/GLM-5.3-Flash-abliterated-GGUF,GLM,LLM,OBLITERATED,General/coding/reasoning,320B / 18B active,1M,Local,Varies,Community abliteration; exact quantization matters
+dealignai/GLM-5.3-Flash-UNCENSORED-NVFP4,GLM,LLM,OBLITERATED,General/coding/reasoning,320B / 18B active,1M,Local,Varies,Community uncensored derivative
+dealignai/GLM-5.3-Flash-UNCENSORED-EXL3,GLM,LLM,OBLITERATED,General/coding/reasoning,320B / 18B active,1M,Local,Varies,Community uncensored derivative
+GLM-5.3 Flash / GLM-5.3,GLM,LLM,NORMAL,Reasoning/coding/agents,Variant-dependent,Variant-dependent,Local/API,Model license,Base/aligned checkpoint; pin exact release
+GLM-5.2,GLM,LLM,NORMAL,Reasoning/coding,Variant-dependent,Variant-dependent,Local/API,Variant-dependent,User-named family; exact checkpoint required
+JonathanColetti/Qwen3.8-27B-Uncensored,Qwen,LLM,LOW-GUARDRAIL,Coding/reasoning/vision/agents,27B,262K (OpenRouter base listing),Local/API where offered,Apache-2.0,"Model card says refusals reduced, not necessarily eliminated"
+Qwen3.8-27B-Uncensored-MLX,Qwen,LLM,LOW-GUARDRAIL,Coding/reasoning/vision,27B,Variant-dependent,Local Apple Silicon,Variant-dependent,Exact MLX build must be pinned
+Qwen 3.8 27B,Qwen,LLM,NORMAL,Coding/research/vision/agents,27B,262K,Local/API,Open-weight,OpenRouter lists it free at time of verification
+Qwen 3.8 27B Obliterated GGUF,Qwen,LLM,OBLITERATED,General/coding/reasoning,27B,Variant-dependent,Local,Variant-dependent,User-specified exact derivative; verify repository before download
+Qwen 3.8 Max,Qwen,LLM,NORMAL,General/reasoning/agents,Proprietary,Provider-dependent,API,Provider terms,Provider-controlled safety; not an uncensored local weight
+DeepSeek V4 Flash,DeepSeek,LLM,NORMAL,Reasoning/coding/agents/vision,284B class / 13B active for 0731,1M,Local/API,MIT for cited release,Base checkpoint
+DeepSeek V4 Flash 0731,DeepSeek,LLM,NORMAL,Reasoning/coding/agents,284B / 13B active,1M,Local/API,MIT,Official release family
+DeepSeek V4 Flash Base,DeepSeek,LLM,NORMAL,Pretraining/general,Variant-dependent,Variant-dependent,Local,Variant-dependent,Base model; exact repo required
+DeepSeek V4 Pro,DeepSeek,LLM,NORMAL,Reasoning/coding/agents,Variant-dependent,Variant-dependent,API/local where released,Variant-dependent,Exact release required
+DeepSeek V4 Pro 0813 Free,DeepSeek,LLM,NORMAL,Reasoning/coding,Variant-dependent,Provider-dependent,API,Provider terms,"Free is an access tier, not an uncensored weight"
+DeepSeek V4 Flash Vision uncensored GGUF,DeepSeek,LLM,OBLITERATED,Vision/reasoning/agents,284B class / 13B active,1M,Local,Variant-dependent,Explicit uncensored derivative
+DeepSeek V4 Flash Vision uncensored MLX,DeepSeek,LLM,OBLITERATED,Vision/reasoning/agents,284B class / 13B active,1M,Local Apple Silicon,Variant-dependent,Explicit uncensored derivative
+Huihui-DeepSeek-V4-Flash-0731-abliterated-GGUF,DeepSeek,LLM,OBLITERATED,Reasoning/coding/agents,284B / 13B active,1M,Local,Variant-dependent,Explicit abliteration
+DeepSeek V4 Flash 0731 JANG-CRACK,DeepSeek,LLM,OBLITERATED,Reasoning/coding,284B / 13B active,1M,Local,Variant-dependent,Explicit CRACK/uncensored derivative
+DeepSeek V4 Vision Exp abliterated GGUF,DeepSeek,LLM,OBLITERATED,Vision/reasoning,Variant-dependent,Variant-dependent,Local,Variant-dependent,Explicit abliteration family
+MiniMax M3,MiniMax,LLM,NORMAL,Reasoning/coding/agents/multimodal,MoE; exact active count variant-dependent,Variant-dependent,API/local where released,Community license,Official model listing verified
+Nemotron 3 Ultra,NVIDIA,LLM,NORMAL,Reasoning/orchestration/coding,550B / 55B active,1M,API/local where supported,OpenMDW-1.1,OpenRouter free listing verified
+Nemotron 3.5 Lightning,NVIDIA,LLM,NORMAL,High-throughput agents/coding,30B / 3B active,1M,API/local,OpenMDW-1.1,OpenRouter/Groq listings verified
+Nemotron 3 Super,NVIDIA,LLM,NORMAL,Multi-agent/reasoning,120B / 12B active,1M,API/local,NVIDIA Open License,OpenRouter free listing verified
+Nemotron 3 Nano Omni,NVIDIA,LLM,NORMAL,Audio/video/image perception,30B-A3B,256K listed on OpenRouter,API/local,Open license,Multimodal sub-agent
+LLaMA 2,Meta,LLM,NORMAL,General/instruction baseline,7B/13B/70B,4K/variant-dependent,Local,Llama 2 license,Exact base/chat checkpoint matters
+Dolphin,Dolphin family,LLM,LOW-GUARDRAIL,General/coding/roleplay,Variant-dependent,Variant-dependent,Local,Variant-dependent,Family name only; exact checkpoint must be pinned
+Hermes,Nous Research/Hermes family,LLM,LOW-GUARDRAIL,Tool use/instruction/agents,Variant-dependent,Variant-dependent,Local/API,Variant-dependent,Family name only; exact checkpoint required
+Hermes-Apollo,Community,LLM,LOW-GUARDRAIL,General/agents,Unverified,Unverified,Unknown,Unknown,Exact repository not established
+Heretic,Community,LLM,OBLITERATED,Abliteration technique/derivatives,Variant-dependent,Variant-dependent,Local,Variant-dependent,Name is used for uncensoring/abliteration work; exact model required
+elder-plinius/CL4R1T4S,Community,LLM,LOW-GUARDRAIL,Permissive assistant/research,Unverified,Unverified,Local/API,Unknown,Exact model card needs verification
+Huihui-Ornith-1.5-9B,Huihui AI,LLM,UNVERIFIED,General/reasoning,9B,Variant-dependent,Local,Variant-dependent,Preserve name; verify exact card
+Huihui-Ornith-1.5-35B-A3B,Huihui AI,LLM,UNVERIFIED,General/reasoning,35B / 3B active,Variant-dependent,Local,Variant-dependent,Preserve name; verify exact card
+b-nnett/grok-bot-0.18-reconstructed,Community,LLM/Bot,UNVERIFIED,Grok-like bot/reconstruction,Unverified,Unverified,Local/community,Unknown,Not treated as official Grok
+ANTHROPIC/Claude-Fable-5.1.md,Community/claimed,LLM/document,UNVERIFIED,Claimed Claude-derived artifact,Unverified,Unverified,Unknown,Unknown,Not treated as official Anthropic model
+Big Pickle,Unknown,LLM?,UNVERIFIED,Unknown,Unknown,Unknown,Unknown,Unknown,Needs exact source
+HY-33,Unknown,LLM?,UNVERIFIED,Unknown,Unknown,Unknown,Unknown,Unknown,Needs exact source
+Nemo V2.53,Unknown,LLM?,UNVERIFIED,Unknown,Unknown,Unknown,Unknown,Unknown,Needs exact source
+M-USE,Unknown,LLM?,UNVERIFIED,Unknown,Unknown,Unknown,Unknown,Unknown,Needs exact source
+Spark One,Unknown,LLM?,UNVERIFIED,Unknown,Unknown,Unknown,Unknown,Unknown,Needs exact source
+Anonymous LLM,Unknown,LLM?,UNVERIFIED,Unknown,Unknown,Unknown,Unknown,Unknown,Cannot classify without exact model
+AirLLM 70B,AirLLM,RUNTIME,NOT A MODEL,Inference/offload,Underlying model-dependent,Underlying model-dependent,Local,Project license,Guardrail class belongs to underlying model
+AirLLM,AirLLM,RUNTIME,NOT A MODEL,Inference/offload,Underlying model-dependent,Underlying model-dependent,Local,Project license,Runtime/inference system
+Colibrì,Colibri,RUNTIME,NOT A MODEL,Streaming giant MoE experts,Underlying model-dependent,Underlying model-dependent,Local,Project license,"Inference system, not LLM"
+G0DM0D3 / GodMode 3,elder-plinius,ROUTER/AGENT,NOT A MODEL,Routing/orchestration,N/A,N/A,API/local,Project license,Middleware/orchestration
+G-Stack,Unknown,SYSTEM,NOT A MODEL,Model stack/system,N/A,N/A,Unknown,Unknown,Needs source
+G-Brain,Unknown,SYSTEM,NOT A MODEL,Agent/system,N/A,N/A,Unknown,Unknown,Needs source
+G-Brain Evals,Unknown,EVAL,NOT A MODEL,Evaluation,N/A,N/A,Unknown,Unknown,Evaluation project
+GPT-Image-2,OpenAI,IMAGE,NOT LLM,Image generation/editing,Proprietary,Provider-dependent,API,Provider terms,Guardrail behavior is not comparable to LLM refusal classes
+Grok Image 2.0,xAI,IMAGE,NOT LLM,Image generation,Proprietary,Provider-dependent,API,Provider terms,Image model
+FLUX,Black Forest Labs,IMAGE,NOT LLM,Image generation/editing,Variant-dependent,Variant-dependent,Local/API,Variant-dependent,Image family
+Wan,Alibaba/Wan family,VIDEO,NOT LLM,Video generation,Variant-dependent,Variant-dependent,Local/API,Variant-dependent,Video family
+HunyuanVideo,Tencent,VIDEO,NOT LLM,Video generation,Variant-dependent,Variant-dependent,Local,Variant-dependent,Video model family
+Open-Sora,Open-Sora community,VIDEO,NOT LLM,Video generation,Variant-dependent,Variant-dependent,Local,Variant-dependent,Video model family
+LongCat-Video-Avatar-1.5,Community/Model family,VIDEO,NOT LLM,Avatar/video identity,Variant-dependent,Variant-dependent,Local/API,Variant-dependent,Video model
+Whisper,OpenAI,SPEECH,NOT LLM,Speech-to-text,Variant-dependent,Variant-dependent,Local/API,Variant-dependent,Speech model
+F5-TTS,SWivid/community,SPEECH,NOT LLM,Text-to-speech,Variant-dependent,Variant-dependent,Local,Variant-dependent,Speech model
+GPT-SoVITS,Community,SPEECH,NOT LLM,Voice cloning/TTS,Variant-dependent,Variant-dependent,Local,Variant-dependent,Speech model

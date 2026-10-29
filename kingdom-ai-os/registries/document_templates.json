@@ -1,0 +1,30 @@
+[
+  {
+    "id": "royal-gold-book",
+    "name": "Royal Gold Book",
+    "description": "Formal monograph with navy title, gold line and diamond footer, page numbers, contents, and optional glossary.",
+    "defaults": {"font": "Times-Roman", "page_size": "A4", "margin_inches": 0.85, "include_contents": true, "footer_quote": "History deserves care, evidence, and dignity."},
+    "fidelity": "native-template"
+  },
+  {
+    "id": "academic-research-paper",
+    "name": "Academic Research Paper",
+    "description": "Plain scholarly report layout with serif type, contents, headings, and glossary support.",
+    "defaults": {"font": "Times-Roman", "page_size": "LETTER", "margin_inches": 1.0, "include_contents": true, "footer_quote": ""},
+    "fidelity": "native-template"
+  },
+  {
+    "id": "legal-memorandum",
+    "name": "Legal Memorandum",
+    "description": "Conservative memo layout; author must supply citations and verify legal authorities.",
+    "defaults": {"font": "Times-Roman", "page_size": "LETTER", "margin_inches": 1.0, "include_contents": false, "footer_quote": "Confidential draft — review before use."},
+    "fidelity": "native-template"
+  },
+  {
+    "id": "reference-recreation",
+    "name": "Reference Recreation (Best Effort)",
+    "description": "Use the analyzed reference profile to guide manual adjustments. This preset does not promise pixel-perfect reproduction.",
+    "defaults": {"font": "Times-Roman", "page_size": "A4", "margin_inches": 0.85, "include_contents": true, "footer_quote": ""},
+    "fidelity": "best-effort-requires-visual-QA"
+  }
+]

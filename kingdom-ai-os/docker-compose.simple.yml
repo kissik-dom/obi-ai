@@ -1,0 +1,31 @@
+# Lightweight stack: the working app only (chat + documents + saved history).
+# Usage:  OPENROUTER_API_KEY=sk-or-... docker compose -f docker-compose.simple.yml up -d --build
+# Then open http://<server-ip>:${FRONTEND_PORT:-8080}
+name: kingdom-ai-os-simple
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      APP_ENV: ${APP_ENV:-production}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      KAIOS_DEFAULT_MODEL: ${KAIOS_DEFAULT_MODEL:-google/gemini-2.5-flash}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
+    volumes: [kaios_data:/app/data]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/live', timeout=4)"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      backend: {condition: service_healthy}
+    ports: ["${FRONTEND_PORT:-8080}:80"]
+    restart: unless-stopped
+volumes:
+  kaios_data:

@@ -1,0 +1,39 @@
+name: Manual provider catalog discovery
+on:
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Which provider catalog to query
+        required: true
+        type: choice
+        options:
+          - huggingface
+          - openrouter
+          - fireworks
+permissions:
+  contents: read
+  actions: read
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r backend/requirements.txt
+      - name: Fetch selected provider catalog
+        env:
+          PROVIDER: ${{ inputs.provider }}
+          FIREWORKS_API_KEY: ${{ inputs.provider == 'fireworks' && secrets.FIREWORKS_API_KEY || '' }}
+          OPENROUTER_API_KEY: ${{ inputs.provider == 'openrouter' && secrets.OPENROUTER_API_KEY || '' }}
+          HF_TOKEN: ${{ inputs.provider == 'huggingface' && secrets.HF_TOKEN || '' }}
+        run: python scripts/discover_provider_models.py --provider "$PROVIDER" --output provider-catalog.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: provider-catalog-${{ inputs.provider }}
+          path: provider-catalog.json
+          if-no-files-found: warn
+          retention-days: 7

@@ -1,0 +1,42 @@
+name: Manual live model smoke test
+on:
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Provider for one explicitly selected model
+        required: true
+        type: choice
+        options:
+          - huggingface
+          - openrouter
+          - fireworks
+      model_id:
+        description: Exact model ID copied from the provider's live catalog
+        required: true
+        type: string
+      confirm_cost:
+        description: Confirm one live inference request may incur charges
+        required: true
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  smoke-test:
+    if: ${{ inputs.confirm_cost == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r backend/requirements.txt
+      - name: Run one explicit smoke test
+        env:
+          PROVIDER: ${{ inputs.provider }}
+          MODEL_ID: ${{ inputs.model_id }}
+          FIREWORKS_API_KEY: ${{ inputs.provider == 'fireworks' && secrets.FIREWORKS_API_KEY || '' }}
+          OPENROUTER_API_KEY: ${{ inputs.provider == 'openrouter' && secrets.OPENROUTER_API_KEY || '' }}
+          HF_TOKEN: ${{ inputs.provider == 'huggingface' && secrets.HF_TOKEN || '' }}
+        run: python scripts/probe_one_model.py --provider "$PROVIDER" --model-id "$MODEL_ID" --execute

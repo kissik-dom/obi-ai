@@ -1,0 +1,89 @@
+{
+  "project": "Kingdom AI OS",
+  "report_date": "2026-10-27",
+  "release_status": "NOT_RELEASE_READY",
+  "verified_in_local_environment": {
+    "backend_tests": {
+      "status": "PASS",
+      "passed": 21
+    },
+    "python_compile": {
+      "status": "PASS"
+    },
+    "registry_json_integrity": {
+      "status": "PASS",
+      "tabs": 28,
+      "model_candidates": 101,
+      "project_tool_candidates": 546,
+      "document_templates": 4
+    },
+    "yaml_syntax": {
+      "status": "PASS"
+    },
+    "frontend_source_syntax": {
+      "status": "PASS_FOR_PARSE_ONLY",
+      "note": "Global TypeScript parser found no TSX syntax errors in App.tsx, Workbench.tsx, or main.tsx; full typecheck/build remains blocked by missing installed packages."
+    },
+    "local_secret_generation_script": {
+      "status": "PASS",
+      "note": "Tested on a temporary copy; generated .env had mode 0600 and blank provider keys"
+    },
+    "document_rendering": {
+      "status": "PASS",
+      "formats": [
+        "PDF",
+        "DOCX"
+      ],
+      "features": [
+        "title page",
+        "contents list",
+        "page numbering",
+        "footer quote on every page",
+        "gold rule and centered diamond",
+        "glossary section by default",
+        "optional references",
+        "template profile extraction"
+      ],
+      "stress_test": {
+        "input_characters": 1902500,
+        "rendered_pages": 509,
+        "render_seconds_approx": 1.3,
+        "note": "Controlled pagination stress test only; not a 509-page fact-checked book-generation test."
+      }
+    },
+    "model_verification_runner": {
+      "status": "PASS_DRY_RUN_ONLY",
+      "candidate_count": 101,
+      "live_tests": 0,
+      "passed": 0,
+      "blocked": 101,
+      "note": "No exact IDs/provider mappings and no provider credentials; no model is claimed working."
+    },
+    "registry_change_validation": {
+      "status": "PASS",
+      "note": "Proposal validation and duplicate prevention tested; no live registry mutation."
+    },
+    "license_source_spot_checks": {
+      "status": "PASS_FOR_METADATA_ONLY",
+      "count": 8,
+      "note": "Upstream/package license sources recorded; not an install, security, or production approval."
+    }
+  },
+  "blocked_or_not_run": {
+    "frontend_production_build": "BLOCKED: npm install timed out; full TypeScript typecheck/build cannot run without React/lucide dependencies",
+    "docker_compose_config_and_image_build": "BLOCKED: Docker CLI unavailable",
+    "provider_invocation": "NOT_RUN: model catalog/probe/chat adapter code exists, but no live credentials or verified exact IDs are available. Dry-run has 0 live tests and 101 blocked candidates.",
+    "database_qdrant_minio_integration": "NOT_IMPLEMENTED: only dependency reachability probes exist; no production persistence/retrieval/storage adapters",
+    "authentication_authorization_tenant_isolation": "NOT_IMPLEMENTED",
+    "original_chatbot_ui_match": "BLOCKED: source packages inspected; original UI source was not found; v4 apps/web is empty",
+    "canonical_tab_names_25_to_28": "BLOCKED: source documents define 24 named workspaces only",
+    "complete_600_plus_project_inventory": "INCOMPLETE: 546 unique candidates; eight license-source spot checks recorded, but project/install/security/integration status remains UNVERIFIED.",
+    "github_push": "BLOCKED: connected GitHub permission is read-only and discovered repositories do not establish the correct target",
+    "vultr_deployment": "NOT_RUN: no Vultr deployment tool/access established",
+    "backup_restore_security_scan": "NOT_RUN",
+    "long_document_job_orchestration": "NOT_IMPLEMENTED: PDF/DOCX renderer handles supplied content; durable chapter generation, resumable job queue, citation verification, and visual QA are still missing.",
+    "template_fidelity": "PARTIAL: native presets and style profiles exist; arbitrary pixel-perfect recreation and custom font embedding are not validated."
+  },
+  "deployment_authorized": false,
+  "production_exposure_allowed": false
+}

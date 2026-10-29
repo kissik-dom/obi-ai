@@ -1,0 +1,9 @@
+model_list: []
+# Intentionally empty until Neo verifies exact model IDs against Fireworks/OpenRouter catalogs.
+# Add model entries only with exact provider IDs; never use speculative IDs or wildcard assumptions.
+# Keep only these two provider secrets: FIREWORKS_API_KEY and OPENROUTER_API_KEY.
+router_settings:
+  num_retries: 2
+  timeout: 60
+  allowed_fails: 3
+  cooldown_time: 30
