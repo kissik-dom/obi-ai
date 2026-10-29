@@ -152,6 +152,7 @@ async def providers():
             {"id": "fireworks", "configured": fireworks, "invocation": "disabled_until_model_id_verified"},
             {"id": "openrouter", "configured": openrouter, "invocation": "enabled_via_workspace_chat" if openrouter else "needs_api_key"},
             {"id": "huggingface", "configured": huggingface, "invocation": "disabled_until_model_id_verified"},
+            {"id": "ollama_self_hosted", "configured": bool(os.getenv("OLLAMA_BASE_URL", "").strip()), "invocation": "enabled_via_workspace_chat"},
         ],
     }
 

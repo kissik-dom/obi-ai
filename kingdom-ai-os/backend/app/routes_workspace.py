@@ -10,7 +10,6 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
 from app.services import assistant, store
-from app.services.model_probe import probe_model
 
 API_PREFIX = os.getenv("API_PREFIX", "/api/v1")
 router = APIRouter(prefix=API_PREFIX)
@@ -23,18 +22,26 @@ def _tabs() -> dict[str, str]:
     return {r["id"]: r["name"] for r in rows}
 
 
+def _usable(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Free cloud models need a (free) OpenRouter account key; without one, list the self-hosted models."""
+    if assistant.api_key():
+        return rows
+    return [r for r in rows if r.get("provider") == "ollama"] or rows
+
+
 @router.get("/status")
 async def status() -> dict[str, Any]:
     cat = await assistant.catalog()
     return {
-        "chat_ready": bool(assistant.api_key()),
-        "provider": "openrouter",
-        "provider_configured": bool(assistant.api_key()),
+        "chat_ready": assistant.chat_ready(),
+        "free_only": assistant.FREE_ONLY,
+        "self_hosted_models": bool(assistant.ollama_base()),
+        "openrouter_free_key": bool(assistant.api_key()),
         "database": store.health(),
-        "default_model": assistant.DEFAULT_MODEL,
-        "fallback_models": assistant.FALLBACK_MODELS,
+        "default_model": assistant.default_model(),
+        "fallback_models": assistant.fallback_models(),
         "catalog_source": cat["source"],
-        "catalog_count": len(cat["models"]),
+        "catalog_count": len(_usable(cat["models"])),
     }
 
 
@@ -43,7 +50,7 @@ async def catalog_models(q: str | None = Query(default=None, max_length=200), fr
                          limit: int = Query(default=60, ge=1, le=600)) -> dict[str, Any]:
     cat = await assistant.catalog()
     checks = store.model_checks()
-    rows = cat["models"]
+    rows = _usable(cat["models"])
     if q:
         n = q.casefold()
         rows = [r for r in rows if n in r["id"].casefold() or n in r["name"].casefold()]
@@ -52,7 +59,7 @@ async def catalog_models(q: str | None = Query(default=None, max_length=200), fr
     if vision:
         rows = [r for r in rows if r["vision"]]
     items = [{**r, "check": (checks.get(r["id"]) or {}).get("status", "not_run")} for r in rows[:limit]]
-    return {"source": cat["source"], "total": len(rows), "items": items, "default_model": assistant.DEFAULT_MODEL}
+    return {"source": cat["source"], "total": len(rows), "items": items, "default_model": assistant.default_model()}
 
 
 class NewConversation(BaseModel):
@@ -104,8 +111,8 @@ async def send_message(cid: str, payload: SendMessage) -> dict[str, Any]:
     conv = store.get_conversation(cid)
     if conv is None:
         raise HTTPException(404, "Conversation not found")
-    if not assistant.api_key():
-        raise HTTPException(503, "Chat is not switched on yet: the server needs an OPENROUTER_API_KEY.")
+    if not assistant.chat_ready():
+        raise HTTPException(503, "Chat is not switched on yet: start the free model server (OLLAMA_BASE_URL) or add a free OPENROUTER_API_KEY.")
     tabs = _tabs()
     web = payload.web_search if payload.web_search is not None else conv["tab_id"] in assistant.WEB_SEARCH_TABS
     history: list[dict[str, Any]] = [{"role": "system", "content": assistant.system_prompt(conv["tab_id"], tabs.get(conv["tab_id"], conv["tab_id"]))}]
@@ -154,8 +161,16 @@ class CheckRequest(BaseModel):
 
 @router.post("/catalog/check")
 async def check_model(payload: CheckRequest) -> dict[str, Any]:
-    """Send one tiny test prompt to a model and remember whether it answered."""
-    result = await probe_model("openrouter", payload.model_id)
-    if result.get("status") in ("passed", "failed"):
+    """Send one tiny test prompt to a model and remember whether it really answered."""
+    msgs = [{"role": "user", "content": "Reply with exactly: KAIOS_OK"}]
+    try:
+        r = await assistant._call(payload.model_id, msgs, False, 16)
+        result = {"status": "passed", "model_id": payload.model_id, "response_text": r["content"][:200]}
+    except assistant.ProviderError as exc:
+        blocked = "paid model blocked" in str(exc) or "needs a free" in str(exc) or "no self-hosted" in str(exc)
+        result = {"status": "blocked" if blocked else "failed", "model_id": payload.model_id, "reason": str(exc)[:300]}
+    except Exception as exc:  # noqa: BLE001 - network errors vary
+        result = {"status": "failed", "model_id": payload.model_id, "reason": type(exc).__name__}
+    if result["status"] in ("passed", "failed"):
         store.record_model_check(payload.model_id, result["status"], result)
     return result

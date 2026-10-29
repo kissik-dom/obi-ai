@@ -1,5 +1,9 @@
-# Lightweight stack: the working app only (chat + documents + saved history).
-# Usage:  OPENROUTER_API_KEY=sk-or-... docker compose -f docker-compose.simple.yml up -d --build
+# Lightweight stack: the working app (chat + documents + saved history), FREE models only.
+#
+# Fully self-hosted, no keys at all (open-source models run on this server):
+#   docker compose -f docker-compose.simple.yml --profile local-models up -d --build
+# Optional extra: a free OpenRouter account key adds the free cloud models (no credit card):
+#   OPENROUTER_API_KEY=sk-or-... docker compose -f docker-compose.simple.yml --profile local-models up -d --build
 # Then open http://<server-ip>:${FRONTEND_PORT:-8080}
 name: kingdom-ai-os-simple
 services:
@@ -9,8 +13,11 @@ services:
       dockerfile: backend/Dockerfile
     environment:
       APP_ENV: ${APP_ENV:-production}
+      KAIOS_FREE_ONLY: ${KAIOS_FREE_ONLY:-true}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://ollama:11434}
+      OLLAMA_DEFAULT_MODEL: ${OLLAMA_DEFAULT_MODEL:-qwen2.5:3b}
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
-      KAIOS_DEFAULT_MODEL: ${KAIOS_DEFAULT_MODEL:-google/gemini-2.5-flash}
+      KAIOS_DEFAULT_MODEL: ${KAIOS_DEFAULT_MODEL:-}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
     volumes: [kaios_data:/app/data]
     healthcheck:
@@ -27,5 +34,21 @@ services:
       backend: {condition: service_healthy}
     ports: ["${FRONTEND_PORT:-8080}:80"]
     restart: unless-stopped
+  # Open-source model server (Ollama). Runs on CPU; uses the GPU automatically if the server has one.
+  ollama:
+    image: ollama/ollama:latest
+    profiles: [local-models]
+    volumes: [ollama_models:/root/.ollama]
+    restart: unless-stopped
+  # One-time download of the open-source models listed in OLLAMA_PULL (space separated).
+  ollama-pull:
+    image: ollama/ollama:latest
+    profiles: [local-models]
+    depends_on: [ollama]
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["/bin/sh", "-c", "sleep 5; for m in ${OLLAMA_PULL:-qwen2.5:3b llama3.2:3b}; do ollama pull $$m; done"]
+    restart: "no"
 volumes:
   kaios_data:
+  ollama_models:

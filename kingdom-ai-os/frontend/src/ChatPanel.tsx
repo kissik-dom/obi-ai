@@ -42,12 +42,12 @@ export default function ChatPanel({ tabId, tabName, webDefault, status, onNaviga
   const [text, setText] = useState(''); const [busy, setBusy] = useState(false); const [error, setError] = useState('');
   const [web, setWeb] = useState(webDefault); const [files, setFiles] = useState<{ name: string; text: string }[]>([]);
   const [model, setModel] = useState(localStorage.getItem('kaios-model') || ''); const [pickerOpen, setPickerOpen] = useState(false); const [historyOpen, setHistoryOpen] = useState(false);
-  const [models, setModels] = useState<Model[]>([]); const [mq, setMq] = useState(''); const [freeOnly, setFreeOnly] = useState(false);
+  const [models, setModels] = useState<Model[]>([]); const [mq, setMq] = useState('');
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { setWeb(webDefault); setConvId(null); setMessages([]); setError(''); refreshConvs() }, [tabId]);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages, busy]);
-  useEffect(() => { if (!pickerOpen) return; const t = setTimeout(() => api<{ items: Model[] }>(`/catalog/models?limit=80&free=${freeOnly}${mq ? '&q=' + encodeURIComponent(mq) : ''}`).then(r => setModels(r.items)).catch(() => setModels([])), 200); return () => clearTimeout(t) }, [pickerOpen, mq, freeOnly]);
+  useEffect(() => { if (!pickerOpen) return; const t = setTimeout(() => api<{ items: Model[] }>(`/catalog/models?limit=80&free=true${mq ? '&q=' + encodeURIComponent(mq) : ''}`).then(r => setModels(r.items)).catch(() => setModels([])), 200); return () => clearTimeout(t) }, [pickerOpen, mq]);
   const modelLabel = useMemo(() => (model || status?.default_model || 'Auto').split('/').pop(), [model, status]);
 
   function refreshConvs() { api<Conv[]>(`/conversations?tab_id=${tabId}`).then(setConvs).catch(() => setConvs([])) }
@@ -84,10 +84,10 @@ export default function ChatPanel({ tabId, tabName, webDefault, status, onNaviga
       <label className="tool-btn" title="Attach PDF, Word, text or code files"><Paperclip size={17} /><span>Attach</span><input type="file" multiple hidden accept=".pdf,.docx,.txt,.md,.csv,.json,.html,.py,.ts,.tsx,.js" onChange={e => { attach(e.target.files); e.target.value = '' }} /></label>
       <button className={`tool-btn ${web ? 'on' : ''}`} title="Search the web and cite sources" onClick={() => setWeb(v => !v)}><Globe size={16} /><span>Web {web ? 'on' : 'off'}</span></button>
       <div className="picker-wrap"><button className="model-select" onClick={() => setPickerOpen(v => !v)}><span className="model-orb" /> {modelLabel} <ChevronDown size={13} /></button>
-        {pickerOpen && <div className="model-picker"><div className="picker-search"><Search size={14} /><input autoFocus onKeyDown={e => { if (e.key === "Escape") setPickerOpen(false) }} value={mq} onChange={e => setMq(e.target.value)} placeholder={`Search ${status?.catalog_count || ''} live models`} /></div>
-          <label className="picker-free"><input type="checkbox" checked={freeOnly} onChange={e => setFreeOnly(e.target.checked)} /> Free models only</label>
+        {pickerOpen && <div className="model-picker"><div className="picker-search"><Search size={14} /><input autoFocus onKeyDown={e => { if (e.key === "Escape") setPickerOpen(false) }} value={mq} onChange={e => setMq(e.target.value)} placeholder={`Search ${status?.catalog_count || ''} free models`} /></div>
+          <label className="picker-free"><CheckCircle2 size={12} className="ok" /> Free &amp; open-source models only · paid models are blocked</label>
           <button className={`picker-row ${!model ? 'sel' : ''}`} onClick={() => chooseModel('')}><b>Recommended</b><small>{status?.default_model} · falls back automatically if it fails</small></button>
-          {models.map(m => <button key={m.id} className={`picker-row ${model === m.id ? 'sel' : ''}`} onClick={() => chooseModel(m.id)}><b>{m.name}{m.check === 'passed' && <CheckCircle2 size={12} className="ok" />}</b><small>{m.id} · {m.free ? 'free' : m.price_in != null ? `$${m.price_in}/$${m.price_out} per 1M` : ''}{m.context ? ` · ${Math.round(m.context / 1000)}k ctx` : ''}{m.vision ? ' · vision' : ''}</small></button>)}
+          {models.map(m => <button key={m.id} className={`picker-row ${model === m.id ? 'sel' : ''}`} onClick={() => chooseModel(m.id)}><b>{m.name}{m.check === 'passed' && <CheckCircle2 size={12} className="ok" />}</b><small>{m.id} · {m.id.startsWith('ollama/') ? 'runs on your server · free' : m.free ? 'free' : m.price_in != null ? `$${m.price_in}/$${m.price_out} per 1M` : ''}{m.context ? ` · ${Math.round(m.context / 1000)}k ctx` : ''}{m.vision ? ' · vision' : ''}</small></button>)}
           {models.length === 0 && <small className="picker-empty">No models match.</small>}</div>}
       </div></div>
       <div className="composer-right"><span className="shortcut">Shift ↵ for new line</span><button className="send-btn" onClick={() => send()} disabled={busy} aria-label="Send">{busy ? <Loader2 size={18} className="spin" /> : <ArrowUp size={18} />}</button></div></div>
@@ -96,7 +96,7 @@ export default function ChatPanel({ tabId, tabName, webDefault, status, onNaviga
   return <section className={`welcome chat ${empty ? '' : 'has-messages'}`}>
     <div className="chat-bar"><button className="text-btn" onClick={() => setHistoryOpen(v => !v)}><History size={14} /> History ({convs.length})</button><button className="text-btn" onClick={fresh}><Plus size={14} /> New chat</button></div>
     {historyOpen && <div className="history">{convs.length === 0 && <small>No saved chats in this workspace yet.</small>}{convs.map(c => <div key={c.id} className={`history-row ${c.id === convId ? 'sel' : ''}`}><button onClick={() => open(c.id)}>{c.title}<small>{new Date(c.updated_at * 1000).toLocaleString()}</small></button><button aria-label="Delete chat" onClick={() => remove(c.id)}><Trash2 size={13} /></button></div>)}</div>}
-    {status && !status.chat_ready && <div className="notice warn"><AlertTriangle size={16} /> Chat is almost ready. The server needs an OpenRouter API key (<code>OPENROUTER_API_KEY</code>) before models can answer. Everything else works.</div>}
+    {status && !status.chat_ready && <div className="notice warn"><AlertTriangle size={16} /> Chat is almost ready. Start the free model server on your machine (see QUICKSTART: <code>docker compose -f docker-compose.simple.yml --profile local-models up -d</code>) and models will answer. No paid keys needed.</div>}
     {empty ? <>
       <div className="eyebrow"><span className="eyebrow-icon"><Sparkles size={14} /></span> {tabId === 'home' ? 'YOUR AI WORKSPACE' : tabName.toUpperCase()} <span className="line" /></div>
       {tabId === 'home' ? <h1>What are we <em>building</em><br />today?</h1> : <h1>{tabName.split(' /')[0]} <em>assistant</em></h1>}
