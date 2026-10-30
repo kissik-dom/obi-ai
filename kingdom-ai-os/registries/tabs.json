@@ -168,10 +168,10 @@
     "test_status": "not_run"
   },
   {
-    "id": "unmapped-25",
-    "name": "UNMAPPED TAB 25",
-    "source_status": "Unresolved: latest source has 24 named tabs; confirm official name and scope before implementation",
-    "implementation_status": "not_implemented",
+    "id": "tv-movie-studio",
+    "name": "TV / Movie Studio",
+    "source_status": "Added 2026-10-30 (owner request)",
+    "implementation_status": "movie_studio",
     "test_status": "not_run"
   },
   {

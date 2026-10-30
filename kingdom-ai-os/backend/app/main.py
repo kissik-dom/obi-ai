@@ -20,6 +20,7 @@ import base64
 import io
 import zipfile
 from app.routes_workspace import router as workspace_router
+from app.routes_studio import router as studio_router
 
 HERE = Path(__file__).resolve()
 ROOT = next((parent for parent in HERE.parents if (parent / "registries").is_dir()), HERE.parents[2])
@@ -53,6 +54,7 @@ app.add_middleware(
     allow_headers=["Content-Type", "X-Request-ID"],
 )
 app.include_router(workspace_router)
+app.include_router(studio_router)
 
 
 @app.middleware("http")

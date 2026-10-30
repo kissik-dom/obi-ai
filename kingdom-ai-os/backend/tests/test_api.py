@@ -21,7 +21,7 @@ def test_security_headers_present():
 def test_tabs_have_28_entries_and_unmapped_are_explicit():
     r = client.get("/api/v1/tabs")
     assert r.status_code == 200 and len(r.json()) == 28
-    assert sum(1 for tab in r.json() if tab["id"].startswith("unmapped-")) == 4
+    assert sum(1 for tab in r.json() if tab["id"].startswith("unmapped-")) == 3  # unmapped-25 is now the TV / Movie Studio
 
 
 def test_models_are_unverified_until_reviewed():
