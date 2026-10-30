@@ -134,7 +134,7 @@ jobs:
           ls -1t "$HOME"/kaios-backups/kaios-data-*.tar.gz | tail -n +15 | xargs -r rm -f
           BK
           sed -i 's/^          //' "$HOME/kaios-backup.sh"; chmod 700 "$HOME/kaios-backup.sh"
-          ( crontab -l 2>/dev/null | grep -v kaios-backup.sh; echo "17 3 * * * $HOME/kaios-backup.sh >/dev/null 2>&1" ) | crontab -
+          { (crontab -l 2>/dev/null || true) | (grep -v kaios-backup.sh || true); echo "17 3 * * * $HOME/kaios-backup.sh >/dev/null 2>&1"; } | crontab - || echo "cron not available - nightly backup not scheduled" >&2
           "$HOME/kaios-backup.sh" && ls -lh "$HOME/kaios-backups" | tail -3 && echo BACKUP_OK || echo "BACKUP_FAILED" >&2
           "${C[@]}" -p kaios ps
           rm -f "/tmp/kaios-${SHA}.tar.gz"; rm -rf "$APP.old"
