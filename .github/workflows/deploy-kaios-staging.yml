@@ -55,14 +55,17 @@ jobs:
           set -euo pipefail
           ssh -i "$HOME/.ssh/k" -o BatchMode=yes -o ServerAliveInterval=30 "${SSH_USERNAME}@${SERVER_HOST}" "SHA='${GITHUB_SHA}' bash -s" <<'REMOTE'
           set -euo pipefail
-          if docker info >/dev/null 2>&1; then D=(docker); else D=(sudo -n docker); fi
+          if docker info >/dev/null 2>&1; then D=(docker); S=(); else D=(sudo -n docker); S=(sudo -n); fi
+          if "${D[@]}" compose version >/dev/null 2>&1; then C=("${D[@]}" compose)
+          elif command -v docker-compose >/dev/null 2>&1; then C=("${S[@]}" docker-compose)
+          else echo "Docker Compose is not installed on the server" >&2; exit 1; fi
           echo "== Server specs =="
           nproc; free -h; df -h / | tail -1
           command -v nvidia-smi >/dev/null && nvidia-smi --query-gpu=name,memory.total --format=csv || echo "GPU: none"
           AVAIL_GB=$(awk '/MemAvailable/ {printf "%d", $2/1048576}' /proc/meminfo)
           DISK_GB=$(df -BG --output=avail / | tail -1 | tr -dc 0-9)
           echo "available RAM GB=$AVAIL_GB  free disk GB=$DISK_GB"
-          if   [ "$AVAIL_GB" -ge 12 ] && [ "$DISK_GB" -ge 20 ]; then PULL="qwen2.5:3b llama3.2:3b qwen2.5:7b"; DEF="qwen2.5:7b"
+          if   [ "$AVAIL_GB" -ge 12 ] && [ "$DISK_GB" -ge 20 ]; then PULL="qwen2.5:3b llama3.2:3b qwen2.5:7b"; DEF="qwen2.5:3b"
           elif [ "$AVAIL_GB" -ge 5 ]  && [ "$DISK_GB" -ge 10 ]; then PULL="qwen2.5:3b llama3.2:3b"; DEF="qwen2.5:3b"
           elif [ "$AVAIL_GB" -ge 3 ]  && [ "$DISK_GB" -ge 6 ];  then PULL="qwen2.5:3b"; DEF="qwen2.5:3b"
           else PULL="qwen2.5:1.5b"; DEF="qwen2.5:1.5b"; fi
@@ -76,20 +79,20 @@ jobs:
           [ -f "$APP/.env.local" ] && cat "$APP/.env.local" >> "$APP.new/.env" && cp "$APP/.env.local" "$APP.new/" || true
           rm -rf "$APP.old"; [ -d "$APP" ] && mv "$APP" "$APP.old"; mv "$APP.new" "$APP"
           cd "$APP"
-          "${D[@]}" compose -p kaios -f docker-compose.simple.yml --profile local-models up -d --build
+          "${C[@]}" -p kaios -f docker-compose.simple.yml --profile local-models up -d --build
           echo "== Waiting for model download (can take several minutes) =="
           for i in $(seq 1 120); do
-            st=$("${D[@]}" inspect -f '{{.State.Status}} {{.State.ExitCode}}' kaios-ollama-pull-1 2>/dev/null || echo "missing 0")
+            PC=$("${D[@]}" ps -aq --filter name=kaios.ollama-pull | head -1); st=$([ -n "$PC" ] && "${D[@]}" inspect -f '{{.State.Status}} {{.State.ExitCode}}' "$PC" 2>/dev/null || echo "missing 0")
             case "$st" in exited*) echo "pull finished: $st"; break;; esac; sleep 10
           done
-          "${D[@]}" logs --tail=5 kaios-ollama-pull-1 2>&1 | tr '\r' '\n' | tail -5 || true
+          [ -n "${PC:-}" ] && "${D[@]}" logs --tail=5 "$PC" 2>&1 | tr '\r' '\n' | tail -5 || true
           sudo -n ufw status 2>/dev/null | grep -q "Status: active" && sudo -n ufw allow "$PORT"/tcp || true
           echo "== Status =="
           for i in $(seq 1 30); do curl -fsS "http://127.0.0.1:$PORT/api/v1/status" && break; sleep 5; done; echo
           echo "== Live chat test =="
           CID=$(curl -fsS -X POST "http://127.0.0.1:$PORT/api/v1/conversations" -H 'content-type: application/json' -d '{"tab_id":"home","title":"deploy smoke test"}' | python3 -c 'import sys,json;print(json.load(sys.stdin)["id"])' || echo none)
           curl -sS -m 300 -X POST "http://127.0.0.1:$PORT/api/v1/conversations/$CID/messages" -H 'content-type: application/json' -d '{"content":"Reply with one short friendly sentence confirming you are online."}' | head -c 1500 || true; echo
-          "${D[@]}" compose -p kaios ps
+          "${C[@]}" -p kaios ps
           rm -f "/tmp/kaios-${SHA}.tar.gz"; rm -rf "$APP.old"
           echo "KAIOS_PORT=$PORT"
           REMOTE
