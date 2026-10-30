@@ -86,7 +86,7 @@ jobs:
           mkdir -p "$APP.new" && tar -xzf "/tmp/kaios-${SHA}.tar.gz" -C "$APP.new"
           # Sign-in: only a one-way PBKDF2 hash of the owner's password is stored here (never the password).
           # The authenticator (2FA) secret is created on the server itself at first sign-in, in the data volume.
-          PWHASH='pbkdf2_sha256:600000:6f48a579deedf4b7e6efbcfb3d6a8c8f:e9950121fc3534a684d1ff305d97899a0c815bc556fde626ff61c99d5bbc9118'
+          PWHASH='pbkdf2_sha256:600000:c5fddfdd0cc8f90c7f491167f5dd5140:346ad64f242059442b9a243feae0e92254325e0da4f7f8482857b0de1030854a'
           printf 'OLLAMA_PULL=%s\nOLLAMA_DEFAULT_MODEL=%s\nFRONTEND_PORT=%s\nKAIOS_FREE_ONLY=true\nKAIOS_PASSWORD_HASH=%s\n' "$PULL" "$DEF" "$PORT" "$PWHASH" > "$APP.new/.env"
           [ -f "$APP/.env.local" ] && cat "$APP/.env.local" >> "$APP.new/.env" && cp "$APP/.env.local" "$APP.new/" || true
           rm -rf "$APP.old"; [ -d "$APP" ] && mv "$APP" "$APP.old"; mv "$APP.new" "$APP"
@@ -121,6 +121,21 @@ jobs:
               except shield.Blocked:
                   print("SHIELD_OK", shield.status()["classifier_state"])
           asyncio.run(m())' || true
+          echo "== Daily data backups (chats, studio, sign-in settings) =="
+          mkdir -p "$HOME/kaios-backups"
+          cat > "$HOME/kaios-backup.sh" <<'BK'
+          #!/usr/bin/env bash
+          # Copies the app's data folder out of the container every night; keeps the last 14 days.
+          set -euo pipefail
+          if docker info >/dev/null 2>&1; then D=(docker); else D=(sudo -n docker); fi
+          OUT="$HOME/kaios-backups/kaios-data-$(date +%Y%m%d-%H%M).tar.gz"
+          "${D[@]}" cp kaios-backend-1:/app/data - | gzip > "$OUT"
+          chmod 600 "$OUT"
+          ls -1t "$HOME"/kaios-backups/kaios-data-*.tar.gz | tail -n +15 | xargs -r rm -f
+          BK
+          sed -i 's/^          //' "$HOME/kaios-backup.sh"; chmod 700 "$HOME/kaios-backup.sh"
+          ( crontab -l 2>/dev/null | grep -v kaios-backup.sh; echo "17 3 * * * $HOME/kaios-backup.sh >/dev/null 2>&1" ) | crontab -
+          "$HOME/kaios-backup.sh" && ls -lh "$HOME/kaios-backups" | tail -3 && echo BACKUP_OK || echo "BACKUP_FAILED" >&2
           "${C[@]}" -p kaios ps
           rm -f "/tmp/kaios-${SHA}.tar.gz"; rm -rf "$APP.old"
           echo "KAIOS_PORT=$PORT"

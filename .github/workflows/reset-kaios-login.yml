@@ -1,0 +1,43 @@
+name: Reset Kingdom AI OS sign-in (emergency)
+
+# Backup way in. Run it from GitHub (Actions tab -> this workflow -> Run workflow, type RESET).
+# It turns off the phone link and backup codes on the server and signs everyone out.
+# After it finishes, sign in with the password and scan a new QR code.
+# Your chats and data are NOT touched (a copy of the sign-in file is saved first).
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type RESET to confirm"
+        required: true
+        default: ""
+
+jobs:
+  reset:
+    if: ${{ inputs.confirm == 'RESET' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Reset sign-in on the server
+        env:
+          SERVER_HOST: ${{ vars.SERVER_HOST || secrets.SERVER_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > "$HOME/.ssh/k"; chmod 600 "$HOME/.ssh/k"
+          ssh-keyscan -H "$SERVER_HOST" >> "$HOME/.ssh/known_hosts" 2>/dev/null
+          ssh -i "$HOME/.ssh/k" -o BatchMode=yes "${SSH_USERNAME}@${SERVER_HOST}" 'bash -s' <<'REMOTE'
+          set -euo pipefail
+          if docker info >/dev/null 2>&1; then D=(docker); else D=(sudo -n docker); fi
+          mkdir -p "$HOME/kaios-backups"
+          "${D[@]}" cp kaios-backend-1:/app/data/auth.json "$HOME/kaios-backups/auth-before-reset-$(date +%Y%m%d-%H%M%S).json" 2>/dev/null || true
+          "${D[@]}" exec kaios-backend-1 rm -f /app/data/auth.json
+          "${D[@]}" restart kaios-backend-1 >/dev/null
+          for i in $(seq 1 30); do s=$(curl -fsS http://127.0.0.1:8080/api/v1/auth/status 2>/dev/null) && break; sleep 3; done
+          echo "status after reset: $s"
+          echo "$s" | grep -q '"two_factor":false' && echo RESET_OK
+          REMOTE

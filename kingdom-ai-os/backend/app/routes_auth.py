@@ -22,12 +22,12 @@ def _set_cookie(response: Response, request: Request) -> None:
 
 class LoginIn(BaseModel):
     password: str = Field(max_length=256)
-    code: str = Field(default="", max_length=12)
+    code: str = Field(default="", max_length=20)
 
 
 class SetupIn(BaseModel):
     setup_token: str = Field(max_length=512)
-    code: str = Field(default="", max_length=12)
+    code: str = Field(default="", max_length=20)
 
 
 class ChangeIn(BaseModel):
@@ -41,7 +41,7 @@ async def status(request: Request):
     on = auth.enabled()
     return {"enabled": on or auth.required_but_missing(), "configured": on,
             "authenticated": (not on and not auth.required_but_missing()) or auth.valid_session(request.cookies.get(auth.SESSION_COOKIE)),
-            "two_factor": auth.totp_ready()}
+            "two_factor": auth.totp_ready(), "backup_codes_left": auth.recovery_left() if on else 0}
 
 
 async def _guard(request: Request) -> str:
@@ -70,11 +70,14 @@ async def login(payload: LoginIn, request: Request, response: Response):
         return {"ok": False, "setup_required": True, "setup_token": auth.new_setup_token()}
     if not payload.code.strip():
         return {"ok": False, "code_required": True}
+    used_backup = False
     if not auth.verify_code(payload.code):
-        await _fail(ip, "Wrong password or code.")
+        if not auth.use_recovery_code(payload.code):
+            await _fail(ip, "Wrong password or code.")
+        used_backup = True
     auth.clear_fails(ip)
     _set_cookie(response, request)
-    return {"ok": True}
+    return {"ok": True, "used_backup_code": used_backup, "backup_codes_left": auth.recovery_left()}
 
 
 @router.post("/totp/start")
@@ -94,7 +97,22 @@ async def totp_confirm(payload: SetupIn, request: Request, response: Response):
         await _fail(ip, "That code didn't match. Check the time on your phone and try the newest code.")
     auth.clear_fails(ip)
     _set_cookie(response, request)
-    return {"ok": True}
+    return {"ok": True, "recovery_codes": auth.new_recovery_codes()}
+
+
+class CodeIn(BaseModel):
+    code: str = Field(max_length=12)
+
+
+@router.post("/backup-codes")
+async def regenerate_backup_codes(payload: CodeIn, request: Request):
+    """Signed in + a current phone code -> 10 new backup codes (old ones stop working)."""
+    if not auth.valid_session(request.cookies.get(auth.SESSION_COOKIE)):
+        raise HTTPException(401, "Sign in first.")
+    ip = await _guard(request)
+    if not auth.verify_code(payload.code):
+        await _fail(ip, "Wrong code.")
+    return {"ok": True, "recovery_codes": auth.new_recovery_codes()}
 
 
 @router.post("/logout")

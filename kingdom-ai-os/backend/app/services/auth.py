@@ -199,6 +199,50 @@ def confirm_totp_setup(code: str) -> bool:
     return True
 
 
+# ---------- backup (recovery) codes ----------
+RECOVERY_COUNT = 10
+_RC_ALPHABET = "abcdefghjkmnpqrstuvwxyz23456789"  # no look-alikes (0/o, 1/l/i)
+
+
+def _norm_rc(code: str) -> str:
+    return "".join(ch for ch in str(code or "").lower() if ch.isalnum())
+
+
+def _hash_rc(code: str) -> str:
+    return hashlib.sha256(("kaios-rc:" + _norm_rc(code)).encode()).hexdigest()
+
+
+def new_recovery_codes() -> list[str]:
+    """Makes 10 fresh one-time backup codes (replaces any old ones). Only hashes are stored."""
+    codes = []
+    for _ in range(RECOVERY_COUNT):
+        raw = "".join(secrets.choice(_RC_ALPHABET) for _ in range(8))
+        codes.append(raw[:4] + "-" + raw[4:])
+    _update(recovery=[_hash_rc(c) for c in codes])
+    return codes
+
+
+def recovery_left() -> int:
+    return len(_load().get("recovery") or [])
+
+
+def use_recovery_code(code: str) -> bool:
+    """A backup code works once instead of the phone code."""
+    if len(_norm_rc(code)) != 8:
+        return False
+    h = _hash_rc(code)
+    with _lock:
+        s = _load()
+        left = s.get("recovery") or []
+        match = next((x for x in left if hmac.compare_digest(x, h)), None)
+        if not match:
+            return False
+        left.remove(match)
+        s["recovery"] = left
+        _save(s)
+        return True
+
+
 def _qr_svg(data: str) -> str:
     try:
         import segno

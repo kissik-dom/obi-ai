@@ -90,3 +90,14 @@ def test_password_forgives_copy_paste_slips(monkeypatch):
     assert a.check_password("`Indigo-Lotus-1578`")
     assert not a.check_password("indigo-lotus-1578")
     assert not a.check_password("Indigo-Lotus-157")
+
+
+def test_backup_codes_work_once(monkeypatch, tmp_path):
+    from app.services import auth as a
+    monkeypatch.setenv("KAIOS_DB_PATH", str(tmp_path / "k.db"))
+    codes = a.new_recovery_codes()
+    assert len(codes) == 10 and a.recovery_left() == 10
+    assert a.use_recovery_code(codes[0].upper().replace("-", " "))
+    assert not a.use_recovery_code(codes[0])
+    assert a.recovery_left() == 9
+    assert not a.use_recovery_code("abcd-efgh")
