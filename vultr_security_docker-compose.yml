@@ -1,0 +1,179 @@
+# Security plane compose. Deploy alongside the main compose with:
+#   docker compose -f docker-compose.yml -f vultr_security_docker-compose.yml up -d
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:v1.6.4
+    restart: unless-stopped
+    volumes:
+      - crowdsec-config:/etc/crowdsec
+      - crowdsec-db:/var/lib/crowdsec/data
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "cscli metrics >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - kingdom
+
+  wazuh-indexer:
+    image: wazuh/wazuh-indexer:4.9.0
+    restart: unless-stopped
+    ports:
+      - "9200:9200"
+    volumes:
+      - wazuh-indexer:/usr/share/wazuh-indexer/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:9200 >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - kingdom
+
+  wazuh-manager:
+    image: wazuh/wazuh-manager:4.9.0
+    restart: unless-stopped
+    ports:
+      - "1514:1514/udp"
+      - "1515:1515/tcp"
+    volumes:
+      - wazuh-manager:/var/ossec/data
+    healthcheck:
+      test: ["CMD-SHELL", "/var/ossec/bin/wazuh-control status >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - kingdom
+
+  wazuh-dashboard:
+    image: wazuh/wazuh-dashboard:4.9.0
+    restart: unless-stopped
+    ports:
+      - "443:5601"
+    environment:
+      INDEXER_URL: https://wazuh-indexer:9200
+      WAZUH_API_URL: https://wazuh-manager:55000
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f -k https://127.0.0.1:5601 >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - kingdom
+
+  suricata:
+    image: jasonish/suricata:7.0.7
+    restart: unless-stopped
+    network_mode: host
+    cap_add: [NET_ADMIN, NET_RAW]
+    volumes:
+      - suricata-logs:/var/log/suricata
+      - ./vultr/suricata:/etc/suricata:ro
+    command: -i eth0
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep suricata >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  falco:
+    image: falcosecurity/falco:0.39.0
+    restart: unless-stopped
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - /dev:/host/dev
+      - /proc:/host/proc:ro
+      - /boot:/host/boot:ro
+      - /lib/modules:/host/lib/modules:ro
+      - /usr:/host/usr:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep falco >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  tetragon:
+    image: quay.io/cilium/tetragon:v1.1.2
+    restart: unless-stopped
+    privileged: true
+    pid: host
+    volumes:
+      - /sys/kernel/btf/vmlinux:/var/lib/tetragon/btf:ro
+      - tetragon-export:/var/run/cilium
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep tetragon >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  cowrie:
+    image: cowrie/cowrie:2.6.1
+    restart: unless-stopped
+    ports:
+      - "2222:2222"
+    volumes:
+      - cowrie-data:/cowrie/cowrie-git/var
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import socket; socket.create_connection(('127.0.0.1',2222), timeout=2).close()\" || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - kingdom
+
+  compreface:
+    image: exadel/compreface:1.4.1
+    restart: unless-stopped
+    ports:
+      - "8001:8080"
+    volumes:
+      - compreface-data:/var/lib/compreface
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - kingdom
+
+  wireguard:
+    image: linuxserver/wireguard:1.0.20210914
+    restart: unless-stopped
+    cap_add: [NET_ADMIN, SYS_MODULE]
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      SERVERURL: wireguard.${DOMAIN:-localhost}
+      SERVERPORT: "51820"
+      PEERS: "1"
+    volumes:
+      - wireguard-config:/config
+      - /lib/modules:/lib/modules:ro
+    ports:
+      - "51820:51820/udp"
+    healthcheck:
+      test: ["CMD-SHELL", "wg show >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - kingdom
+
+networks:
+  kingdom:
+    external: true
+
+volumes:
+  crowdsec-config:
+  crowdsec-db:
+  wazuh-indexer:
+  wazuh-manager:
+  suricata-logs:
+  tetragon-export:
+  cowrie-data:
+  compreface-data:
+  wireguard-config:

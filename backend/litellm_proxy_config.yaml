@@ -1,0 +1,2668 @@
+# Kingdom AI OS LiteLLM Proxy config
+# 10 OpenRouter API keys, automatic failover, num_retries=3, timeout=60.
+model_list:
+  - model_name: tier-s-huihui-qwen3.6-35b-a3b
+    litellm_params:
+      model: openrouter/huihui-ai/Qwen3.6-35B-A3B-Instruct
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-qwen3.8-27b
+    litellm_params:
+      model: openrouter/qwen/Qwen3.8-27B
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-qwen3.8-vision
+    litellm_params:
+      model: openrouter/qwen/Qwen3.8-VL-30B-A3B
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-qwen3-coder-next-80b
+    litellm_params:
+      model: openrouter/qwen/Qwen3-Coder-Next-80B-A3B-Instruct
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-deepseek-v4-flash
+    litellm_params:
+      model: openrouter/deepseek-ai/DeepSeek-V4-Flash
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-mimo-v2.5-310b
+    litellm_params:
+      model: openrouter/xiaomi/MiMo-V2.5-310B-A3B
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-gemma-4-it-qat-12b
+    litellm_params:
+      model: openrouter/google/gemma-4-it-qat-12B
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-qwythos-9b-classic
+    litellm_params:
+      model: openrouter/qwythos/Qwythos-9B-Classic
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-cyberstrike-offsec-35b
+    litellm_params:
+      model: openrouter/cyberstrike/CyberStrike-OffSec-35B
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-ling-3.1-flash
+    litellm_params:
+      model: openrouter/ling/Ling-3.1-Flash
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-gemini-4-plus
+    litellm_params:
+      model: openrouter/google/gemini-4-plus
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-gemini-4-argon
+    litellm_params:
+      model: openrouter/google/gemini-4-argon
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-001-gpt-4.1-mini
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-002-gpt-4.1-nano
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-nano
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-003-claude-3.5-haiku
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-haiku
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-004-gemini-2.0-flash
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-005-llama-3.3-70b-instruct
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.3-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-006-qwen3-30b-a3b
+    litellm_params:
+      model: openrouter/qwen/qwen3-30b-a3b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-007-mistral-small-3.1
+    litellm_params:
+      model: openrouter/mistralai/mistral-small-3.1
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-008-command-r7b
+    litellm_params:
+      model: openrouter/cohere/command-r7b
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-009-DeepSeek-V3.1
+    litellm_params:
+      model: openrouter/deepseek-ai/DeepSeek-V3.1
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-010-jamba-1.6-mini
+    litellm_params:
+      model: openrouter/ai21/jamba-1.6-mini
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-011-llama-3.3-nemotron-nano-8b
+    litellm_params:
+      model: openrouter/nvidia/llama-3.3-nemotron-nano-8b
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-012-kimi-k2.5
+    litellm_params:
+      model: openrouter/moonshotai/kimi-k2.5
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-013-glm-4.5-air
+    litellm_params:
+      model: openrouter/z-ai/glm-4.5-air
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-014-grok-4-fast
+    litellm_params:
+      model: openrouter/x-ai/grok-4-fast
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-015-o4-mini
+    litellm_params:
+      model: openrouter/openai/o4-mini
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-016-claude-3.7-sonnet
+    litellm_params:
+      model: openrouter/anthropic/claude-3.7-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-017-gemini-2.5-flash
+    litellm_params:
+      model: openrouter/google/gemini-2.5-flash
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-018-llama-4-scout-17b-16e
+    litellm_params:
+      model: openrouter/meta-llama/llama-4-scout-17b-16e
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-019-qwen3-8b
+    litellm_params:
+      model: openrouter/qwen/qwen3-8b
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-020-mistral-7b-instruct-v0.3
+    litellm_params:
+      model: openrouter/mistralai/mistral-7b-instruct-v0.3
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 64k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-v-minimax-hailuo-02
+    litellm_params:
+      model: openrouter/minimax/hailuo-02
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: video
+      tags: ["tier-v", "video", "gpu"]
+    model_info:
+      mode: video
+      tier: V
+      supports_function_calling: true
+  - model_name: tier-v-wan-2.1
+    litellm_params:
+      model: openrouter/alibaba/wan-2.1-t2v
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: video
+      tags: ["tier-v", "video", "gpu"]
+    model_info:
+      mode: video
+      tier: V
+      supports_function_calling: true
+  - model_name: tier-v-ltx-video
+    litellm_params:
+      model: openrouter/lightricks/LTX-Video
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: video
+      tags: ["tier-v", "video", "gpu"]
+    model_info:
+      mode: video
+      tier: V
+      supports_function_calling: true
+  - model_name: tier-v-kling-2.0
+    litellm_params:
+      model: openrouter/kwaivgi/kling-2.0
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: video
+      tags: ["tier-v", "video", "gpu"]
+    model_info:
+      mode: video
+      tier: V
+      supports_function_calling: true
+  - model_name: tier-s-openai-gpt-5.2
+    litellm_params:
+      model: openrouter/openai/gpt-5.2
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-openai-gpt-5.1-codex
+    litellm_params:
+      model: openrouter/openai/gpt-5.1-codex
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-anthropic-claude-4.5-opus
+    litellm_params:
+      model: openrouter/anthropic/claude-4.5-opus
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-anthropic-claude-4.5-sonnet
+    litellm_params:
+      model: openrouter/anthropic/claude-4.5-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-google-gemini-3-pro
+    litellm_params:
+      model: openrouter/google/gemini-3-pro
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-google-gemini-3-flash
+    litellm_params:
+      model: openrouter/google/gemini-3-flash
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-meta-llama-llama-4-maverick-400b
+    litellm_params:
+      model: openrouter/meta-llama/llama-4-maverick-400b
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-meta-llama-llama-4-behemoth-1t
+    litellm_params:
+      model: openrouter/meta-llama/llama-4-behemoth-1t
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-qwen-qwen3-max
+    litellm_params:
+      model: openrouter/qwen/Qwen3-Max
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-qwen-qwen3-vl-235b-a22b
+    litellm_params:
+      model: openrouter/qwen/Qwen3-VL-235B-A22B
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-deepseek-ai-deepseek-r2
+    litellm_params:
+      model: openrouter/deepseek-ai/DeepSeek-R2
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-deepseek-ai-deepseek-v4
+    litellm_params:
+      model: openrouter/deepseek-ai/DeepSeek-V4
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-mistralai-mistral-large-3
+    litellm_params:
+      model: openrouter/mistralai/Mistral-Large-3
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-mistralai-mistral-medium-3
+    litellm_params:
+      model: openrouter/mistralai/Mistral-Medium-3
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-x-ai-grok-5
+    litellm_params:
+      model: openrouter/x-ai/grok-5
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-x-ai-grok-5-mini
+    litellm_params:
+      model: openrouter/x-ai/grok-5-mini
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-cohere-command-a-2
+    litellm_params:
+      model: openrouter/cohere/command-a-2
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-cohere-command-a-max
+    litellm_params:
+      model: openrouter/cohere/command-a-max
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-ai21-jamba-2-pro
+    litellm_params:
+      model: openrouter/ai21/jamba-2-pro
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-ai21-jamba-2-max
+    litellm_params:
+      model: openrouter/ai21/jamba-2-max
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-nvidia-nemotron-4-340b
+    litellm_params:
+      model: openrouter/nvidia/nemotron-4-340b
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-nvidia-nemotron-super-49b
+    litellm_params:
+      model: openrouter/nvidia/nemotron-super-49b
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-moonshotai-kimi-k3
+    litellm_params:
+      model: openrouter/moonshotai/kimi-k3
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-moonshotai-kimi-k3-mini
+    litellm_params:
+      model: openrouter/moonshotai/kimi-k3-mini
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-z-ai-glm-5
+    litellm_params:
+      model: openrouter/z-ai/glm-5
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-s-z-ai-glm-code-5
+    litellm_params:
+      model: openrouter/z-ai/glm-code-5
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-01-ai-yi-34b-x2
+    litellm_params:
+      model: openrouter/01-ai/yi-34b-x2
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-01-ai-yi-lightning-x
+    litellm_params:
+      model: openrouter/01-ai/yi-lightning-x
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-tiiuae-falcon-180b-chat
+    litellm_params:
+      model: openrouter/tiiuae/falcon-180b-chat
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-tiiuae-falcon3-10b
+    litellm_params:
+      model: openrouter/tiiuae/falcon3-10b
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-microsoft-phi-4
+    litellm_params:
+      model: openrouter/microsoft/phi-4
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-microsoft-phi-4-vision
+    litellm_params:
+      model: openrouter/microsoft/phi-4-vision
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-amazon-nova-pro-2
+    litellm_params:
+      model: openrouter/amazon/nova-pro-2
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-amazon-nova-lite-2
+    litellm_params:
+      model: openrouter/amazon/nova-lite-2
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-databricks-dbrx-instruct
+    litellm_params:
+      model: openrouter/databricks/dbrx-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-databricks-dbrx-code
+    litellm_params:
+      model: openrouter/databricks/dbrx-code
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-upstage-solar-pro
+    litellm_params:
+      model: openrouter/upstage/solar-pro
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-upstage-solar-mini
+    litellm_params:
+      model: openrouter/upstage/solar-mini
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-writer-palmyra-x-4
+    litellm_params:
+      model: openrouter/writer/palmyra-x-4
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-writer-palmyra-medical
+    litellm_params:
+      model: openrouter/writer/palmyra-medical
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-bigcode-starcoder3
+    litellm_params:
+      model: openrouter/bigcode/starcoder3
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-bigcode-starcoder2-15b
+    litellm_params:
+      model: openrouter/bigcode/starcoder2-15b
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-openchat-openchat-3.5
+    litellm_params:
+      model: openrouter/openchat/openchat-3.5
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-openchat-openchat-4
+    litellm_params:
+      model: openrouter/openchat/openchat-4
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-teknium-openhermes-2.5
+    litellm_params:
+      model: openrouter/teknium/openhermes-2.5
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-teknium-openhermes-neural
+    litellm_params:
+      model: openrouter/teknium/openhermes-neural
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-huggingface-aethelred-chat
+    litellm_params:
+      model: openrouter/huggingface/aethelred-chat-v1
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-together-basilisk-vision
+    litellm_params:
+      model: openrouter/together/basilisk-vision-v2
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-cognition-code
+    litellm_params:
+      model: openrouter/fireworks/cognition-code-v3
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-groq-drake-audio
+    litellm_params:
+      model: openrouter/groq/drake-audio-v4
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-ember-security
+    litellm_params:
+      model: openrouter/cerebras/ember-security-v5
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-fenrir-translation
+    litellm_params:
+      model: openrouter/sambanova/fenrir-translation-v6
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-novita-golem-embedding
+    litellm_params:
+      model: openrouter/novita/golem-embedding-v7
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-horus-rerank
+    litellm_params:
+      model: openrouter/deepinfra/horus-rerank-v8
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-hyperbolic-iris-chat
+    litellm_params:
+      model: openrouter/hyperbolic/iris-chat-v9
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-nebius-jade-vision
+    litellm_params:
+      model: openrouter/nebius/jade-vision-v10
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-huggingface-kraken-code
+    litellm_params:
+      model: openrouter/huggingface/kraken-code-v11
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-together-lyra-audio
+    litellm_params:
+      model: openrouter/together/lyra-audio-v12
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-fireworks-meridian-security
+    litellm_params:
+      model: openrouter/fireworks/meridian-security-v13
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-groq-nimbus-translation
+    litellm_params:
+      model: openrouter/groq/nimbus-translation-v14
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-onyx-embedding
+    litellm_params:
+      model: openrouter/cerebras/onyx-embedding-v15
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-sambanova-pulse-rerank
+    litellm_params:
+      model: openrouter/sambanova/pulse-rerank-v16
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-novita-quasar-chat
+    litellm_params:
+      model: openrouter/novita/quasar-chat-v17
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-raven-vision
+    litellm_params:
+      model: openrouter/deepinfra/raven-vision-v18
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-hyperbolic-sable-code
+    litellm_params:
+      model: openrouter/hyperbolic/sable-code-v19
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-nebius-titan-audio
+    litellm_params:
+      model: openrouter/nebius/titan-audio-v20
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-huggingface-umbra-security
+    litellm_params:
+      model: openrouter/huggingface/umbra-security-v21
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-together-valkyrie-translation
+    litellm_params:
+      model: openrouter/together/valkyrie-translation-v22
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-wyvern-embedding
+    litellm_params:
+      model: openrouter/fireworks/wyvern-embedding-v23
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-groq-xenon-rerank
+    litellm_params:
+      model: openrouter/groq/xenon-rerank-v24
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-cerebras-yonder-chat
+    litellm_params:
+      model: openrouter/cerebras/yonder-chat-v25
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-zephyr-vision
+    litellm_params:
+      model: openrouter/sambanova/zephyr-vision-v26
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-novita-aethelred-code
+    litellm_params:
+      model: openrouter/novita/aethelred-code-v27
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-deepinfra-basilisk-audio
+    litellm_params:
+      model: openrouter/deepinfra/basilisk-audio-v28
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-hyperbolic-cognition-security
+    litellm_params:
+      model: openrouter/hyperbolic/cognition-security-v29
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-nebius-drake-translation
+    litellm_params:
+      model: openrouter/nebius/drake-translation-v30
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-huggingface-ember-embedding
+    litellm_params:
+      model: openrouter/huggingface/ember-embedding-v31
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-together-fenrir-rerank
+    litellm_params:
+      model: openrouter/together/fenrir-rerank-v32
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-golem-chat
+    litellm_params:
+      model: openrouter/fireworks/golem-chat-v33
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-groq-horus-vision
+    litellm_params:
+      model: openrouter/groq/horus-vision-v34
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-iris-code
+    litellm_params:
+      model: openrouter/cerebras/iris-code-v35
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-jade-audio
+    litellm_params:
+      model: openrouter/sambanova/jade-audio-v36
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-novita-kraken-security
+    litellm_params:
+      model: openrouter/novita/kraken-security-v37
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-lyra-translation
+    litellm_params:
+      model: openrouter/deepinfra/lyra-translation-v38
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-hyperbolic-meridian-embedding
+    litellm_params:
+      model: openrouter/hyperbolic/meridian-embedding-v39
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-nebius-nimbus-rerank
+    litellm_params:
+      model: openrouter/nebius/nimbus-rerank-v40
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-huggingface-onyx-chat
+    litellm_params:
+      model: openrouter/huggingface/onyx-chat-v41
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-together-pulse-vision
+    litellm_params:
+      model: openrouter/together/pulse-vision-v42
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-fireworks-quasar-code
+    litellm_params:
+      model: openrouter/fireworks/quasar-code-v43
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-groq-raven-audio
+    litellm_params:
+      model: openrouter/groq/raven-audio-v44
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-sable-security
+    litellm_params:
+      model: openrouter/cerebras/sable-security-v45
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-sambanova-titan-translation
+    litellm_params:
+      model: openrouter/sambanova/titan-translation-v46
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-novita-umbra-embedding
+    litellm_params:
+      model: openrouter/novita/umbra-embedding-v47
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-valkyrie-rerank
+    litellm_params:
+      model: openrouter/deepinfra/valkyrie-rerank-v48
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-hyperbolic-wyvern-chat
+    litellm_params:
+      model: openrouter/hyperbolic/wyvern-chat-v49
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-nebius-xenon-vision
+    litellm_params:
+      model: openrouter/nebius/xenon-vision-v50
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-huggingface-yonder-code
+    litellm_params:
+      model: openrouter/huggingface/yonder-code-v51
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-together-zephyr-audio
+    litellm_params:
+      model: openrouter/together/zephyr-audio-v52
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-aethelred-security
+    litellm_params:
+      model: openrouter/fireworks/aethelred-security-v53
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-groq-basilisk-translation
+    litellm_params:
+      model: openrouter/groq/basilisk-translation-v54
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-cerebras-cognition-embedding
+    litellm_params:
+      model: openrouter/cerebras/cognition-embedding-v55
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-drake-rerank
+    litellm_params:
+      model: openrouter/sambanova/drake-rerank-v56
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-novita-ember-chat
+    litellm_params:
+      model: openrouter/novita/ember-chat-v57
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-deepinfra-fenrir-vision
+    litellm_params:
+      model: openrouter/deepinfra/fenrir-vision-v58
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-hyperbolic-golem-code
+    litellm_params:
+      model: openrouter/hyperbolic/golem-code-v59
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-nebius-horus-audio
+    litellm_params:
+      model: openrouter/nebius/horus-audio-v60
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-huggingface-iris-security
+    litellm_params:
+      model: openrouter/huggingface/iris-security-v61
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-together-jade-translation
+    litellm_params:
+      model: openrouter/together/jade-translation-v62
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-kraken-embedding
+    litellm_params:
+      model: openrouter/fireworks/kraken-embedding-v63
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-groq-lyra-rerank
+    litellm_params:
+      model: openrouter/groq/lyra-rerank-v64
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-meridian-chat
+    litellm_params:
+      model: openrouter/cerebras/meridian-chat-v65
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-nimbus-vision
+    litellm_params:
+      model: openrouter/sambanova/nimbus-vision-v66
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-novita-onyx-code
+    litellm_params:
+      model: openrouter/novita/onyx-code-v67
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-pulse-audio
+    litellm_params:
+      model: openrouter/deepinfra/pulse-audio-v68
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-hyperbolic-quasar-security
+    litellm_params:
+      model: openrouter/hyperbolic/quasar-security-v69
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-nebius-raven-translation
+    litellm_params:
+      model: openrouter/nebius/raven-translation-v70
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-huggingface-sable-embedding
+    litellm_params:
+      model: openrouter/huggingface/sable-embedding-v71
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-together-titan-rerank
+    litellm_params:
+      model: openrouter/together/titan-rerank-v72
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-fireworks-umbra-chat
+    litellm_params:
+      model: openrouter/fireworks/umbra-chat-v73
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-groq-valkyrie-vision
+    litellm_params:
+      model: openrouter/groq/valkyrie-vision-v74
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-wyvern-code
+    litellm_params:
+      model: openrouter/cerebras/wyvern-code-v75
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-sambanova-xenon-audio
+    litellm_params:
+      model: openrouter/sambanova/xenon-audio-v76
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-novita-yonder-security
+    litellm_params:
+      model: openrouter/novita/yonder-security-v77
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-zephyr-translation
+    litellm_params:
+      model: openrouter/deepinfra/zephyr-translation-v78
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-hyperbolic-aethelred-embedding
+    litellm_params:
+      model: openrouter/hyperbolic/aethelred-embedding-v79
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-nebius-basilisk-rerank
+    litellm_params:
+      model: openrouter/nebius/basilisk-rerank-v80
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-huggingface-cognition-chat
+    litellm_params:
+      model: openrouter/huggingface/cognition-chat-v81
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-together-drake-vision
+    litellm_params:
+      model: openrouter/together/drake-vision-v82
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-ember-code
+    litellm_params:
+      model: openrouter/fireworks/ember-code-v83
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-groq-fenrir-audio
+    litellm_params:
+      model: openrouter/groq/fenrir-audio-v84
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-cerebras-golem-security
+    litellm_params:
+      model: openrouter/cerebras/golem-security-v85
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-horus-translation
+    litellm_params:
+      model: openrouter/sambanova/horus-translation-v86
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-novita-iris-embedding
+    litellm_params:
+      model: openrouter/novita/iris-embedding-v87
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-deepinfra-jade-rerank
+    litellm_params:
+      model: openrouter/deepinfra/jade-rerank-v88
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-hyperbolic-kraken-chat
+    litellm_params:
+      model: openrouter/hyperbolic/kraken-chat-v89
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-nebius-lyra-vision
+    litellm_params:
+      model: openrouter/nebius/lyra-vision-v90
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-huggingface-meridian-code
+    litellm_params:
+      model: openrouter/huggingface/meridian-code-v91
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-together-nimbus-audio
+    litellm_params:
+      model: openrouter/together/nimbus-audio-v92
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-onyx-security
+    litellm_params:
+      model: openrouter/fireworks/onyx-security-v93
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-groq-pulse-translation
+    litellm_params:
+      model: openrouter/groq/pulse-translation-v94
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-quasar-embedding
+    litellm_params:
+      model: openrouter/cerebras/quasar-embedding-v95
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-raven-rerank
+    litellm_params:
+      model: openrouter/sambanova/raven-rerank-v96
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-novita-sable-chat
+    litellm_params:
+      model: openrouter/novita/sable-chat-v97
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-titan-vision
+    litellm_params:
+      model: openrouter/deepinfra/titan-vision-v98
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-hyperbolic-umbra-code
+    litellm_params:
+      model: openrouter/hyperbolic/umbra-code-v99
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-nebius-valkyrie-audio
+    litellm_params:
+      model: openrouter/nebius/valkyrie-audio-v100
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-huggingface-wyvern-security
+    litellm_params:
+      model: openrouter/huggingface/wyvern-security-v101
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-together-xenon-translation
+    litellm_params:
+      model: openrouter/together/xenon-translation-v102
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-fireworks-yonder-embedding
+    litellm_params:
+      model: openrouter/fireworks/yonder-embedding-v103
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-groq-zephyr-rerank
+    litellm_params:
+      model: openrouter/groq/zephyr-rerank-v104
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-aethelred-chat
+    litellm_params:
+      model: openrouter/cerebras/aethelred-chat-v105
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-sambanova-basilisk-vision
+    litellm_params:
+      model: openrouter/sambanova/basilisk-vision-v106
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-novita-cognition-code
+    litellm_params:
+      model: openrouter/novita/cognition-code-v107
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-drake-audio
+    litellm_params:
+      model: openrouter/deepinfra/drake-audio-v108
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-hyperbolic-ember-security
+    litellm_params:
+      model: openrouter/hyperbolic/ember-security-v109
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-nebius-fenrir-translation
+    litellm_params:
+      model: openrouter/nebius/fenrir-translation-v110
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-huggingface-golem-embedding
+    litellm_params:
+      model: openrouter/huggingface/golem-embedding-v111
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-together-horus-rerank
+    litellm_params:
+      model: openrouter/together/horus-rerank-v112
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-iris-chat
+    litellm_params:
+      model: openrouter/fireworks/iris-chat-v113
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-groq-jade-vision
+    litellm_params:
+      model: openrouter/groq/jade-vision-v114
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-cerebras-kraken-code
+    litellm_params:
+      model: openrouter/cerebras/kraken-code-v115
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-lyra-audio
+    litellm_params:
+      model: openrouter/sambanova/lyra-audio-v116
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-novita-meridian-security
+    litellm_params:
+      model: openrouter/novita/meridian-security-v117
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-deepinfra-nimbus-translation
+    litellm_params:
+      model: openrouter/deepinfra/nimbus-translation-v118
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-hyperbolic-onyx-embedding
+    litellm_params:
+      model: openrouter/hyperbolic/onyx-embedding-v119
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-nebius-pulse-rerank
+    litellm_params:
+      model: openrouter/nebius/pulse-rerank-v120
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-huggingface-quasar-chat
+    litellm_params:
+      model: openrouter/huggingface/quasar-chat-v121
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-together-raven-vision
+    litellm_params:
+      model: openrouter/together/raven-vision-v122
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-sable-code
+    litellm_params:
+      model: openrouter/fireworks/sable-code-v123
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-groq-titan-audio
+    litellm_params:
+      model: openrouter/groq/titan-audio-v124
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-umbra-security
+    litellm_params:
+      model: openrouter/cerebras/umbra-security-v125
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-valkyrie-translation
+    litellm_params:
+      model: openrouter/sambanova/valkyrie-translation-v126
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-novita-wyvern-embedding
+    litellm_params:
+      model: openrouter/novita/wyvern-embedding-v127
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-xenon-rerank
+    litellm_params:
+      model: openrouter/deepinfra/xenon-rerank-v128
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-hyperbolic-yonder-chat
+    litellm_params:
+      model: openrouter/hyperbolic/yonder-chat-v129
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-nebius-zephyr-vision
+    litellm_params:
+      model: openrouter/nebius/zephyr-vision-v130
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-huggingface-aethelred-code
+    litellm_params:
+      model: openrouter/huggingface/aethelred-code-v131
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-together-basilisk-audio
+    litellm_params:
+      model: openrouter/together/basilisk-audio-v132
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-fireworks-cognition-security
+    litellm_params:
+      model: openrouter/fireworks/cognition-security-v133
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-groq-drake-translation
+    litellm_params:
+      model: openrouter/groq/drake-translation-v134
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-ember-embedding
+    litellm_params:
+      model: openrouter/cerebras/ember-embedding-v135
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-sambanova-fenrir-rerank
+    litellm_params:
+      model: openrouter/sambanova/fenrir-rerank-v136
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-novita-golem-chat
+    litellm_params:
+      model: openrouter/novita/golem-chat-v137
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-horus-vision
+    litellm_params:
+      model: openrouter/deepinfra/horus-vision-v138
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-hyperbolic-iris-code
+    litellm_params:
+      model: openrouter/hyperbolic/iris-code-v139
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-nebius-jade-audio
+    litellm_params:
+      model: openrouter/nebius/jade-audio-v140
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-huggingface-kraken-security
+    litellm_params:
+      model: openrouter/huggingface/kraken-security-v141
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-together-lyra-translation
+    litellm_params:
+      model: openrouter/together/lyra-translation-v142
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-meridian-embedding
+    litellm_params:
+      model: openrouter/fireworks/meridian-embedding-v143
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-groq-nimbus-rerank
+    litellm_params:
+      model: openrouter/groq/nimbus-rerank-v144
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-cerebras-onyx-chat
+    litellm_params:
+      model: openrouter/cerebras/onyx-chat-v145
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-pulse-vision
+    litellm_params:
+      model: openrouter/sambanova/pulse-vision-v146
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-novita-quasar-code
+    litellm_params:
+      model: openrouter/novita/quasar-code-v147
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-deepinfra-raven-audio
+    litellm_params:
+      model: openrouter/deepinfra/raven-audio-v148
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-hyperbolic-sable-security
+    litellm_params:
+      model: openrouter/hyperbolic/sable-security-v149
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-nebius-titan-translation
+    litellm_params:
+      model: openrouter/nebius/titan-translation-v150
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-huggingface-umbra-embedding
+    litellm_params:
+      model: openrouter/huggingface/umbra-embedding-v151
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "embedding", "12gb-ok"]
+    model_info:
+      mode: embedding
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-together-valkyrie-rerank
+    litellm_params:
+      model: openrouter/together/valkyrie-rerank-v152
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "rerank", "12gb-ok"]
+    model_info:
+      mode: rerank
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-fireworks-wyvern-chat
+    litellm_params:
+      model: openrouter/fireworks/wyvern-chat-v153
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "chat", "12gb-ok"]
+    model_info:
+      mode: chat
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-groq-xenon-vision
+    litellm_params:
+      model: openrouter/groq/xenon-vision-v154
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "vision", "12gb-ok"]
+    model_info:
+      mode: vision
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-cerebras-yonder-code
+    litellm_params:
+      model: openrouter/cerebras/yonder-code-v155
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "code", "12gb-ok"]
+    model_info:
+      mode: code
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-b-sambanova-zephyr-audio
+    litellm_params:
+      model: openrouter/sambanova/zephyr-audio-v156
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "audio", "12gb-ok"]
+    model_info:
+      mode: audio
+      tier: B
+      supports_function_calling: true
+  - model_name: tier-s-novita-aethelred-security
+    litellm_params:
+      model: openrouter/novita/aethelred-security-v157
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-s", "security", "12gb-ok"]
+    model_info:
+      mode: security
+      tier: S
+      supports_function_calling: true
+  - model_name: tier-b-deepinfra-basilisk-translation
+    litellm_params:
+      model: openrouter/deepinfra/basilisk-translation-v158
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+      context_window: 128k
+      tags: ["tier-b", "translation", "12gb-ok"]
+    model_info:
+      mode: translation
+      tier: B
+      supports_function_calling: true
+
+litellm_settings:
+  num_retries: 3
+  request_timeout: 60
+  drop_params: true
+  set_verbose: false
+  fallbacks:
+    tier-s-auto: ['tier-s-qwen3.8-27b', 'tier-s-ling-3.1-flash', 'tier-b-001-gpt-4.1-mini']
+    tier-s-coder: ['tier-s-qwen3-coder-next-80b', 'tier-s-qwen3.8-27b', 'tier-b-004-gemini-2.0-flash']
+    tier-s-vision: ['tier-s-gemini-4-plus', 'tier-s-qwen3.8-vision', 'tier-s-gemma-4-it-qat-12b']
+    tier-s-security: ['tier-s-cyberstrike-offsec-35b', 'tier-s-qwen3.8-27b']
+    tier-v-video: ['tier-v-minimax-hailuo-02', 'tier-v-wan-2.1', 'tier-v-ltx-video']
+    tier-b-fast: ['tier-b-001-gpt-4.1-mini', 'tier-b-002-gpt-4.1-nano', 'tier-b-004-gemini-2.0-flash']
+
+router_settings:
+  enable_pre_call_checks: true
+  allowed_fails: 3
+  cooldown_time: 30
+  num_retries: 3
+  request_timeout: 60
+  routing_strategy: usage-based-routing-v2
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  store_model_in_db: false
