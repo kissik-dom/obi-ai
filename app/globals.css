@@ -81,7 +81,7 @@ body {
   transition: all 0.15s;
 }
 .tab:hover { background: var(--panel); color: var(--text); }
-.tab.active { background: var(--panel); color: var(--accent2); border: 1px solid var(--line-light); }
+.tab.active { background: var(--panel); color: var(--accent2); box-shadow: inset 0 -2px 0 var(--accent2); }
 .tab .icon { font-size: 14px; }
 .app {
   display: flex;
@@ -253,7 +253,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  height: 100vh;
+  height: calc(100vh - var(--topbar-h) - var(--nav-h));
 }
 .main-header { padding: 24px 28px 8px; }
 .main-title {
@@ -543,7 +543,7 @@ body {
   pointer-events: none;
 }
 .busy-msg .bubble { opacity: 0.7; }
-.mic-btn.rec {
+.composer-btn.rec {
   background: var(--accent-red) !important;
   color: #fff !important;
   animation: pulse 1.2s infinite;
@@ -551,4 +551,32 @@ body {
 @keyframes pulse {
   0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
   70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .right-panel { display: none; }
+  .main { margin-right: 0; }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --sidebar-w: 0px;
+  }
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .tabnav { overflow-x: auto; }
+  .tabnav::-webkit-scrollbar { height: 0; }
+}
+
+@media (max-width: 600px) {
+  .topbar { padding: 0 12px; }
+  .tabnav { padding: 0 8px; }
+  .tab { padding: 8px 10px; font-size: 12px; }
+  .main-header { padding: 16px 16px 4px; }
+  .main-title { font-size: 20px; }
+  .prompt-suggestions { padding: 12px 16px 4px; }
+  .chat-area { padding: 12px 16px; }
+  .composer-wrap { padding: 0 16px 12px; }
+  .tray { padding: 0 16px 4px; }
 }
