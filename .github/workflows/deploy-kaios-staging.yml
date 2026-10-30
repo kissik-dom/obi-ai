@@ -95,6 +95,10 @@ jobs:
             case "$st" in exited*) echo "pull finished: $st"; break;; esac; sleep 10
           done
           [ -n "${PC:-}" ] && "${D[@]}" logs --tail=5 "$PC" 2>&1 | tr '\r' '\n' | tail -5 || true
+          echo "== Make sure every model is really downloaded =="
+          OC=$("${C[@]}" -p kaios ps -q ollama)
+          for m in $PULL; do "${D[@]}" exec "$OC" ollama pull "$m" 2>&1 | tr '\r' '\n' | tail -1 || true; done
+          "${D[@]}" exec "$OC" ollama list
           sudo -n ufw status 2>/dev/null | grep -q "Status: active" && sudo -n ufw allow "$PORT"/tcp || true
           echo "== Status =="
           for i in $(seq 1 30); do curl -fsS "http://127.0.0.1:$PORT/api/v1/status" && break; sleep 5; done; echo
