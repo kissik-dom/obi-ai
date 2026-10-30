@@ -111,13 +111,30 @@ def required_but_missing() -> bool:
     return not enabled() and os.getenv("APP_ENV", "development").lower() == "production"
 
 
+_DASHES = dict.fromkeys(map(ord, "\u2010\u2011\u2012\u2013\u2014\u2015\u2212"), "-")
+
+
+def _variants(password: str) -> list[str]:
+    """Forgives copy-paste slips from phones: spaces around it, smart dashes, invisible characters."""
+    out = [password]
+    cleaned = password.translate(_DASHES)
+    cleaned = "".join(ch for ch in cleaned if ch not in "\u200b\u200c\u200d\ufeff\u00a0`").strip()
+    if cleaned and cleaned not in out:
+        out.append(cleaned)
+    return out
+
+
 def check_password(password: str) -> bool:
     src = _password_source()
     if not src or not password:
         return False
-    if src.startswith("plain$"):
-        return hmac.compare_digest(src[6:].encode(), password.encode())
-    return _check_hash(password, src)
+    for pw in _variants(password):
+        if src.startswith("plain$"):
+            if hmac.compare_digest(src[6:].encode(), pw.encode()):
+                return True
+        elif _check_hash(pw, src):
+            return True
+    return False
 
 
 # ---------- TOTP ----------

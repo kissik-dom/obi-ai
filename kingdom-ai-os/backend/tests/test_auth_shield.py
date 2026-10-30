@@ -79,3 +79,14 @@ def test_ranking_picks_code_model(monkeypatch):
     monkeypatch.setitem(assistant._catalog_cache, "models", [{"id": "ollama/qwen2.5:3b", "provider": "ollama"}, {"id": "ollama/qwen2.5-coder:3b", "provider": "ollama"}])
     assert assistant.ranked_models("coding-dev")[0] == "ollama/qwen2.5-coder:3b"
     assert assistant.ranked_models("research")[0] == "ollama/qwen2.5:3b"
+
+
+def test_password_forgives_copy_paste_slips(monkeypatch):
+    from app.services import auth as a
+    monkeypatch.setenv("KAIOS_PASSWORD_HASH", a.hash_password("Indigo-Lotus-1578"))
+    monkeypatch.delenv("KAIOS_PASSWORD", raising=False)
+    assert a.check_password(" Indigo-Lotus-1578 \n")
+    assert a.check_password("Indigo\u2013Lotus\u20111578")
+    assert a.check_password("`Indigo-Lotus-1578`")
+    assert not a.check_password("indigo-lotus-1578")
+    assert not a.check_password("Indigo-Lotus-157")

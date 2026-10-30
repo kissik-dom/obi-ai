@@ -49,3 +49,6 @@
 .login-foot{margin:4px 0 0;font-size:11px;color:#8a86a0;display:flex;align-items:center;gap:6px;justify-content:center}
 .signout-btn{border:0;background:none;color:inherit;opacity:.7;cursor:pointer;font-size:12px;padding:4px 6px;border-radius:8px}.signout-btn:hover{opacity:1;background:rgba(0,0,0,.06)}
 .picker-auto{display:block;width:100%;text-align:left;border:0;background:rgba(123,92,255,.08);color:#5b45d6;font-weight:600;padding:9px 12px;border-radius:10px;margin:6px 0;cursor:pointer}
+
+.login-show{display:flex;align-items:center;gap:8px;font-size:13px;color:#5b5675;cursor:pointer;margin-top:-4px}
+.login-show input{width:16px;height:16px;accent-color:#7b5cff}

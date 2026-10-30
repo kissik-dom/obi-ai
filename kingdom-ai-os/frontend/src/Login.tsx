@@ -19,6 +19,7 @@ export function Gate({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<Status | null>(null);
   const [step, setStep] = useState<'password' | 'code' | 'setup'>('password');
   const [password, setPassword] = useState('');
+  const [showPw, setShowPw] = useState(false);
   const [code, setCode] = useState('');
   const [setupToken, setSetupToken] = useState('');
   const [setup, setSetup] = useState<{ secret: string; qr_svg: string } | null>(null);
@@ -46,7 +47,7 @@ export function Gate({ children }: { children: ReactNode }) {
         await post('/totp/confirm', { setup_token: setupToken, code });
         setPassword(''); setCode(''); await load(); return;
       }
-      const r = await post('/login', { password, code: step === 'code' ? code : '' });
+      const r = await post('/login', { password: password.trim(), code: step === 'code' ? code : '' });
       if (r.ok) { setPassword(''); setCode(''); await load(); return; }
       if (r.code_required) { setStep('code'); return; }
       if (r.setup_required) {
@@ -70,7 +71,8 @@ export function Gate({ children }: { children: ReactNode }) {
         {step === 'password' && <>
           <p className="login-sub">Sign in to your workspace.</p>
           <label className="login-label" htmlFor="pw">Password</label>
-          <input id="pw" className="login-input" type="password" autoComplete="current-password" autoFocus value={password} onChange={e => setPassword(e.target.value)} />
+          <input id="pw" className="login-input" type={showPw ? 'text' : 'password'} autoComplete="current-password" autoCapitalize="off" autoCorrect="off" spellCheck={false} autoFocus value={password} onChange={e => setPassword(e.target.value)} />
+          <label className="login-show"><input type="checkbox" checked={showPw} onChange={e => setShowPw(e.target.checked)} /> Show password</label>
         </>}
         {step === 'code' && <>
           <p className="login-sub">Open your authenticator app and type the 6-digit code for <b>Kingdom AI OS</b>.</p>
