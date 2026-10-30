@@ -11,6 +11,8 @@ from typing import Any
 
 import httpx
 
+from app.services import shield
+
 OPENROUTER_BASE = os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1").rstrip("/")
 # Self-hosted open-source models (Ollama on the same server). No key needed.
 OLLAMA_BASE = os.getenv("OLLAMA_BASE_URL", "").rstrip("/")
@@ -207,6 +209,27 @@ class ProviderError(RuntimeError):
     pass
 
 
+RANKING_FILE = Path(__file__).resolve().parents[3] / "registries" / "model_ranking.json"
+if not RANKING_FILE.exists():
+    RANKING_FILE = Path(__file__).resolve().parents[2] / "registries" / "model_ranking.json"
+
+
+def ranking() -> dict[str, Any]:
+    try:
+        return json.loads(RANKING_FILE.read_text("utf-8"))
+    except (OSError, ValueError):
+        return {"groups": {}, "tabs": {}}
+
+
+def ranked_models(tab_id: str | None) -> list[str]:
+    """Best installed models for this tab, in order (self-hosted ids like 'ollama/qwen2.5:3b')."""
+    r = ranking()
+    group = r.get("groups", {}).get(r.get("tabs", {}).get(tab_id or "", "general"), {})
+    installed = {m["id"] for m in _catalog_cache["models"] if m.get("provider") == "ollama"}
+    wanted = ["ollama/" + m for m in group.get("models", [])]
+    return [m for m in wanted if not installed or m in installed] if ollama_base() else []
+
+
 async def _call(model_id: str, messages: list[dict[str, Any]], web: bool, max_tokens: int) -> dict[str, Any]:
     if model_id.startswith("ollama/"):
         if not ollama_base():
@@ -245,19 +268,30 @@ async def _call(model_id: str, messages: list[dict[str, Any]], web: bool, max_to
     return {"content": content, "model_id": returned, "citations": [], "usage": data.get("usage") or {}}
 
 
-async def answer(model_id: str | None, messages: list[dict[str, Any]], web: bool, max_tokens: int = 4000) -> dict[str, Any]:
+async def answer(model_id: str | None, messages: list[dict[str, Any]], web: bool, max_tokens: int = 4000,
+                 tab_id: str | None = None) -> dict[str, Any]:
     """Try the chosen model, then fall back through the free default chain. Web search is free (DuckDuckGo)."""
     if not chat_ready():
         raise ProviderError("No model server is configured: set OLLAMA_BASE_URL (self-hosted) or OPENROUTER_API_KEY (free account)")
+    import asyncio
+    last_user = next((m["content"] for m in reversed(messages) if m["role"] == "user"), "")
+    await asyncio.to_thread(shield.check_user, last_user)
     citations: list[dict[str, str]] = []
     if web:
         question = next((m["content"] for m in reversed(messages) if m["role"] == "user"), "")
         citations = await web_search(question.split("\n\nAttached files:")[0])
+        citations = await asyncio.to_thread(shield.clean_untrusted, citations)
         if citations:
             ctx = "\n".join(f"[{i}] {c['title']} — {c['url']}\n{c['snippet']}" for i, c in enumerate(citations, 1))
-            messages = [*messages[:-1], {"role": "system", "content": "Web results (cite as [n]):\n" + ctx}, messages[-1]]
-    wanted = model_id or default_model()
-    chain = [wanted, default_model(), *fallback_models()]
+            messages = [*messages[:-1], {"role": "system", "content": "Web results (cite as [n]).\n" + shield.fence("web search", ctx)}, messages[-1]]
+    if not _catalog_cache["models"]:
+        try:
+            await catalog()
+        except Exception:
+            pass
+    ranked = ranked_models(tab_id)
+    wanted = model_id or (ranked[0] if ranked else default_model())
+    chain = [wanted, *ranked, default_model(), *fallback_models()]
     seen: list[str] = []
     errors: list[str] = []
     for m in chain:

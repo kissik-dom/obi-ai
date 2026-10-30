@@ -326,7 +326,11 @@ def shot_list(pid: str) -> list[dict[str, Any]]:
 async def research(pid: str, question: str) -> list[dict[str, str]]:
     """Free web research (DuckDuckGo) saved to the movie's archival memory."""
     get_project(pid)
+    import asyncio
+    from app.services import shield
+    shield.check_user(question)
     hits = await assistant.web_search(question, limit=6)
+    hits = await asyncio.to_thread(shield.clean_untrusted, hits)
     for h in hits:
         archive(pid, "research", f"{h['title']} ({h['url']}): {h['snippet']}")
     return hits

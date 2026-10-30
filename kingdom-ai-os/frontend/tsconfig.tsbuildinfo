@@ -1,1 +1,1 @@
-{"root":["./src/App.tsx","./src/ChatPanel.tsx","./src/StudioPanel.tsx","./src/Workbench.tsx","./src/main.tsx"],"version":"5.8.2"}
+{"root":["./src/App.tsx","./src/ChatPanel.tsx","./src/Login.tsx","./src/StudioPanel.tsx","./src/Workbench.tsx","./src/main.tsx"],"version":"5.8.2"}

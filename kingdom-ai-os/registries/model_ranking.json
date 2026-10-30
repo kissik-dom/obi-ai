@@ -1,0 +1,18 @@
+{
+  "_about": "Per-tab model order. The router tries each model in order (only models installed on the server), then the default and free fallbacks. Ranked for speed first on this CPU-only server; 'with_gpu' is the upgrade order once the server has a graphics card. Normal (not uncensored) open models only.",
+  "groups": {
+    "facts":    {"models": ["qwen2.5:3b", "llama3.2:3b", "qwen2.5:7b"], "with_gpu": ["qwen3:32b", "deepseek-r1:32b", "llama3.3:70b"], "why": "Qwen 2.5 scores highest of the small models on knowledge and reasoning tests; 7B when you want more depth."},
+    "code":     {"models": ["qwen2.5-coder:3b", "qwen2.5:3b", "qwen2.5:7b"], "with_gpu": ["qwen2.5-coder:32b", "devstral", "deepseek-coder-v2:16b"], "why": "Qwen 2.5 Coder is trained for code and beats general models of the same size."},
+    "creative": {"models": ["llama3.2:3b", "qwen2.5:3b", "qwen2.5:7b"], "with_gpu": ["gemma3:27b", "mistral-small", "qwen3:32b"], "why": "Llama 3.2 writes livelier, more natural prose; Qwen 7B for long structured scripts."},
+    "general":  {"models": ["qwen2.5:3b", "llama3.2:3b", "qwen2.5:7b"], "with_gpu": ["qwen3:32b", "gemma3:27b"], "why": "Fast, follows instructions well."}
+  },
+  "tabs": {
+    "home": "general", "models": "facts", "research": "facts", "legal": "facts", "osint": "facts",
+    "finance": "facts", "investments": "facts", "real-estate": "facts", "business-crm": "general",
+    "leads": "general", "city-urban-planning": "facts", "engineering-ghidra": "code", "coding-dev": "code",
+    "web-scraping": "code", "news-magazines": "facts", "social-marketing": "creative", "fashion": "creative",
+    "images-visual-ai": "creative", "video-ugc": "creative", "music-audio": "creative",
+    "agents-communications": "general", "tasks": "general", "open-source-apps": "facts",
+    "security-admin": "facts", "tv-movie-studio": "creative"
+  }
+}

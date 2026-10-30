@@ -9,6 +9,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
+from app.services import shield
 from app.services import assistant, store
 
 API_PREFIX = os.getenv("API_PREFIX", "/api/v1")
@@ -42,6 +43,8 @@ async def status() -> dict[str, Any]:
         "fallback_models": assistant.fallback_models(),
         "catalog_source": cat["source"],
         "catalog_count": len(_usable(cat["models"])),
+        "shield": shield.status()["classifier_state"],
+        "model_ranking": {t: assistant.ranked_models(t)[:1] for t in ("research", "coding-dev", "tv-movie-studio")},
     }
 
 
@@ -120,8 +123,12 @@ async def send_message(cid: str, payload: SendMessage) -> dict[str, Any]:
         history.append({"role": m["role"], "content": m["content"]})
     user_text = payload.content
     if payload.attachments:
-        files = "\n\n".join(f"--- File: {a.name} ---\n{a.text[:120_000]}" for a in payload.attachments)
-        user_text = f"{payload.content}\n\nAttached files:\n{files}"
+        import asyncio
+        parts = []
+        for a in payload.attachments:
+            clean = await asyncio.to_thread(shield.clean_attachment, a.name, a.text[:120_000])
+            parts.append(f"--- File: {a.name} ---\n{clean}")
+        user_text = f"{payload.content}\n\nAttached files:\n" + shield.fence("uploaded files", "\n\n".join(parts))
     history.append({"role": "user", "content": user_text})
     user_msg = store.add_message(cid, "user", payload.content, attachments=[a.name for a in payload.attachments])
     if not conv["messages"]:
@@ -129,7 +136,9 @@ async def send_message(cid: str, payload: SendMessage) -> dict[str, Any]:
         with store._LOCK, store._connect() as c:  # first message names the chat
             c.execute("UPDATE conversations SET title=? WHERE id=?", (store_title, cid))
     try:
-        result = await assistant.answer(payload.model_id, history, web)
+        result = await assistant.answer(payload.model_id, history, web, tab_id=conv["tab_id"])
+    except shield.Blocked as exc:
+        raise HTTPException(400, str(exc)) from exc
     except assistant.ProviderError as exc:
         raise HTTPException(502, f"The AI provider did not answer. {exc}") from exc
     store.record_model_check(result["model_id"], "passed", {"via": "chat"})

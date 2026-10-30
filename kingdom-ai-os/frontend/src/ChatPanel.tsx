@@ -48,7 +48,7 @@ export default function ChatPanel({ tabId, tabName, webDefault, status, onNaviga
   useEffect(() => { setWeb(webDefault); setConvId(null); setMessages([]); setError(''); refreshConvs() }, [tabId]);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages, busy]);
   useEffect(() => { if (!pickerOpen) return; const t = setTimeout(() => api<{ items: Model[] }>(`/catalog/models?limit=80&free=true${mq ? '&q=' + encodeURIComponent(mq) : ''}`).then(r => setModels(r.items)).catch(() => setModels([])), 200); return () => clearTimeout(t) }, [pickerOpen, mq]);
-  const modelLabel = useMemo(() => (model || status?.default_model || 'Auto').split('/').pop(), [model, status]);
+  const modelLabel = useMemo(() => model ? model.split('/').pop() : 'Auto · best for this tab', [model, status]);
 
   function refreshConvs() { api<Conv[]>(`/conversations?tab_id=${tabId}`).then(setConvs).catch(() => setConvs([])) }
   async function open(id: string) { setHistoryOpen(false); setError(''); const c = await api<{ messages: Msg[] }>(`/conversations/${id}`); setConvId(id); setMessages(c.messages) }
@@ -84,7 +84,7 @@ export default function ChatPanel({ tabId, tabName, webDefault, status, onNaviga
       <label className="tool-btn" title="Attach PDF, Word, text or code files"><Paperclip size={17} /><span>Attach</span><input type="file" multiple hidden accept=".pdf,.docx,.txt,.md,.csv,.json,.html,.py,.ts,.tsx,.js" onChange={e => { attach(e.target.files); e.target.value = '' }} /></label>
       <button className={`tool-btn ${web ? 'on' : ''}`} title="Search the web and cite sources" onClick={() => setWeb(v => !v)}><Globe size={16} /><span>Web {web ? 'on' : 'off'}</span></button>
       <div className="picker-wrap"><button className="model-select" onClick={() => setPickerOpen(v => !v)}><span className="model-orb" /> {modelLabel} <ChevronDown size={13} /></button>
-        {pickerOpen && <div className="model-picker"><div className="picker-search"><Search size={14} /><input autoFocus onKeyDown={e => { if (e.key === "Escape") setPickerOpen(false) }} value={mq} onChange={e => setMq(e.target.value)} placeholder={`Search ${status?.catalog_count || ''} free models`} /></div>
+        {pickerOpen && <div className="model-picker"><div className="picker-search"><Search size={14} /><input autoFocus onKeyDown={e => { if (e.key === "Escape") setPickerOpen(false) }} value={mq} onChange={e => setMq(e.target.value)} placeholder={`Search ${status?.catalog_count || ''} free models`} /></div><button className="picker-auto" onClick={() => chooseModel('')}>✨ Auto: use the best model for this tab</button>
           <label className="picker-free"><CheckCircle2 size={12} className="ok" /> Free &amp; open-source models only · paid models are blocked</label>
           <button className={`picker-row ${!model ? 'sel' : ''}`} onClick={() => chooseModel('')}><b>Recommended</b><small>{status?.default_model} · falls back automatically if it fails</small></button>
           {models.map(m => <button key={m.id} className={`picker-row ${model === m.id ? 'sel' : ''}`} onClick={() => chooseModel(m.id)}><b>{m.name}{m.check === 'passed' && <CheckCircle2 size={12} className="ok" />}</b><small>{m.id} · {m.id.startsWith('ollama/') ? 'runs on your server · free' : m.free ? 'free' : m.price_in != null ? `$${m.price_in}/$${m.price_out} per 1M` : ''}{m.context ? ` · ${Math.round(m.context / 1000)}k ctx` : ''}{m.vision ? ' · vision' : ''}</small></button>)}

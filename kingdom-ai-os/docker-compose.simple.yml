@@ -19,6 +19,9 @@ services:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
       KAIOS_DEFAULT_MODEL: ${KAIOS_DEFAULT_MODEL:-}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
+      KAIOS_PASSWORD_HASH: ${KAIOS_PASSWORD_HASH:-}
+      KAIOS_PASSWORD: ${KAIOS_PASSWORD:-}
+      KAIOS_SHIELD: ${KAIOS_SHIELD:-on}
     volumes: [kaios_data:/app/data]
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/live', timeout=4)"]
@@ -39,6 +42,12 @@ services:
     image: ollama/ollama:latest
     profiles: [local-models]
     volumes: [ollama_models:/root/.ollama]
+    environment:  # speed: keep models in memory, faster attention, smaller cache, 2 chats at once
+      OLLAMA_KEEP_ALIVE: 24h
+      OLLAMA_FLASH_ATTENTION: "1"
+      OLLAMA_KV_CACHE_TYPE: q8_0
+      OLLAMA_NUM_PARALLEL: "2"
+      OLLAMA_MAX_LOADED_MODELS: "2"
     restart: unless-stopped
   # One-time download of the open-source models listed in OLLAMA_PULL (space separated).
   ollama-pull:

@@ -29,3 +29,23 @@
 .dlg{display:flex;flex-direction:column;align-items:center;text-align:center;margin:8px auto;max-width:70%}.dlg b{font:700 11px 'Courier New',monospace}.dlg span{font-family:'Courier New',monospace;font-size:12px}
 .jump{font-size:11px;color:var(--muted)}.memory p{margin:4px 0;font-size:12px}
 .act>p.muted{font-size:12.5px;line-height:1.6;margin:0 0 6px}.studio-title,.studio-logline{text-shadow:0 1px 8px #fff}
+
+/* ---- Sign-in ---- */
+.login-shell{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(1200px 600px at 10% -10%,#ffd6e8 0,transparent 60%),radial-gradient(900px 500px at 110% 110%,#d6e4ff 0,transparent 60%),linear-gradient(135deg,#fbf7ff,#f2f6ff);font-family:inherit}
+.login-card{width:min(400px,100%);background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border:1px solid rgba(20,20,40,.08);border-radius:22px;box-shadow:0 24px 60px rgba(40,30,90,.14);padding:32px 30px;display:flex;flex-direction:column;gap:12px;color:#17142b}
+.login-card h1{margin:0;font-size:22px;letter-spacing:-.02em}
+.login-badge{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#ff5fa2,#7b5cff)}
+.login-sub{margin:0;color:#57536e;font-size:14px;line-height:1.5}
+.login-label{font-size:13px;font-weight:600;color:#33304a;margin-top:4px}
+.login-input{border:1px solid #d9d6e8;border-radius:12px;padding:12px 14px;font-size:15px;background:#fff;color:#17142b;outline:none}
+.login-input:focus{border-color:#7b5cff;box-shadow:0 0 0 3px rgba(123,92,255,.18)}
+.login-input.code{font-size:24px;letter-spacing:.3em;text-align:center;font-variant-numeric:tabular-nums}
+.login-btn{margin-top:6px;border:0;border-radius:12px;padding:12px;font-size:15px;font-weight:650;color:#fff;background:linear-gradient(135deg,#ff5fa2,#7b5cff);cursor:pointer}
+.login-btn:disabled{opacity:.5;cursor:not-allowed}
+.login-link{border:0;background:none;color:#6a52e0;font-size:13px;cursor:pointer}
+.login-error{margin:0;color:#b4233c;background:#ffeef1;border-radius:10px;padding:8px 10px;font-size:13px}
+.login-qr{width:200px;height:200px;align-self:center;border-radius:12px;border:1px solid #eee;background:#fff}
+.login-manual{font-size:12px;color:#57536e}.login-manual code{display:block;margin-top:6px;font-size:13px;word-break:break-all;background:#f4f2fb;padding:8px;border-radius:8px}
+.login-foot{margin:4px 0 0;font-size:11px;color:#8a86a0;display:flex;align-items:center;gap:6px;justify-content:center}
+.signout-btn{border:0;background:none;color:inherit;opacity:.7;cursor:pointer;font-size:12px;padding:4px 6px;border-radius:8px}.signout-btn:hover{opacity:1;background:rgba(0,0,0,.06)}
+.picker-auto{display:block;width:100%;text-align:left;border:0;background:rgba(123,92,255,.08);color:#5b45d6;font-weight:600;padding:9px 12px;border-radius:10px;margin:6px 0;cursor:pointer}

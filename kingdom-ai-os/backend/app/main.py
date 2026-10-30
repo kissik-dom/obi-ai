@@ -21,6 +21,8 @@ import io
 import zipfile
 from app.routes_workspace import router as workspace_router
 from app.routes_studio import router as studio_router
+from app.routes_auth import router as auth_router
+from app.services import auth as auth_service, shield
 
 HERE = Path(__file__).resolve()
 ROOT = next((parent for parent in HERE.parents if (parent / "registries").is_dir()), HERE.parents[2])
@@ -53,6 +55,7 @@ app.add_middleware(
     allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "X-Request-ID"],
 )
+app.include_router(auth_router)
 app.include_router(workspace_router)
 app.include_router(studio_router)
 
@@ -66,6 +69,51 @@ async def secure_headers(request, call_next):
     response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     response.headers["Cache-Control"] = "no-store" if request.url.path.startswith(API_PREFIX) else "no-cache"
     return response
+
+
+@app.middleware("http")
+async def require_login(request, call_next):
+    path = request.url.path
+    if path.startswith("/api/") and not path.startswith(f"{API_PREFIX}/auth/") and request.method != "OPTIONS":
+        if auth_service.required_but_missing():
+            return JSONResponse(status_code=503, content={"detail": "Login is not configured on this server yet."})
+        if auth_service.enabled() and not auth_service.valid_session(request.cookies.get(auth_service.SESSION_COOKIE)):
+            return JSONResponse(status_code=401, content={"detail": "Please sign in."})
+    return await call_next(request)
+
+
+@app.on_event("startup")
+async def _warm_up():
+    shield.warm_up_background()
+
+    async def keep_model_loaded():
+        from app.services import assistant as a
+        if not a.ollama_base():
+            return
+        for _ in range(30):  # model server may still be starting
+            try:
+                async with httpx.AsyncClient(timeout=300) as c:
+                    r = await c.post(a.ollama_base() + "/api/generate",
+                                     json={"model": a.default_model().removeprefix("ollama/"), "prompt": "", "keep_alive": "24h"})
+                if r.status_code == 200:
+                    return
+            except httpx.HTTPError:
+                pass
+            await asyncio.sleep(10)
+    asyncio.create_task(keep_model_loaded())
+
+
+@app.get(f"{API_PREFIX}/shield/status")
+async def shield_status():
+    return shield.status()
+
+
+@app.get(f"{API_PREFIX}/models/ranking")
+async def model_ranking():
+    from app.services import assistant as a
+    r = a.ranking()
+    return {"groups": r.get("groups", {}), "tabs": r.get("tabs", {}),
+            "active": {t: a.ranked_models(t) for t in r.get("tabs", {})}}
 
 
 @app.exception_handler(Exception)
