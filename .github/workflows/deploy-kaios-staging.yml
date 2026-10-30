@@ -57,8 +57,17 @@ jobs:
           set -euo pipefail
           if docker info >/dev/null 2>&1; then D=(docker); S=(); else D=(sudo -n docker); S=(sudo -n); fi
           if "${D[@]}" compose version >/dev/null 2>&1; then C=("${D[@]}" compose)
-          elif command -v docker-compose >/dev/null 2>&1; then C=("${S[@]}" docker-compose)
-          else echo "Docker Compose is not installed on the server" >&2; exit 1; fi
+          else
+            # Old docker-compose v1 can't read modern compose files: use a private Compose v2 binary (no system changes)
+            CV2="$HOME/.local/bin/docker-compose-v2"
+            if [ ! -x "$CV2" ]; then
+              mkdir -p "$HOME/.local/bin"
+              curl -fsSL "https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-linux-$(uname -m)" -o "$CV2"
+              chmod +x "$CV2"
+            fi
+            C=("${S[@]}" "$CV2")
+          fi
+          "${C[@]}" version
           echo "== Server specs =="
           nproc; free -h; df -h / | tail -1
           command -v nvidia-smi >/dev/null && nvidia-smi --query-gpu=name,memory.total --format=csv || echo "GPU: none"
