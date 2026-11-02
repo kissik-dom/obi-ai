@@ -11,7 +11,7 @@ DOMAIN="${DOMAIN:-kingdom.example.com}"
 
 ssh -i "$SSH_KEY" "root@${VULTR_IP}" "mkdir -p /opt/kingdom/vultr/suricata"
 
-scp -i "$SSH_KEY" docker-compose.yml vultr_security_docker-compose.yml vultr_gpu_docker-compose.override.yml vultr_cloud_init.yaml "root@${VULTR_IP}:/opt/kingdom/"
+scp -i "$SSH_KEY" docker-compose.yml vultr_gpu_docker-compose.override.yml vultr_cloud_init.yaml "root@${VULTR_IP}:/opt/kingdom/"
 
 ssh -i "$SSH_KEY" "root@${VULTR_IP}" bash -s <<'REMOTE'
 set -euo pipefail
@@ -23,7 +23,7 @@ docker compose -f docker-compose.yml up -d --remove-orphans
 
 # Security plane second; all services carry healthchecks and restart policies.
 if [ "${ENABLE_SECURITY_PROFILE:-1}" = "1" ]; then
-  docker compose -f docker-compose.yml -f vultr_security_docker-compose.yml up -d --remove-orphans
+  docker compose -f docker-compose.yml --profile security up -d --remove-orphans
 fi
 
 # GPU fleet only on GPU-enabled Vultr instances.

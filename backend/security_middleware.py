@@ -43,7 +43,17 @@ class KingdomSecurityMiddleware(BaseHTTPMiddleware):
         response.headers["x-frame-options"] = "DENY"
         response.headers["referrer-policy"] = "no-referrer"
         response.headers["permissions-policy"] = "camera=(self), geolocation=(), microphone=(self)"
-        response.headers["content-security-policy"] = "default-src 'self'; frame-ancestors 'none'; base-uri 'self'"
+        if request.url.path in {"/docs", "/redoc"}:
+            response.headers["content-security-policy"] = (
+                "default-src 'self'; "
+                "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+                "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+                "img-src 'self' data: https://fastapi.tiangolo.com; "
+                "font-src 'self' data: https://cdn.jsdelivr.net; "
+                "frame-ancestors 'none'; base-uri 'self'"
+            )
+        else:
+            response.headers["content-security-policy"] = "default-src 'self'; frame-ancestors 'none'; base-uri 'self'"
         response.headers["x-kingdom-ai-os-latency-ms"] = str(elapsed_ms)
         return response
 
