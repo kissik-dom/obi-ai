@@ -1,0 +1,28 @@
+# GPU override for Vultr GPU instances.
+# Usage: docker compose -f docker-compose.yml -f vultr_gpu_docker-compose.override.yml up -d --profile gpu
+services:
+  gpu-workers:
+    image: ghcr.io/kingdom/gpu-worker:1.0.0-cuda12
+    deploy:
+      replicas: 5
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
+      VRAM_BUDGET_GB: "12"
+      GPU_WORKER_PORTS: "200,201,202,203,204"
+    ports:
+      - "200-204:200"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:200/healthz', timeout=5)\" || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - kingdom
+      - gpu-isolated

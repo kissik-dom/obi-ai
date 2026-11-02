@@ -1,0 +1,5 @@
+# Security plane services now live in docker-compose.yml behind the "security"
+# profile. Enable them with:
+#   docker compose -f docker-compose.yml --profile security up -d
+#
+# This file is retained as a compatibility no-op for older deploy scripts.

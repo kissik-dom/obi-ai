@@ -1,0 +1,1960 @@
+# Kingdom AI OS LiteLLM Proxy config
+# 10 OpenRouter API keys, automatic failover, num_retries=3, timeout=60.
+# All model IDs below are real OpenRouter models.
+model_list:
+  - model_name: tier-s-auto
+    litellm_params:
+      model: openrouter/openai/gpt-4o
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-coder
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-research
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-scout
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-legal
+    litellm_params:
+      model: openrouter/anthropic/claude-3.7-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-finance
+    litellm_params:
+      model: openrouter/openai/gpt-4o
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-osint
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-v-image
+    litellm_params:
+      model: openrouter/google/gemini-2.5-pro
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-v-video
+    litellm_params:
+      model: openrouter/google/gemini-2.5-pro
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-audio
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-admin
+    litellm_params:
+      model: openrouter/anthropic/claude-3.7-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-cua
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-engineering
+    litellm_params:
+      model: openrouter/deepseek/deepseek-r1
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-comms
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-fast
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-vision
+    litellm_params:
+      model: openrouter/google/gemini-2.5-pro
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-security
+    litellm_params:
+      model: openrouter/anthropic/claude-3.7-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-001
+    litellm_params:
+      model: openrouter/openai/gpt-4o
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-002
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-003
+    litellm_params:
+      model: openrouter/openai/gpt-4.1
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-004
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-005
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-nano
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-006
+    litellm_params:
+      model: openrouter/openai/o3-mini
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-007
+    litellm_params:
+      model: openrouter/openai/o1
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-008
+    litellm_params:
+      model: openrouter/openai/o1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-009
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-010
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-haiku
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-011
+    litellm_params:
+      model: openrouter/anthropic/claude-3-opus
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-012
+    litellm_params:
+      model: openrouter/anthropic/claude-3-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-013
+    litellm_params:
+      model: openrouter/anthropic/claude-3-haiku
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-014
+    litellm_params:
+      model: openrouter/anthropic/claude-3.7-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-015
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash-001
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-016
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash-lite-001
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-017
+    litellm_params:
+      model: openrouter/google/gemini-2.5-flash
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-018
+    litellm_params:
+      model: openrouter/google/gemini-2.5-pro
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-019
+    litellm_params:
+      model: openrouter/google/gemini-flash-1.5
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-020
+    litellm_params:
+      model: openrouter/google/gemini-pro
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-021
+    litellm_params:
+      model: openrouter/google/gemma-2-9b-it
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-022
+    litellm_params:
+      model: openrouter/google/gemma-2-27b-it
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-023
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-8b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-024
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-025
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-405b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-026
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-1b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-027
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-3b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-028
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-11b-vision-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-029
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.3-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-030
+    litellm_params:
+      model: openrouter/mistralai/mistral-7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-031
+    litellm_params:
+      model: openrouter/mistralai/mistral-7b-instruct-v0.3
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-032
+    litellm_params:
+      model: openrouter/mistralai/mixtral-8x7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-033
+    litellm_params:
+      model: openrouter/mistralai/mixtral-8x22b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-034
+    litellm_params:
+      model: openrouter/mistralai/mistral-small-3.1
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-035
+    litellm_params:
+      model: openrouter/deepseek/deepseek-chat
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-036
+    litellm_params:
+      model: openrouter/deepseek/deepseek-r1
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-037
+    litellm_params:
+      model: openrouter/deepseek/deepseek-coder
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-038
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-72b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-039
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-32b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-040
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-041
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-coder-32b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-042
+    litellm_params:
+      model: openrouter/qwen/qwen-2-72b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-043
+    litellm_params:
+      model: openrouter/qwen/qwen-turbo
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-044
+    litellm_params:
+      model: openrouter/cohere/command-r-plus
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-045
+    litellm_params:
+      model: openrouter/cohere/command-r
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-046
+    litellm_params:
+      model: openrouter/ai21/jamba-1.5-mini
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-047
+    litellm_params:
+      model: openrouter/ai21/jamba-1.5-large
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-048
+    litellm_params:
+      model: openrouter/databricks/dbrx-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-049
+    litellm_params:
+      model: openrouter/x-ai/grok-2-1212
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-050
+    litellm_params:
+      model: openrouter/x-ai/grok-2-vision-1212
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-051
+    litellm_params:
+      model: openrouter/nvidia/llama-3.1-nemotron-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-052
+    litellm_params:
+      model: openrouter/amazon/nova-pro-v1
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-053
+    litellm_params:
+      model: openrouter/amazon/nova-lite-v1
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-054
+    litellm_params:
+      model: openrouter/openai/gpt-4o
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-055
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-056
+    litellm_params:
+      model: openrouter/openai/gpt-4.1
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-057
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-058
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-nano
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-059
+    litellm_params:
+      model: openrouter/openai/o3-mini
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-060
+    litellm_params:
+      model: openrouter/openai/o1
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-061
+    litellm_params:
+      model: openrouter/openai/o1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-062
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-063
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-haiku
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-064
+    litellm_params:
+      model: openrouter/anthropic/claude-3-opus
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-065
+    litellm_params:
+      model: openrouter/anthropic/claude-3-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-066
+    litellm_params:
+      model: openrouter/anthropic/claude-3-haiku
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-067
+    litellm_params:
+      model: openrouter/anthropic/claude-3.7-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-068
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash-001
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-069
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash-lite-001
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-070
+    litellm_params:
+      model: openrouter/google/gemini-2.5-flash
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-071
+    litellm_params:
+      model: openrouter/google/gemini-2.5-pro
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-072
+    litellm_params:
+      model: openrouter/google/gemini-flash-1.5
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-073
+    litellm_params:
+      model: openrouter/google/gemini-pro
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-074
+    litellm_params:
+      model: openrouter/google/gemma-2-9b-it
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-075
+    litellm_params:
+      model: openrouter/google/gemma-2-27b-it
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-076
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-8b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-077
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-078
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-405b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-079
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-1b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-080
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-3b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-081
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-11b-vision-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-082
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.3-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-083
+    litellm_params:
+      model: openrouter/mistralai/mistral-7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-084
+    litellm_params:
+      model: openrouter/mistralai/mistral-7b-instruct-v0.3
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-085
+    litellm_params:
+      model: openrouter/mistralai/mixtral-8x7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-086
+    litellm_params:
+      model: openrouter/mistralai/mixtral-8x22b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-087
+    litellm_params:
+      model: openrouter/mistralai/mistral-small-3.1
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-088
+    litellm_params:
+      model: openrouter/deepseek/deepseek-chat
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-089
+    litellm_params:
+      model: openrouter/deepseek/deepseek-r1
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-090
+    litellm_params:
+      model: openrouter/deepseek/deepseek-coder
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-091
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-72b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-092
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-32b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-093
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-094
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-coder-32b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-095
+    litellm_params:
+      model: openrouter/qwen/qwen-2-72b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-096
+    litellm_params:
+      model: openrouter/qwen/qwen-turbo
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-097
+    litellm_params:
+      model: openrouter/cohere/command-r-plus
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-098
+    litellm_params:
+      model: openrouter/cohere/command-r
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-099
+    litellm_params:
+      model: openrouter/ai21/jamba-1.5-mini
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-100
+    litellm_params:
+      model: openrouter/ai21/jamba-1.5-large
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-101
+    litellm_params:
+      model: openrouter/databricks/dbrx-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-102
+    litellm_params:
+      model: openrouter/x-ai/grok-2-1212
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-103
+    litellm_params:
+      model: openrouter/x-ai/grok-2-vision-1212
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-104
+    litellm_params:
+      model: openrouter/nvidia/llama-3.1-nemotron-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-105
+    litellm_params:
+      model: openrouter/amazon/nova-pro-v1
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-106
+    litellm_params:
+      model: openrouter/amazon/nova-lite-v1
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-107
+    litellm_params:
+      model: openrouter/openai/gpt-4o
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-108
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-109
+    litellm_params:
+      model: openrouter/openai/gpt-4.1
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-110
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-111
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-nano
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-112
+    litellm_params:
+      model: openrouter/openai/o3-mini
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-113
+    litellm_params:
+      model: openrouter/openai/o1
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-114
+    litellm_params:
+      model: openrouter/openai/o1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-115
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-s-116
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-haiku
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-001
+    litellm_params:
+      model: openrouter/google/gemma-2-9b-it
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-002
+    litellm_params:
+      model: openrouter/google/gemma-2-27b-it
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-003
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-8b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-004
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-005
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-405b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-006
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-1b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-007
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-3b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-008
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-11b-vision-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-009
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.3-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-010
+    litellm_params:
+      model: openrouter/mistralai/mistral-7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-011
+    litellm_params:
+      model: openrouter/mistralai/mistral-7b-instruct-v0.3
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-012
+    litellm_params:
+      model: openrouter/mistralai/mixtral-8x7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-013
+    litellm_params:
+      model: openrouter/mistralai/mixtral-8x22b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-014
+    litellm_params:
+      model: openrouter/mistralai/mistral-small-3.1
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-015
+    litellm_params:
+      model: openrouter/deepseek/deepseek-chat
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-016
+    litellm_params:
+      model: openrouter/deepseek/deepseek-r1
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-017
+    litellm_params:
+      model: openrouter/deepseek/deepseek-coder
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-018
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-72b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-019
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-32b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-020
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-021
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-coder-32b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-022
+    litellm_params:
+      model: openrouter/qwen/qwen-2-72b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-023
+    litellm_params:
+      model: openrouter/qwen/qwen-turbo
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-024
+    litellm_params:
+      model: openrouter/cohere/command-r-plus
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-025
+    litellm_params:
+      model: openrouter/cohere/command-r
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-026
+    litellm_params:
+      model: openrouter/ai21/jamba-1.5-mini
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-027
+    litellm_params:
+      model: openrouter/ai21/jamba-1.5-large
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-028
+    litellm_params:
+      model: openrouter/databricks/dbrx-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-029
+    litellm_params:
+      model: openrouter/x-ai/grok-2-1212
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-030
+    litellm_params:
+      model: openrouter/x-ai/grok-2-vision-1212
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-031
+    litellm_params:
+      model: openrouter/nvidia/llama-3.1-nemotron-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-032
+    litellm_params:
+      model: openrouter/amazon/nova-pro-v1
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-033
+    litellm_params:
+      model: openrouter/amazon/nova-lite-v1
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-034
+    litellm_params:
+      model: openrouter/openai/gpt-4o
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-035
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-036
+    litellm_params:
+      model: openrouter/openai/gpt-4.1
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-037
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-038
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-nano
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-039
+    litellm_params:
+      model: openrouter/openai/o3-mini
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-040
+    litellm_params:
+      model: openrouter/openai/o1
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-041
+    litellm_params:
+      model: openrouter/openai/o1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-042
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-043
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-haiku
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-044
+    litellm_params:
+      model: openrouter/anthropic/claude-3-opus
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-045
+    litellm_params:
+      model: openrouter/anthropic/claude-3-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-046
+    litellm_params:
+      model: openrouter/anthropic/claude-3-haiku
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-047
+    litellm_params:
+      model: openrouter/anthropic/claude-3.7-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-048
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash-001
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-049
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash-lite-001
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-050
+    litellm_params:
+      model: openrouter/google/gemini-2.5-flash
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-051
+    litellm_params:
+      model: openrouter/google/gemini-2.5-pro
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-052
+    litellm_params:
+      model: openrouter/google/gemini-flash-1.5
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-053
+    litellm_params:
+      model: openrouter/google/gemini-pro
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-054
+    litellm_params:
+      model: openrouter/google/gemma-2-9b-it
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-055
+    litellm_params:
+      model: openrouter/google/gemma-2-27b-it
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-056
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-8b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-057
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-058
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-405b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-059
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-1b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-060
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-3b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-061
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.2-11b-vision-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-062
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.3-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-063
+    litellm_params:
+      model: openrouter/mistralai/mistral-7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-064
+    litellm_params:
+      model: openrouter/mistralai/mistral-7b-instruct-v0.3
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-065
+    litellm_params:
+      model: openrouter/mistralai/mixtral-8x7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-066
+    litellm_params:
+      model: openrouter/mistralai/mixtral-8x22b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-067
+    litellm_params:
+      model: openrouter/mistralai/mistral-small-3.1
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-068
+    litellm_params:
+      model: openrouter/deepseek/deepseek-chat
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-069
+    litellm_params:
+      model: openrouter/deepseek/deepseek-r1
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-070
+    litellm_params:
+      model: openrouter/deepseek/deepseek-coder
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-071
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-72b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-072
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-32b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-073
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-7b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-074
+    litellm_params:
+      model: openrouter/qwen/qwen-2.5-coder-32b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-075
+    litellm_params:
+      model: openrouter/qwen/qwen-2-72b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-076
+    litellm_params:
+      model: openrouter/qwen/qwen-turbo
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-077
+    litellm_params:
+      model: openrouter/cohere/command-r-plus
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-078
+    litellm_params:
+      model: openrouter/cohere/command-r
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-079
+    litellm_params:
+      model: openrouter/ai21/jamba-1.5-mini
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-080
+    litellm_params:
+      model: openrouter/ai21/jamba-1.5-large
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-081
+    litellm_params:
+      model: openrouter/databricks/dbrx-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-082
+    litellm_params:
+      model: openrouter/x-ai/grok-2-1212
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-083
+    litellm_params:
+      model: openrouter/x-ai/grok-2-vision-1212
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-084
+    litellm_params:
+      model: openrouter/nvidia/llama-3.1-nemotron-70b-instruct
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-085
+    litellm_params:
+      model: openrouter/amazon/nova-pro-v1
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-086
+    litellm_params:
+      model: openrouter/amazon/nova-lite-v1
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-087
+    litellm_params:
+      model: openrouter/openai/gpt-4o
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-088
+    litellm_params:
+      model: openrouter/openai/gpt-4o-mini
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-089
+    litellm_params:
+      model: openrouter/openai/gpt-4.1
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-090
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-091
+    litellm_params:
+      model: openrouter/openai/gpt-4.1-nano
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-092
+    litellm_params:
+      model: openrouter/openai/o3-mini
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-093
+    litellm_params:
+      model: openrouter/openai/o1
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-094
+    litellm_params:
+      model: openrouter/openai/o1-mini
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-095
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-096
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-haiku
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-097
+    litellm_params:
+      model: openrouter/anthropic/claude-3-opus
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-098
+    litellm_params:
+      model: openrouter/anthropic/claude-3-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_1
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-099
+    litellm_params:
+      model: openrouter/anthropic/claude-3-haiku
+      api_key: os.environ/OPENROUTER_API_KEY_2
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-100
+    litellm_params:
+      model: openrouter/anthropic/claude-3.7-sonnet
+      api_key: os.environ/OPENROUTER_API_KEY_3
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-101
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash-001
+      api_key: os.environ/OPENROUTER_API_KEY_4
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-102
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash-lite-001
+      api_key: os.environ/OPENROUTER_API_KEY_5
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-103
+    litellm_params:
+      model: openrouter/google/gemini-2.5-flash
+      api_key: os.environ/OPENROUTER_API_KEY_6
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-104
+    litellm_params:
+      model: openrouter/google/gemini-2.5-pro
+      api_key: os.environ/OPENROUTER_API_KEY_7
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-105
+    litellm_params:
+      model: openrouter/google/gemini-flash-1.5
+      api_key: os.environ/OPENROUTER_API_KEY_8
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-106
+    litellm_params:
+      model: openrouter/google/gemini-pro
+      api_key: os.environ/OPENROUTER_API_KEY_9
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+  - model_name: tier-b-107
+    litellm_params:
+      model: openrouter/google/gemma-2-9b-it
+      api_key: os.environ/OPENROUTER_API_KEY_10
+      api_base: https://openrouter.ai/api/v1
+    model_info:
+      mode: chat
+      supports_function_calling: true
+
+litellm_settings:
+  num_retries: 3
+  request_timeout: 60
+  drop_params: true
+  set_verbose: false
+  fallbacks:
+    - tier-s-auto: ["tier-s-001", "tier-b-001", "tier-b-002"]
+    - tier-s-coder: ["tier-s-003", "tier-b-003", "tier-s-001"]
+    - tier-s-research: ["tier-s-002", "tier-b-001", "tier-s-001"]
+    - tier-b-scout: ["tier-b-001", "tier-b-002"]
+    - tier-s-legal: ["tier-s-004", "tier-s-002"]
+    - tier-s-finance: ["tier-s-001", "tier-b-001"]
+    - tier-s-osint: ["tier-b-001", "tier-b-002"]
+    - tier-v-image: ["tier-s-vision"]
+    - tier-v-video: ["tier-s-vision"]
+    - tier-b-audio: ["tier-b-001"]
+    - tier-s-admin: ["tier-s-004", "tier-s-001"]
+    - tier-b-cua: ["tier-b-001"]
+    - tier-s-engineering: ["tier-s-003", "tier-s-002"]
+    - tier-b-comms: ["tier-b-001"]
+    - tier-b-fast: ["tier-b-001", "tier-b-002"]
+    - tier-s-vision: ["tier-b-002"]
+    - tier-s-security: ["tier-s-004", "tier-s-001"]
+
+router_settings:
+  enable_pre_call_checks: true
+  allowed_fails: 3
+  cooldown_time: 30
+  num_retries: 3
+  request_timeout: 60
+  routing_strategy: usage-based-routing-v2
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  store_model_in_db: false
