@@ -30,7 +30,9 @@ services:
       postgres: {condition: service_healthy}
       valkey: {condition: service_healthy}
     ports: ["8000:8000"]
+    volumes: [taskdata:/app/data]
 volumes:
   pgdata: {}
   valkeydata: {}
   qdrantdata: {}
+  taskdata: {}
