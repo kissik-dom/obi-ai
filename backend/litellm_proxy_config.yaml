@@ -358,12 +358,6 @@ litellm_settings:
   request_timeout: 60
   num_retries: 3
   telemetry: false
-router_settings:
-  routing_strategy: usage-based-routing-v2
-  num_retries: 3
-  timeout: 60
-  allowed_fails: 3
-  cooldown_time: 30
   fallbacks:
   - kingdom-s-claude-3-5-sonnet:
     - kingdom-a-claude-3-opus
@@ -393,3 +387,8 @@ router_settings:
     - kingdom-a-mistral-large
     - kingdom-b-mixtral-8x22b-instruct
     - kingdom-c-mistral-7b-instruct
+router_settings:
+  routing_strategy: usage-based-routing
+  num_retries: 3
+  timeout: 60
+  allowed_fails: 3

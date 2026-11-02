@@ -6,9 +6,10 @@ sqlalchemy==2.0.25
 alembic==1.13.1
 celery==5.3.6
 redis==5.0.1
-litellm==1.16.14
+litellm>=1.40.0
 qdrant-client==1.7.0
 minio==7.2.3
 python-dotenv==1.0.0
 httpx==0.26.0
-python-multipart==0.0.6
+psycopg2-binary==2.9.10
+python-multipart>=0.0.18

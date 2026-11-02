@@ -19,6 +19,7 @@ from urllib.parse import urlparse
 import httpx
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 LOGGER_NAME = "kingdom.backend"
 logger = logging.getLogger(LOGGER_NAME)
@@ -130,8 +131,13 @@ def _mount_routers(app: FastAPI) -> None:
 
 
 def _ensure_http_url(value: str, path: str = "") -> str:
-    """Return a full HTTP URL, accepting endpoints supplied without a scheme."""
-    value = value or ""
+    """Return a full HTTP URL, accepting endpoints supplied without a scheme.
+
+    Empty values are passed through unchanged so that optional dependencies can
+    be disabled by leaving their environment variable blank.
+    """
+    if not value:
+        return ""
     if not value.startswith(("http://", "https://")):
         value = f"http://{value}"
     return f"{value.rstrip('/')}{path}"
@@ -149,8 +155,8 @@ async def _check_tcp(url: str, default_port: int, timeout: float = 1.0) -> str:
     if not url:
         return DISABLED
 
-    host, port = _host_and_port(url, default_port)
     try:
+        host, port = _host_and_port(url, default_port)
         reader, writer = await asyncio.wait_for(
             asyncio.open_connection(host, port), timeout=timeout
         )
@@ -161,7 +167,7 @@ async def _check_tcp(url: str, default_port: int, timeout: float = 1.0) -> str:
             reader.feed_eof()
         return HEALTHY
     except Exception as exc:  # noqa: BLE001 - health checks intentionally broad
-        logger.debug("TCP health check failed for %s:%s: %s", host, port, exc)
+        logger.debug("TCP health check failed for %s: %s", url, exc)
         return OFFLINE
 
 
@@ -170,9 +176,10 @@ async def _check_http(url: str, timeout: float = 1.0) -> str:
         return DISABLED
 
     try:
+        full_url = _ensure_http_url(url)
         async with httpx.AsyncClient(timeout=timeout) as client:
-            response = await client.get(url)
-        return HEALTHY if 200 <= response.status_code < 500 else DEGRADED
+            response = await client.get(full_url)
+        return HEALTHY if response.status_code < 500 else DEGRADED
     except Exception as exc:  # noqa: BLE001 - health checks intentionally broad
         logger.debug("HTTP health check failed for %s: %s", url, exc)
         return OFFLINE
@@ -271,13 +278,24 @@ _mount_routers(app)
 
 
 @app.get("/healthz")
-async def healthz() -> dict[str, object]:
+async def healthz() -> JSONResponse:
     """Report aggregate backend health and individual dependency status."""
-    services = await _collect_service_status()
-    return {
-        "status": _overall_status(services),
-        "services": services,
-    }
+    try:
+        services = await _collect_service_status()
+        aggregate_status = _overall_status(services)
+    except Exception:  # noqa: BLE001 - healthz must never fail open
+        logger.exception("Unexpected error while collecting dependency health")
+        services = {"backend": DEGRADED}
+        aggregate_status = DEGRADED
+
+    status_code = 200 if aggregate_status == HEALTHY else 503
+    return JSONResponse(
+        content={
+            "status": aggregate_status,
+            "services": services,
+        },
+        status_code=status_code,
+    )
 
 
 if __name__ == "__main__":
