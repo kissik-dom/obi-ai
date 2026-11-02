@@ -163,30 +163,30 @@ export default function Home() {
           <div className="sidebar-search">
             <div className="sidebar-search-wrap">
               <span className="search-icon">🔍</span>
-              <input placeholder="Search anything..." disabled style={{ opacity: 0.5, cursor: "not-allowed" }} />
-              <span className="shortcut">⌘ K</span>
+              <input placeholder="Search anything..." disabled aria-label="Search anything" title="Search is currently disabled" style={{ opacity: 0.5, cursor: "not-allowed" }} />
+              <span className="shortcut" aria-hidden="true">⌘ K</span>
             </div>
           </div>
           <div className="sidebar-nav">
-            <button className="sidebar-nav-item active"><span className="nav-icon">🏠</span> Home</button>
-            <button className="sidebar-nav-item"><span className="nav-icon">💬</span> Chat</button>
-            <button className="sidebar-nav-item"><span className="nav-icon">\u{1F4D6}</span> Prompt Library</button>
-            <button className="sidebar-nav-item"><span className="nav-icon">\u{1F517}</span> Integrations</button>
+            <button className="sidebar-nav-item active" onClick={() => setActiveTab("Home")} title="Go to Home"><span className="nav-icon">🏠</span> Home</button>
+            <button className="sidebar-nav-item" disabled title="Chat view coming soon"><span className="nav-icon">💬</span> Chat</button>
+            <button className="sidebar-nav-item" disabled title="Prompt Library coming soon"><span className="nav-icon">{"\u{1F4D6}"}</span> Prompt Library</button>
+            <button className="sidebar-nav-item" disabled title="Integrations coming soon"><span className="nav-icon">{"\u{1F517}"}</span> Integrations</button>
           </div>
-          <div className="sidebar-section-header"><span>Pinned</span><span className="plus">+</span></div>
+          <div className="sidebar-section-header"><span>Pinned</span><button className="plus" disabled aria-label="Add pinned item" title="Add pinned item">+</button></div>
           <div className="sidebar-pinned">
-            <span className="pinned-chip"><span className="picon">\u{1F4CA}</span> OSINT Dashboard</span>
-            <span className="pinned-chip"><span className="picon">\u{1F4B0}</span> Alpha Deals</span>
-            <span className="pinned-chip"><span className="picon">\u{1F3D9}</span> City Blueprint</span>
-            <span className="pinned-chip"><span className="picon">🤖</span> Agent Swarm</span>
+            <button className="pinned-chip" onClick={() => send("OSINT Dashboard")}><span className="picon">{"\u{1F4CA}"}</span> OSINT Dashboard</button>
+            <button className="pinned-chip" onClick={() => send("Alpha Deals")}><span className="picon">{"\u{1F4B0}"}</span> Alpha Deals</button>
+            <button className="pinned-chip" onClick={() => send("City Blueprint")}><span className="picon">{"\u{1F3D9}"}</span> City Blueprint</button>
+            <button className="pinned-chip" onClick={() => send("Agent Swarm")}><span className="picon">🤖</span> Agent Swarm</button>
           </div>
-          <div className="sidebar-section-header"><span>Today</span><span className="plus">\u{25B4}</span></div>
+          <div className="sidebar-section-header"><span>Today</span><button className="plus" disabled aria-label="Expand Today" title="Expand Today">{"\u{25B4}"}</button></div>
           <div className="sidebar-today">
             <div className="activity-item"><span>Competitor analysis: Horizon Dev.</span><span className="time">10:42 AM</span></div>
             <div className="activity-item"><span>Zoning laws in Austin metro</span><span className="time">9:15 AM</span></div>
             <div className="activity-item"><span>Material cost forecast Q3</span><span className="time">8:03 AM</span></div>
           </div>
-          <div className="sidebar-section-header"><span>Yesterday</span><span className="plus">\u{25B4}</span></div>
+          <div className="sidebar-section-header"><span>Yesterday</span><button className="plus" disabled aria-label="Expand Yesterday" title="Expand Yesterday">{"\u{25B4}"}</button></div>
           <div className="sidebar-yesterday">
             <div className="activity-item"><span>Biotech funding trends 2024</span><span className="time">Yesterday</span></div>
             <div className="activity-item"><span>Stealth startup teardown</span><span className="time">Yesterday</span></div>
@@ -197,7 +197,7 @@ export default function Home() {
               <div className="sidebar-user-name">Sovereign User</div>
               <div className="sidebar-user-plan">Pro Plan</div>
             </div>
-            <span className="sidebar-user-crown">\u{1F451}</span>
+            <span className="sidebar-user-crown">{"\u{1F451}"}</span>
           </div>
         </div>
         <div className="main">
@@ -267,7 +267,7 @@ export default function Home() {
           <div className="right-section">
             <div className="right-section-header">
               <div className="right-section-title"><span className="ricon">👥</span> Active Agents</div>
-              <button className="plus-btn">+</button>
+              <button className="plus-btn" disabled aria-label="Add agent" title="Add agent">+</button>
             </div>
             {AGENTS.map((a) => (
               <div className="agent-item" key={a.name}>
@@ -283,7 +283,7 @@ export default function Home() {
           </div>
           <div className="right-section">
             <div className="right-section-header">
-              <div className="right-section-title"><span className="ricon">\u2705</span> Tasks</div>
+              <div className="right-section-title"><span className="ricon">{"\u2705"}</span> Tasks</div>
               <span style={{ fontSize: 12, color: "var(--muted)", border: "1px solid var(--line)", padding: "2px 8px", borderRadius: 999 }}>{TASKS.filter(t => t.status === "running").length} Active</span>
             </div>
             {TASKS.map((t) => (
@@ -295,7 +295,7 @@ export default function Home() {
                 <span className={`task-status ${t.status}`}>{t.status === "running" ? "Running" : "Queued"}</span>
               </div>
             ))}
-            <button className="view-all">View all tasks \u2192</button>
+            <button className="view-all">View all tasks {"\u2192"}</button>
           </div>
         </div>
       </div>
