@@ -40,7 +40,7 @@ services:
           "CMD",
           "python",
           "-c",
-          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=3)",
+          "import json, urllib.request; response = urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=3); payload = json.load(response); raise SystemExit(0 if payload.get('status') == 'healthy' else 1)",
         ]
       interval: 30s
       timeout: 5s
@@ -86,13 +86,21 @@ services:
 
   vault:
     image: hashicorp/vault:1.15
-    command: server -dev -dev-root-token-id=root -dev-listen-address=0.0.0.0:8200
+    command: server
     restart: unless-stopped
     ports:
       - "8200:8200"
     environment:
-      VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_TOKEN:-root}
-      VAULT_ADDR: http://0.0.0.0:8200
+      VAULT_ADDR: http://127.0.0.1:8200
+      VAULT_LOCAL_CONFIG: |
+        storage "file" {
+          path = "/vault/file"
+        }
+        listener "tcp" {
+          address = "0.0.0.0:8200"
+          tls_disable = 1
+        }
+        disable_mlock = true
     cap_add:
       - IPC_LOCK
     volumes:
