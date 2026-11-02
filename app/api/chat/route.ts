@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { swarm } from "@/lib/swarm";
+import { AGENTS, runAgent } from "@/lib/swarm";
+import type { AgentName } from "@/lib/swarm";
 import { ChatMessage } from "@/lib/llm";
 
 export const runtime = "nodejs";
@@ -9,6 +10,17 @@ const MAX_MESSAGES = 24;
 const MAX_MESSAGE_CHARS = 12_000;
 const MAX_TOTAL_CHARS = 48_000;
 const VALID_ROLES = new Set<ChatMessage["role"]>(["system", "user", "assistant"]);
+const VALID_AGENTS = new Set<AgentName>(
+  (Object.keys(AGENTS) as AgentName[]).filter((name) => name !== "router"),
+);
+
+function parseAgent(value: unknown): AgentName {
+  if (typeof value === "string") {
+    const name = value.trim().toLowerCase() as AgentName;
+    if (VALID_AGENTS.has(name)) return name;
+  }
+  return "general";
+}
 
 function parseMessages(value: unknown): ChatMessage[] | null {
   if (!Array.isArray(value) || value.length === 0 || value.length > MAX_MESSAGES) {
@@ -55,11 +67,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const result = await swarm(messages);
+    const agent = parseAgent(
+      body && typeof body === "object" && "agent" in body ? body.agent : undefined,
+    );
+    const result = await runAgent(agent, messages);
     return NextResponse.json({
       text: result.text,
-      agent: result.agent,
-      label: result.label,
+      label: AGENTS[agent].label,
       provider: result.provider,
       model: result.model,
     });
