@@ -1,0 +1,394 @@
+# LiteLLM proxy router configuration for Kingdom AI OS
+# 50 models distributed across tiers S, A, B, C, V, and X.
+model_list:
+- model_name: kingdom-s-claude-3-5-sonnet
+  litellm_params:
+    model: openrouter/anthropic/claude-3.5-sonnet
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: S
+    routing_group: tier-s
+- model_name: kingdom-s-gpt-4o
+  litellm_params:
+    model: openrouter/openai/gpt-4o
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: S
+    routing_group: tier-s
+- model_name: kingdom-s-gemini-2-0-flash
+  litellm_params:
+    model: openrouter/google/gemini-2.0-flash-001
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: S
+    routing_group: tier-s
+- model_name: kingdom-s-llama-3-3-70b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.3-70b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: S
+    routing_group: tier-s
+- model_name: kingdom-s-deepseek-r1
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: S
+    routing_group: tier-s
+- model_name: kingdom-s-hermes-3-llama-405b
+  litellm_params:
+    model: openrouter/nousresearch/hermes-3-llama-3.1-405b
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: S
+    routing_group: tier-s
+- model_name: kingdom-s-qwen-2-5-72b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-72b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: S
+    routing_group: tier-s
+- model_name: kingdom-s-mistral-large-2
+  litellm_params:
+    model: openrouter/mistralai/mistral-large-2
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: S
+    routing_group: tier-s
+- model_name: kingdom-s-grok-2
+  litellm_params:
+    model: openrouter/x-ai/grok-2-1212
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: S
+    routing_group: tier-s
+- model_name: kingdom-a-claude-3-opus
+  litellm_params:
+    model: openrouter/anthropic/claude-3-opus
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: A
+    routing_group: tier-a
+- model_name: kingdom-a-gpt-4-turbo
+  litellm_params:
+    model: openrouter/openai/gpt-4-turbo
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: A
+    routing_group: tier-a
+- model_name: kingdom-a-gemini-1-5-pro
+  litellm_params:
+    model: openrouter/google/gemini-1.5-pro
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: A
+    routing_group: tier-a
+- model_name: kingdom-a-llama-3-1-405b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.1-405b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: A
+    routing_group: tier-a
+- model_name: kingdom-a-qwen-max
+  litellm_params:
+    model: openrouter/qwen/qwen-max
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: A
+    routing_group: tier-a
+- model_name: kingdom-a-command-r-plus
+  litellm_params:
+    model: openrouter/cohere/command-r-plus
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: A
+    routing_group: tier-a
+- model_name: kingdom-a-sonar-large
+  litellm_params:
+    model: openrouter/perplexity/sonar
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: A
+    routing_group: tier-a
+- model_name: kingdom-a-deepseek-chat
+  litellm_params:
+    model: openrouter/deepseek/deepseek-chat
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: A
+    routing_group: tier-a
+- model_name: kingdom-a-mistral-large
+  litellm_params:
+    model: openrouter/mistralai/mistral-large
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: A
+    routing_group: tier-a
+- model_name: kingdom-b-claude-3-sonnet
+  litellm_params:
+    model: openrouter/anthropic/claude-3-sonnet
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: B
+    routing_group: tier-b
+- model_name: kingdom-b-gpt-4
+  litellm_params:
+    model: openrouter/openai/gpt-4
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: B
+    routing_group: tier-b
+- model_name: kingdom-b-gemini-1-5-flash
+  litellm_params:
+    model: openrouter/google/gemini-1.5-flash
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: B
+    routing_group: tier-b
+- model_name: kingdom-b-llama-3-1-70b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.1-70b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: B
+    routing_group: tier-b
+- model_name: kingdom-b-qwen-2-5-32b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-32b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: B
+    routing_group: tier-b
+- model_name: kingdom-b-mixtral-8x22b-instruct
+  litellm_params:
+    model: openrouter/mistralai/mixtral-8x22b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: B
+    routing_group: tier-b
+- model_name: kingdom-b-wizardlm-2-8x22b
+  litellm_params:
+    model: openrouter/microsoft/wizardlm-2-8x22b
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: B
+    routing_group: tier-b
+- model_name: kingdom-b-hermes-3-llama-70b
+  litellm_params:
+    model: openrouter/nousresearch/hermes-3-llama-3.1-70b
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: B
+    routing_group: tier-b
+- model_name: kingdom-c-claude-3-haiku
+  litellm_params:
+    model: openrouter/anthropic/claude-3-haiku
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: C
+    routing_group: tier-c
+- model_name: kingdom-c-gpt-4o-mini
+  litellm_params:
+    model: openrouter/openai/gpt-4o-mini
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: C
+    routing_group: tier-c
+- model_name: kingdom-c-deepseek-coder
+  litellm_params:
+    model: openrouter/deepseek/deepseek-coder
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: C
+    routing_group: tier-c
+- model_name: kingdom-c-qwen-2-5-coder-32b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-coder-32b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: C
+    routing_group: tier-c
+- model_name: kingdom-c-llama-3-1-8b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.1-8b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: C
+    routing_group: tier-c
+- model_name: kingdom-c-mistral-7b-instruct
+  litellm_params:
+    model: openrouter/mistralai/mistral-7b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: C
+    routing_group: tier-c
+- model_name: kingdom-c-gemma-2-9b-it
+  litellm_params:
+    model: openrouter/google/gemma-2-9b-it
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: C
+    routing_group: tier-c
+- model_name: kingdom-c-mythomax-l2-13b
+  litellm_params:
+    model: openrouter/gryphe/mythomax-l2-13b
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: C
+    routing_group: tier-c
+- model_name: kingdom-v-gpt-4-vision-preview
+  litellm_params:
+    model: openrouter/openai/gpt-4-vision-preview
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: V
+    routing_group: tier-v
+- model_name: kingdom-v-gpt-4o-vision
+  litellm_params:
+    model: openrouter/openai/gpt-4o
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: V
+    routing_group: tier-v
+- model_name: kingdom-v-gemini-1-5-pro-vision
+  litellm_params:
+    model: openrouter/google/gemini-1.5-pro
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: V
+    routing_group: tier-v
+- model_name: kingdom-v-gemini-1-5-flash-vision
+  litellm_params:
+    model: openrouter/google/gemini-1.5-flash
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: V
+    routing_group: tier-v
+- model_name: kingdom-v-llama-3-2-11b-vision-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.2-11b-vision-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: V
+    routing_group: tier-v
+- model_name: kingdom-v-qwen-2-vl-72b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen-2-vl-72b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: V
+    routing_group: tier-v
+- model_name: kingdom-v-pixtral-12b
+  litellm_params:
+    model: openrouter/mistralai/pixtral-12b
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: V
+    routing_group: tier-v
+- model_name: kingdom-v-qwen-2-vl-7b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen-2-vl-7b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: V
+    routing_group: tier-v
+- model_name: kingdom-x-llama-3-3-70b-instruct-free
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.3-70b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: X
+    routing_group: tier-x
+- model_name: kingdom-x-deepseek-r1-free
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1:free
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: X
+    routing_group: tier-x
+- model_name: kingdom-x-qwen-2-5-72b-instruct-free
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-72b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: X
+    routing_group: tier-x
+- model_name: kingdom-x-qwen-2-5-coder-32b-instruct-free
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-coder-32b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: X
+    routing_group: tier-x
+- model_name: kingdom-x-mistral-7b-instruct-free
+  litellm_params:
+    model: openrouter/mistralai/mistral-7b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: X
+    routing_group: tier-x
+- model_name: kingdom-x-gemma-2-9b-it-free
+  litellm_params:
+    model: openrouter/google/gemma-2-9b-it:free
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: X
+    routing_group: tier-x
+- model_name: kingdom-x-phi-3-mini-128k-free
+  litellm_params:
+    model: openrouter/microsoft/phi-3-mini-128k-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: X
+    routing_group: tier-x
+- model_name: kingdom-x-llama-3-2-3b-instruct-free
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.2-3b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+  model_info:
+    tier: X
+    routing_group: tier-x
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+litellm_settings:
+  drop_params: true
+  request_timeout: 60
+  num_retries: 3
+  telemetry: false
+  fallbacks:
+  - kingdom-s-claude-3-5-sonnet:
+    - kingdom-a-claude-3-opus
+    - kingdom-b-claude-3-sonnet
+    - kingdom-c-claude-3-haiku
+  - kingdom-s-gpt-4o:
+    - kingdom-a-gpt-4-turbo
+    - kingdom-b-gpt-4
+    - kingdom-c-gpt-4o-mini
+  - kingdom-s-gemini-2-0-flash:
+    - kingdom-a-gemini-1-5-pro
+    - kingdom-b-gemini-1-5-flash
+    - kingdom-x-gemma-2-9b-it-free
+  - kingdom-s-llama-3-3-70b-instruct:
+    - kingdom-b-llama-3-1-70b-instruct
+    - kingdom-c-llama-3-1-8b-instruct
+    - kingdom-x-llama-3-3-70b-instruct-free
+  - kingdom-s-deepseek-r1:
+    - kingdom-a-deepseek-chat
+    - kingdom-c-deepseek-coder
+    - kingdom-x-deepseek-r1-free
+  - kingdom-s-qwen-2-5-72b-instruct:
+    - kingdom-b-qwen-2-5-32b-instruct
+    - kingdom-c-qwen-2-5-coder-32b-instruct
+    - kingdom-x-qwen-2-5-72b-instruct-free
+  - kingdom-s-mistral-large-2:
+    - kingdom-a-mistral-large
+    - kingdom-b-mixtral-8x22b-instruct
+    - kingdom-c-mistral-7b-instruct
+router_settings:
+  routing_strategy: usage-based-routing
+  num_retries: 3
+  timeout: 60
+  allowed_fails: 3
